@@ -1,16 +1,21 @@
 import { Box } from "native-base";
 import { StyleSheet, Text, View } from "react-native";
-import { useTheme } from 'native-base';
+import { useTheme } from "native-base";
 import { theme } from "../NativeBase";
 import { useFonts } from "expo-font";
 
 const FirstScreen = () => {
-
-    const [fontsLoaded] = useFonts({
-    'Montserrat':require('../../assets/fonts/Montserrat-SemiBold.ttf'),
-
+  const [fontsLoaded] = useFonts({
+    Montserrat: require("../../assets/fonts/Montserrat-SemiBold.ttf"),
   });
-  console.log(theme);
+
+  // console.log(theme);
+
+  // Wait for the fonts to load first
+  if (!fontsLoaded) {
+    return null;
+  }
+
   return (
     <Box
       p="2"
@@ -24,7 +29,7 @@ const FirstScreen = () => {
       shadow={2}
     >
       This is a Box
-<Text style={{ fontFamily: 'Montserrat', fontSize: 60 }}>borrow buddies</Text>
+      <Text style={{ fontFamily: "Montserrat", fontSize: 60 }}>borrow buddies</Text>
     </Box>
   );
 };
