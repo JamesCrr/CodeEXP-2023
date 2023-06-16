@@ -3,13 +3,46 @@ import { Box, HStack, Input, Stack, TextArea, Pressable, Image, ScrollView, Text
 import { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 
-const appWidth = "90%";
+// Import the functions you need from the SDKs you need
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { initializeApp } from "firebase/app";
+import { useEffect } from "react";
+// TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBpLEaypKRTTzDJyvNVBFTW65qJtSgIdo8",
+  authDomain: "code-exp-borrowbuddy.firebaseapp.com",
+  databaseURL: "https://code-exp-borrowbuddy-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "code-exp-borrowbuddy",
+  storageBucket: "code-exp-borrowbuddy.appspot.com",
+  messagingSenderId: "952131407797",
+  appId: "1:952131407797:web:a52fd81aed2aa49ef2d3fc",
+  measurementId: "G-BHTXRF3ND9",
+};
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+// Initialize Cloud Storage and get a reference to the service
+const storage = getStorage(app);
 
+const appWidth = "90%";
 const CreatePostScreen = () => {
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
   const [validPost, setValidPost] = useState(false);
   const [image, setImage] = useState(undefined);
+
+  // useEffect(() => {
+  //   const pathRef = ref(storage, "myImageName");
+  //   getDownloadURL(pathRef)
+  //     .then((url) => {
+  //       setImage(url);
+  //     })
+  //     .catch((error) => {
+  //       // Handle any errors
+  //       console.log(error);
+  //     });
+  // }, []);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -40,8 +73,27 @@ const CreatePostScreen = () => {
   /**
    * When user wants to submit their post
    */
-  const onSubmitPostHandler = () => {
-    console.log("Submitted!");
+  const onSubmitPostHandler = async () => {
+    // console.log("Submitted!", postTitle, postContent, image);
+
+    // Create the Image Blob
+    const response = await fetch(image);
+    const blob = await response.blob();
+    // 'file' comes from the Blob or File API
+    const storageRef = ref(storage, "myImageName");
+    try {
+      const uploadedSnapshot = await uploadBytes(storageRef, blob);
+      // console.log(uploadedSnapshot);
+      console.log("Uploaded a blob or file!");
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    // Reset Inputs
+    setPostTitle("");
+    setPostContent("");
+    setValidPost(false);
+    setImage(undefined);
   };
 
   return (
@@ -54,10 +106,14 @@ const CreatePostScreen = () => {
             placeholder="Post Title"
             onChangeText={(text) => {
               setPostTitle(text);
-              if (text.trim() !== "" && postContent.trim() !== "") {
-                setValidPost(true);
+              if (validPost) {
+                if (text.trim() === "") {
+                  setValidPost(false);
+                }
               } else {
-                setValidPost(false);
+                if (text.trim() !== "" && postContent.trim() !== "") {
+                  setValidPost(true);
+                }
               }
             }}
           />
@@ -87,10 +143,14 @@ const CreatePostScreen = () => {
             placeholder="Post Content"
             onChangeText={(text) => {
               setPostContent(text);
-              if (text.trim() !== "" && postTitle.trim() !== "") {
-                setValidPost(true);
+              if (validPost) {
+                if (text.trim() === "") {
+                  setValidPost(false);
+                }
               } else {
-                setValidPost(false);
+                if (text.trim() !== "" && postTitle.trim() !== "") {
+                  setValidPost(true);
+                }
               }
             }}
           />
@@ -121,7 +181,7 @@ const CreatePostScreen = () => {
           onPress={onSubmitPostHandler}
           padding={2}
           marginY={12}
-          isDisabled={!validPost}
+          // isDisabled={!validPost}
         >
           <Text fontWeight={"bold"} fontSize={18} textAlign={"center"}>
             Submit
