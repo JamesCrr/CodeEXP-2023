@@ -1,7 +1,10 @@
 import { Box } from "native-base";
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useNavigation } from '@react-navigation/native';
+
 
 const FirstScreen = () => {
+  const navigation = useNavigation();
   return (
     // <View style={styles.container}>
     //   <Text>Your first text is here</Text>
@@ -18,7 +21,8 @@ const FirstScreen = () => {
       }}
       shadow={2}
     >
-      This is a Box
+    <Pressable onPress={() => console.log("hello world")}> Press me </Pressable>
+    <Pressable onPress={() => navigation.navigate("WelcomeScreen")}> Press me </Pressable>
     </Box>
   );
 };
