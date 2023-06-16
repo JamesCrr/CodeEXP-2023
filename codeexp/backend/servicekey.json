@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "code-exp-borrowbuddy",
+  "private_key_id": "c2c7e44f26e2a26db7fd06f8d4c9554b356c4516",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDP3YbHdHQ8fGPd\n24MLa84QymcIBoaMxIrIwWBpT7Y4P6cbP+wRLhkl5c7AymTrOBRJhlRyOvF1fmw9\nTih3TKEHsXJp7Rq9d7xkXcPEWgqN1wXlwEoOSzynPBu4UH6QgFPWi9M2NtrA817e\n45oWuV3TsMDoA6ginywx63Iugr5+ENEEoObtLHQWPDS1PZ8ez0svObY36GWVD+ZL\nm9+WfjkXpixu8JGTA/msTLoTR3ZVsyH/IfyestTJbmATrtGvESwrworuqwBcymB0\nCOIx+IN2xsxED0M9oZyg/xCBVNY8XcJf/+IiEE5FCkzAjJ26LoiNm78pLs1M5mO6\nqosbpA57AgMBAAECggEALC1oLi7NX2eOcAHtvXkpf/8MW7PLV9KTrmwO2gLzdsvs\nb4mr2dDizl+ji+zX+vfds+ylOOvXEoIObg8U4Zn7JV/ssZ+PTdJLS0d0SmBamt+m\npLgz5QrPdrl7KLaO15Y2e0QXXQ/WeSigMp3Ly2WVD98ieI0CaG1M3sUr7L+jzbXS\nMDJvnJpCy+6ewP2Uzr/LfPoKvfxSS5aTYS0wQztBl+RGdaOQAwRckJoeQZ9krCnQ\nDnW5PU+njgBu2/ZJj3vmlg/oRBVItsamLeEQvevz/urcCHx4Fu2eJVKtrfV0WDw0\nDH7wucbwJehaUF+l76QD/u+QnJtBsZNQHl1zXGDQ5QKBgQDoEJWEFpBZTh5a2Tdj\nYcXFfl6udFYxb4KQvsdHUaZsKqCza+DiPjZYVwiaczKvkDIkV6br4OfA2Pe6Mj6q\nkzwRHjXe3KR5kQY50OeqOYNFVh+C7oD7oWx/ma6+qQ3LihCcNWFouXMlPUixiT57\nZe0wTN6j01/kXtfDTqzK++D7zQKBgQDlTfuQlZqB5+7lntBuS2mpVUKo2e2/Snz8\nc1F+jq6+ZOLgOV0Dow5/2vcKy/y7BEeUAzeeK+9TK+AtSPCk3bNzjSGpAqjET7KG\nlln4+YnuMB0EjSwfRzBcZK0SfOak/VXKnTdHLFp7A+feV+I7J5WmPQQGBVqimCae\nHKeLzPC7ZwKBgGiAT1QT9RzCGNlAR7jxJmYw6eIVcVsBpAIaZxKuqgq7h3JEehhn\ne4F8b9tdVM3KWUoUTo6Z0ML+8U9foOifNMVgnVGmekpkDDGs6SW2kG6Awd/sFxk5\nL+qmAhLJffTST3iIcTz/heKXHk0USJa4536AnyGW5e+o5fCFVTpzAnVhAoGAY5S7\nNC4UHGhJ8kRHBi8P4u7Y9RU3T4ScxNGbyZdTQfH0KSYgQ80TJelEsdammd0g7KF9\nDN7Nn1QFlgUAJMj2/q6CuLAj9KUbxaETz7Em+l7Aq1JXn/m9gdJi6w186JfwIv6l\nm+4iGRw4HPITmFb3gWssDSVUGBp1YuLUzDyjKu8CgYBMeWspv0UVWW8/7bYZFyaQ\nlxiX5sibidXHaF/W6XYoviubKyGncyrGzqOlEMLwGa98e9e7DQQ+2k7uAoX+giml\nRgLnduyQZ7jHeAjPQv1Bq7Jta9BU9MA1h5wGMO7/LFGSnifRwa0jVahqKVaFLR2K\noTfmpAimRSkE8sMmOu2Tow==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-x56cs@code-exp-borrowbuddy.iam.gserviceaccount.com",
+  "client_id": "100393396257987430429",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-x56cs%40code-exp-borrowbuddy.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
