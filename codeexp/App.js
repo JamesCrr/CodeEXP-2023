@@ -7,6 +7,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import FirstScreen from "./src/screens/FirstScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import CreatePostScreen from "./src/screens/CreatePostScreen";
+import LoginPage from "./src/screens/LoginPage";
+import ViewPostsScreen from "./src/screens/ViewPostsScreen";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -35,6 +37,8 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: true }}>
           <Stack.Screen name="FirstScreen" component={FirstScreen} />
+          <Stack.Screen name="LoginPage" component={LoginPage} />
+          <Stack.Screen name="ViewPostsScreen" component={ViewPostsScreen} />
           {/* <Stack.Screen name ="WelcomeScreen" component={WelcomeScreen}/> */}
         </Stack.Navigator>
       </NavigationContainer>

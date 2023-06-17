@@ -1,6 +1,7 @@
 import { Box, Text, Image, VStack, FlatList, View } from "native-base";
 
 const PostComponent = ({ title, content, imageURL, comments }) => {
+  console.log(uid);
   return (
     <Box margin={2} borderWidth={2} flexGrow={1}>
       <VStack space={"sm"} margin={2}>
