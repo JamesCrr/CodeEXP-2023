@@ -1,6 +1,6 @@
-import { Box } from "native-base";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import { Box, Button } from "native-base";
 import { StyleSheet, Text, View } from "react-native";
 import { useFonts } from "expo-font";
 
