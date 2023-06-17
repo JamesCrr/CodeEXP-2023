@@ -11,10 +11,10 @@ import CreatePostScreen from "./src/screens/CreatePostScreen";
 const Stack = createStackNavigator();
 export default function App() {
   const [fontsLoaded, fontsLoadingError] = useFonts({
-    'Montserrat-SemiBold': require("./assets/fonts/Montserrat-SemiBold.ttf"),
-    'Inter-Medium': require("./assets/fonts/Inter-Medium.ttf"),
-    'Inter-Regular': require("./assets/fonts/Inter-Regular.ttf"),
-    'Inter-SemiBold': require("./assets/fonts/Inter-SemiBold.ttf"),
+    "Montserrat-SemiBold": require("./assets/fonts/Montserrat-SemiBold.ttf"),
+    "Inter-Medium": require("./assets/fonts/Inter-Medium.ttf"),
+    "Inter-Regular": require("./assets/fonts/Inter-Regular.ttf"),
+    "Inter-SemiBold": require("./assets/fonts/Inter-SemiBold.ttf"),
   });
   // console.log(theme);
 
@@ -26,8 +26,8 @@ export default function App() {
     console.log("Fonts Loading Error!");
     return null;
   }
-  if(fontsLoaded){
-    console.log('here');
+  if (fontsLoaded) {
+    console.log("here");
   }
 
   return (
@@ -35,7 +35,7 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: true }}>
           <Stack.Screen name="FirstScreen" component={FirstScreen} />
-          <Stack.Screen name ="WelcomeScreen" component={WelcomeScreen}/>
+          {/* <Stack.Screen name ="WelcomeScreen" component={WelcomeScreen}/> */}
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
