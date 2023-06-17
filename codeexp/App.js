@@ -5,14 +5,15 @@ import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import FirstScreen from "./src/screens/FirstScreen";
+import { useState } from "react";
 
 const Stack = createStackNavigator();
 export default function App() {
   const [fontsLoaded, fontsLoadingError] = useFonts({
-    Montserrat: require("./assets/fonts/Montserrat-SemiBold.ttf"),
-    "Inter-Medium": require("./assets/fonts/Inter-Medium.ttf"),
-    "Inter-Regular": require("./assets/fonts/Inter-Regular.ttf"),
-    "Inter-SemiBold": require("./assets/fonts/Inter-SemiBold.ttf"),
+    'Montserrat-SemiBold': require("./assets/fonts/Montserrat-SemiBold.ttf"),
+    'Inter-Medium': require("./assets/fonts/Inter-Medium.ttf"),
+    'Inter-Regular': require("./assets/fonts/Inter-Regular.ttf"),
+    'Inter-SemiBold': require("./assets/fonts/Inter-SemiBold.ttf"),
   });
   // console.log(theme);
 
@@ -23,6 +24,9 @@ export default function App() {
   } else if (fontsLoadingError) {
     console.log("Fonts Loading Error!");
     return null;
+  }
+  if(fontsLoaded){
+    console.log('here');
   }
 
   return (
