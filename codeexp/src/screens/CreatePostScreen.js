@@ -1,13 +1,12 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Box, HStack, Input, Stack, TextArea, Pressable, Image, ScrollView, Text, Button } from "native-base";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 
 // Import the functions you need from the SDKs you need
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { initializeApp } from "firebase/app";
-import { useEffect } from "react";
-// TODO: Add SDKs for Firebase products that you want to use https://firebase.google.com/docs/web/setup#available-libraries
+import { getDatabase, ref as createDatabaseRef, set, push } from "firebase/database";
+import { getStorage, ref as createStorageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -24,6 +23,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 // Initialize Cloud Storage and get a reference to the service
 const storage = getStorage(app);
+// Initialize Realtime Database and get a reference to the service
+const database = getDatabase(app);
 
 const appWidth = "90%";
 const CreatePostScreen = () => {
@@ -33,7 +34,7 @@ const CreatePostScreen = () => {
   const [image, setImage] = useState(undefined);
 
   // useEffect(() => {
-  //   const pathRef = ref(storage, "myImageName");
+  //   const pathRef = createStorageRef(storage, "UserPostAttachments/myImageName");
   //   getDownloadURL(pathRef)
   //     .then((url) => {
   //       setImage(url);
@@ -53,7 +54,7 @@ const CreatePostScreen = () => {
       quality: 0,
     });
 
-    console.log(result);
+    // console.log(result);
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
@@ -76,15 +77,36 @@ const CreatePostScreen = () => {
   const onSubmitPostHandler = async () => {
     // console.log("Submitted!", postTitle, postContent, image);
 
+    // Store the Image in Firebase Storage
     // Create the Image Blob
-    const response = await fetch(image);
-    const blob = await response.blob();
-    // 'file' comes from the Blob or File API
-    const storageRef = ref(storage, "myImageName");
+    const storagePath = "UserPostAttachments/myImageName";
+    if (image) {
+      const response = await fetch(image);
+      const blob = await response.blob();
+      // Get Storage Ref
+      const storageRef = createStorageRef(storage, storagePath);
+      try {
+        // Upload to Firebase
+        const uploadedSnapshot = await uploadBytes(storageRef, blob);
+        console.log("Uploaded the Image Blob!");
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+
+    // Store Post in Firebase Realtime Database
     try {
-      const uploadedSnapshot = await uploadBytes(storageRef, blob);
-      // console.log(uploadedSnapshot);
-      console.log("Uploaded a blob or file!");
+      const postListRef = createDatabaseRef(database, "UserPosts/PostData");
+      const newPostRef = push(postListRef);
+      const currentDate = new Date();
+      set(newPostRef, {
+        userId: "user1",
+        postTitle,
+        postContent,
+        postDate: currentDate.toString(),
+        imageStoragePath: image ? storagePath : null,
+      });
+      console.log("Post Uploaded to Realtime Database");
     } catch (error) {
       console.log(error.message);
     }
@@ -94,6 +116,11 @@ const CreatePostScreen = () => {
     setPostContent("");
     setValidPost(false);
     setImage(undefined);
+
+    /** Set a loading state for the Submit Button? */
+    // 1. Create a Loading useState()
+    // 2. Change Pressable to Button to use their isLoading State
+    /***********************************************/
   };
 
   return (
@@ -104,6 +131,7 @@ const CreatePostScreen = () => {
           <Input
             size={"md"}
             placeholder="Post Title"
+            value={postTitle}
             onChangeText={(text) => {
               setPostTitle(text);
               if (validPost) {
@@ -141,6 +169,7 @@ const CreatePostScreen = () => {
           <TextArea
             h={400}
             placeholder="Post Content"
+            value={postContent}
             onChangeText={(text) => {
               setPostContent(text);
               if (validPost) {
