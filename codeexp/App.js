@@ -9,6 +9,9 @@ import WelcomeScreen from "./src/screens/WelcomeScreen";
 import CreatePostScreen from "./src/screens/CreatePostScreen";
 import { Linking, StyleSheet, Text, View } from "react-native";
 import Login from "./src/screens/Login";
+import CreateUser from "./src/screens/CreateUser";
+import CreateQuest from "./src/screens/CreateQuest";
+
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -39,6 +42,8 @@ export default function App() {
           <Stack.Screen name="FirstScreen" component={FirstScreen} />
           <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
           <Stack.Screen name="LoginScreen" component={Login} />
+          <Stack.Screen name="CreateUser" component={CreateUser} />
+          <Stack.Screen name="CreateQuest" component={CreateQuest} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>

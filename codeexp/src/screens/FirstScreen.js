@@ -18,27 +18,19 @@ const FirstScreen = () => {
       shadow={2}
     >
       <Pressable onPress={() => console.log("hello world")}>
-        {" "}
-        Press me{" "}
+        <Text> Press me</Text>
       </Pressable>
       <Pressable onPress={() => navigation.navigate("WelcomeScreen")}>
-        {" "}
-        Press me{" "}
+        <Text>Press me</Text>
       </Pressable>
-      This is a Box
-      <Text style={{ fontFamily: "body", fontSize: 60 }}>borrow buddies</Text>
-      <Button onPress={() => navigation.navigate("LoginScreen")}>
-        Admin login
+      <Text style={{ fontFamily: "Montserrat-SemiBold", fontSize: 50 }}>
+        borrow buddies
+      </Text>
+      <Button onPress={() => navigation.navigate("CreateQuest")}>
+        admin login
       </Button>
     </Box>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+
 export default FirstScreen;
