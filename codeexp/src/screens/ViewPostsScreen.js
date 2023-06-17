@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
-import { Box, Text, Image, VStack, FlatList, View } from "native-base";
+import { Box, Text, Image, VStack, FlatList, View, Pressable } from "native-base";
 import { database, storage } from "../Firebase";
 import { ref as createDatabaseRef, onValue } from "firebase/database";
 import { ref as createStorageRef, getDownloadURL } from "firebase/storage";
 
-const PostComponent = ({ title, content, imageURL, comments }) => {
+const PostComponent = ({ username, postId, title, content, imageURL, comments, navigation }) => {
+  let haveS = true;
+  if (comments && comments.length == 1) {
+    haveS = false;
+  }
   return (
     <Box margin={2} borderWidth={2} flexGrow={1}>
       <VStack space={"sm"} margin={2}>
@@ -19,29 +23,22 @@ const PostComponent = ({ title, content, imageURL, comments }) => {
           resizeMode={"cover"}
         />
         <Text color={"black"}>{content}</Text>
+        {/* Navigate to view comment screen */}
+        <Pressable
+          onPress={() =>
+            navigation.navigate("PostCommentsScreen", { username, postId, title, content, comments })
+          }
+        >
+          <Text>
+            View{comments ? ` ${comments.length}` : ""} comment{haveS ? "s" : ""}
+          </Text>
+        </Pressable>
       </VStack>
     </Box>
   );
 };
 
-const testList = [
-  {
-    id: 1,
-    title: "Some Title1",
-    content: "Some Content1",
-    imageURL: "https://upload.wikimedia.org/wikipedia/commons/b/b6/Jamal_Murray_free_throw_%28cropped%29.jpg",
-    comments: [],
-  },
-  {
-    id: 2,
-    title: "Some Title2",
-    content: "Some Content2",
-    imageURL: "https://upload.wikimedia.org/wikipedia/commons/b/b6/Jamal_Murray_free_throw_%28cropped%29.jpg",
-    comments: [],
-  },
-];
-
-const ViewPostsScreen = () => {
+const ViewPostsScreen = ({ route, navigation }) => {
   const [postsList, setPostsList] = useState([]);
 
   useEffect(() => {
@@ -56,7 +53,7 @@ const ViewPostsScreen = () => {
           const childKey = childSnapshot.key;
           const childData = childSnapshot.val();
           // Destructure the data
-          const { imageStoragePath, postContent, postTitle, postDate, userId } = childData;
+          const { imageStoragePath, postContent, postTitle, postDate, userId, comments } = childData;
           // Get the Image
           const storageRef = createStorageRef(storage, imageStoragePath);
           try {
@@ -65,7 +62,7 @@ const ViewPostsScreen = () => {
             setPostsList((prevList) => {
               return [
                 ...prevList,
-                { postId: childKey, userId, postTitle, postContent, postDate, imageURL: url },
+                { postId: childKey, userId, postTitle, postContent, postDate, imageURL: url, comments },
               ];
             });
           } catch (error) {
@@ -86,11 +83,14 @@ const ViewPostsScreen = () => {
         data={postsList}
         renderItem={({ item }) => (
           <PostComponent
+            username={"GET USERNAME FROM ACC"}
+            postId={item.postId}
+            userId={item.userId}
             title={item.postTitle}
             content={item.postContent}
             imageURL={item.imageURL}
-            userId={item.userId}
             comments={item.comments}
+            navigation={navigation}
           />
         )}
         keyExtractor={(item) => item.postId}

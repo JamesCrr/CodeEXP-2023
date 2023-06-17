@@ -9,7 +9,7 @@ import { ref as createStorageRef, uploadBytes, getDownloadURL } from "firebase/s
 import { storage, database } from "../Firebase";
 
 const appWidth = "90%";
-const CreatePostScreen = ({ navigation }) => {
+const CreatePostScreen = () => {
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
   const [validPost, setValidPost] = useState(false);
@@ -112,6 +112,7 @@ const CreatePostScreen = ({ navigation }) => {
         <Stack w={appWidth} space={"sm"}>
           <Input
             size={"md"}
+            fontWeight={"bold"}
             placeholder="Post Title"
             value={postTitle}
             onChangeText={(text) => {
