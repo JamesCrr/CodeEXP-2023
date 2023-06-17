@@ -1,25 +1,29 @@
-import { Box } from "native-base";
+import { Box, Button } from "native-base";
 import { StyleSheet, Text, View } from "react-native";
 
-const FirstScreen = () => {
+const FirstScreen = ({ navigation }) => {
   return (
     // <View style={styles.container}>
     //   <Text>Your first text is here</Text>
     // </View>
-
-    <Box
-      p="2"
-      bg="primary.500"
-      _text={{
-        fontSize: "md",
-        fontWeight: "medium",
-        color: "warmGray.50",
-        letterSpacing: "lg",
-      }}
-      shadow={2}
-    >
-      This is a Box
-    </Box>
+    <div>
+      <Box
+        p="2"
+        bg="primary.500"
+        _text={{
+          fontSize: "md",
+          fontWeight: "medium",
+          color: "warmGray.50",
+          letterSpacing: "lg",
+        }}
+        shadow={2}
+      >
+        This is a Box
+      </Box>
+      <Button onPress={() => navigation.navigate("LoginScreen")}>
+        click me
+      </Button>
+    </div>
   );
 };
 const styles = StyleSheet.create({
