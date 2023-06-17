@@ -1,15 +1,12 @@
 import { Box } from "native-base";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from '@react-navigation/native';
-
+import { StyleSheet, Text, View } from "react-native";
+import { useFonts } from "expo-font";
 
 const FirstScreen = () => {
   const navigation = useNavigation();
   return (
-    // <View style={styles.container}>
-    //   <Text>Your first text is here</Text>
-    // </View>
-
     <Box
       p="2"
       bg="primary.500"
@@ -23,6 +20,8 @@ const FirstScreen = () => {
     >
     <Pressable onPress={() => console.log("hello world")}> Press me </Pressable>
     <Pressable onPress={() => navigation.navigate("WelcomeScreen")}> Press me </Pressable>
+      This is a Box
+      <Text style={{fontFamily: 'body', fontSize: 60 }}>borrow buddies</Text>
     </Box>
   );
 };
