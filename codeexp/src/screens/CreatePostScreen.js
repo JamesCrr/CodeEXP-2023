@@ -9,7 +9,7 @@ import { ref as createStorageRef, uploadBytes, getDownloadURL } from "firebase/s
 import { storage, database } from "../Firebase";
 
 const appWidth = "90%";
-const CreatePostScreen = () => {
+const CreatePostScreen = ({ navigation }) => {
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
   const [validPost, setValidPost] = useState(false);
@@ -59,34 +59,41 @@ const CreatePostScreen = () => {
   const onSubmitPostHandler = async () => {
     // console.log("Submitted!", postTitle, postContent, image);
 
-    // Store the Image in Firebase Storage
-    // Create the Image Blob
-    const storagePath = "UserPostAttachments/myImageName";
-    if (image) {
-      const response = await fetch(image);
-      const blob = await response.blob();
-      // Get Storage Ref
-      const storageRef = createStorageRef(storage, storagePath);
-      try {
-        // Upload to Firebase
-        const uploadedSnapshot = await uploadBytes(storageRef, blob);
-        console.log("Uploaded the Image Blob!");
-      } catch (error) {
-        console.log(error.message);
-      }
-    }
+    /** Set a loading state for the Submit Button? */
+    // 1. Create a Loading useState()
+    // 2. Change Pressable to Button to use their isLoading State
+    /***********************************************/
 
     // Store Post in Firebase Realtime Database
     try {
       const postListRef = createDatabaseRef(database, "UserPosts/PostData");
       const newPostRef = push(postListRef);
+      // console.log(newPostRef.key);
+
+      // Store the Image in Firebase Storage
+      // Create the Image Blob
+      const imageStoragePath = `UserPostAttachments/${newPostRef.key}.jpg`;
+      if (image) {
+        const response = await fetch(image);
+        const blob = await response.blob();
+        // Get Storage Ref
+        const storageRef = createStorageRef(storage, imageStoragePath);
+        try {
+          // Upload to Firebase
+          const uploadedSnapshot = await uploadBytes(storageRef, blob);
+          console.log("Uploaded the Image Blob!");
+        } catch (error) {
+          console.log(error.message);
+        }
+      }
+
       const currentDate = new Date();
       set(newPostRef, {
         userId: "user1",
         postTitle,
         postContent,
         postDate: currentDate.toString(),
-        imageStoragePath: image ? storagePath : null,
+        imageStoragePath: image ? imageStoragePath : null,
       });
       console.log("Post Uploaded to Realtime Database");
     } catch (error) {
@@ -99,10 +106,8 @@ const CreatePostScreen = () => {
     setValidPost(false);
     setImage(undefined);
 
-    /** Set a loading state for the Submit Button? */
-    // 1. Create a Loading useState()
-    // 2. Change Pressable to Button to use their isLoading State
-    /***********************************************/
+    // Navigate to ViewPostsScreen
+    navigation.replace("ViewPostsScreen");
   };
 
   return (
@@ -168,14 +173,7 @@ const CreatePostScreen = () => {
           />
         </Stack>
         {/* Icon Buttons to attach things */}
-        <HStack
-          space={"md"}
-          w={appWidth}
-          // borderWidth={"1"}
-          // borderColor={"red"}
-          justifyContent={"flex-start"}
-          marginTop={2}
-        >
+        <HStack space={"md"} w={appWidth} justifyContent={"flex-start"} marginTop={2}>
           {/* Render the color differently if there is already an image attached */}
           <Pressable onPress={onSelectImageHandler} isDisabled={image != undefined}>
             {image != undefined ? (

@@ -64,13 +64,8 @@ const PostCommentsScreen = ({ route, navigation }) => {
           {commentList.length > 0 ? (
             commentList.map((ele, index) => {
               const { username, commentContent } = ele;
-              return (
-                <CommentComponent
-                  key={username + index}
-                  username={username}
-                  commentContent={commentContent}
-                />
-              );
+              const key = `${username}+${index}`;
+              return <CommentComponent key={key} username={username} commentContent={commentContent} />;
             })
           ) : (
             <Text alignSelf={"center"}>No comments yet!</Text>
