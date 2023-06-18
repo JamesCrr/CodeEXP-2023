@@ -26,7 +26,7 @@ const FirstScreen = () => {
       <Text style={{ fontFamily: "Montserrat-SemiBold", fontSize: 50 }}>
         borrow buddies
       </Text>
-      <Button onPress={() => navigation.navigate("CreateQuest")}>
+      <Button onPress={() => navigation.navigate("ManagerLogin")}>
         admin login
       </Button>
     </Box>

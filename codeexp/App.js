@@ -8,9 +8,10 @@ import FirstScreen from "./src/screens/FirstScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import CreatePostScreen from "./src/screens/CreatePostScreen";
 import { Linking, StyleSheet, Text, View } from "react-native";
-import Login from "./src/screens/Login";
+import ManagerDashboard from "./src/screens/ManagerDashboard";
 import CreateUser from "./src/screens/CreateUser";
 import CreateQuest from "./src/screens/CreateQuest";
+import ManagerLogin from "./src/screens/ManagerLogin";
 
 
 const Stack = createStackNavigator();
@@ -41,9 +42,11 @@ export default function App() {
         <Stack.Navigator screenOptions={{ headerShown: true }}>
           <Stack.Screen name="FirstScreen" component={FirstScreen} />
           <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-          <Stack.Screen name="LoginScreen" component={Login} />
+          <Stack.Screen name="ManagerDashboard" component={ManagerDashboard} />
           <Stack.Screen name="CreateUser" component={CreateUser} />
           <Stack.Screen name="CreateQuest" component={CreateQuest} />
+          <Stack.Screen name="ManagerLogin" component={ManagerLogin} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
