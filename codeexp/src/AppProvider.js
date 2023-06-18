@@ -13,7 +13,7 @@ export const useAppDispatchContext = () => {
 
 const myReducer = (state, action) => {
   switch (action.type) {
-    case "changeUID": {
+    case "userId": {
       return { ...state, uid: action.val };
     }
     default: {
@@ -22,7 +22,7 @@ const myReducer = (state, action) => {
   }
 };
 
-const initialState = { uid: "testingUID" };
+const initialState = { uid: "userId" };
 export const AppProvider = ({ children }) => {
   const [myState, dispatch] = useReducer(myReducer, initialState);
 

@@ -40,9 +40,11 @@ export default function App() {
         {/* React Navigation */}
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: true }}>
+          <Stack.Screen name="LoginPage" component={LoginPage} />
             <Stack.Screen name="ViewPostsScreen" component={ViewPostsScreen} />
             <Stack.Screen name="CreatePostScreen" component={CreatePostScreen} />
             <Stack.Screen name="PostCommentsScreen" component={PostCommentsScreen} />
+
             {/* <Stack.Screen name ="WelcomeScreen" component={WelcomeScreen}/> */}
           </Stack.Navigator>
         </NavigationContainer>

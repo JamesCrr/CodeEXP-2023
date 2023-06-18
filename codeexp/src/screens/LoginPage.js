@@ -3,10 +3,13 @@ import { Box, Button,Input } from "native-base";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react"; 
 import { useNavigation } from "@react-navigation/native";
+import { useAppContext, useAppDispatchContext } from "../AppProvider";
 
 const LoginPage = ({navigation}) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const context = useAppContext();
+    const dispatch = useAppDispatchContext();
 
 
 const verifyLogin = () => { 
@@ -14,7 +17,7 @@ const verifyLogin = () => {
 signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     const user = userCredential.user.uid;
-    console.log(user);
+    dispatch({ type: "userId", val: user });
     navigation.navigate("ViewPostsScreen",{uid:user});
   })
   .catch((error) => {
