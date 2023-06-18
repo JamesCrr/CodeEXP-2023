@@ -13,15 +13,15 @@ const verifyLogin = () => {
     console.log(email);
 signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
-    console.log('loggedin');
-    const uid = userCredential.user.uid;
-    navigation.navigate("ViewPostsScreen",{uid});
+    const user = userCredential.user.uid;
+    console.log(user);
+    navigation.navigate("ViewPostsScreen",{uid:user});
   })
-//   .catch((error) => {
-//     const errorCode = error.code;
-//     const errorMessage = error.message;
-//     alert("inavlid account")
-//   });
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    alert("invalid account");
+  });
 }
 // const goToViewPostsScreen = () => {
 //     navigation.navigate("ViewPostsScreen",{userId:Id});
