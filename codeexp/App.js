@@ -11,6 +11,7 @@ import ViewPostsScreen from "./src/screens/ViewPostsScreen";
 import PostCommentsScreen from "./src/screens/PostCommentsScreen";
 import { AppProvider } from "./src/AppProvider";
 import LoginPage from "./src/screens/LoginPage";
+import ViewQuests from "./src/screens/ViewQuests";
 
 // console.log(theme);
 const Stack = createStackNavigator();
@@ -40,11 +41,11 @@ export default function App() {
         {/* React Navigation */}
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: true }}>
+          <Stack.Screen name="ViewQuests" component={ViewQuests} />
           <Stack.Screen name="LoginPage" component={LoginPage} />
             <Stack.Screen name="ViewPostsScreen" component={ViewPostsScreen} />
             <Stack.Screen name="CreatePostScreen" component={CreatePostScreen} />
             <Stack.Screen name="PostCommentsScreen" component={PostCommentsScreen} />
-
             {/* <Stack.Screen name ="WelcomeScreen" component={WelcomeScreen}/> */}
           </Stack.Navigator>
         </NavigationContainer>
