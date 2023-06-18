@@ -10,6 +10,7 @@ import CreatePostScreen from "./src/screens/CreatePostScreen";
 import ViewPostsScreen from "./src/screens/ViewPostsScreen";
 import PostCommentsScreen from "./src/screens/PostCommentsScreen";
 import { AppProvider } from "./src/AppProvider";
+import LoginPage from "./src/screens/LoginPage";
 
 // console.log(theme);
 const Stack = createStackNavigator();
@@ -35,7 +36,7 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={theme}>
-      <AppProvider>
+<AppProvider>
         {/* React Navigation */}
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: true }}>
