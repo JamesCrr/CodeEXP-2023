@@ -11,7 +11,7 @@ const PostComponent = ({ username, postId, title, content, imageURL, comments, n
     haveS = false;
   }
   return (
-    <Box margin={2} borderWidth={2} flexGrow={1}>
+    <Box margin={2} borderWidth={2} flexGrow={1} safeArea>
       <VStack space={"sm"} margin={2}>
         <Text color={"black"}>{title}</Text>
         <Image
@@ -152,12 +152,6 @@ const ViewPostsScreen = ({ route, navigation }) => {
           initialNumToRender={3}
         />
       )}
-
-      <Pressable onPress={() => dispatch({ type: "changeUID", val: "newUserID" })}>
-        <Box position={"absolute"} borderWidth={1} bottom={0} width={"100%"} paddingY={2} bg={"warmGray.600"}>
-          Bottom Tab here
-        </Box>
-      </Pressable>
     </View>
   );
 };

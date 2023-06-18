@@ -112,7 +112,7 @@ const CreatePostScreen = ({ navigation }) => {
 
   return (
     <ScrollView h={"200"}>
-      <Box alignItems="center" w="100%" h="100%" marginTop={5}>
+      <Box alignItems="center" w="100%" h="100%" marginTop={5} safeArea>
         {/* Title & Content & Selected Image (if have) */}
         <Stack w={appWidth} space={"sm"}>
           <Input
@@ -191,7 +191,7 @@ const CreatePostScreen = ({ navigation }) => {
           onPress={onSubmitPostHandler}
           padding={2}
           marginY={12}
-          // isDisabled={!validPost}
+          isDisabled={!validPost}
         >
           <Text fontWeight={"bold"} fontSize={18} textAlign={"center"}>
             Submit
