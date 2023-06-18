@@ -11,6 +11,8 @@ import ViewPostsScreen from "./src/screens/ViewPostsScreen";
 import PostCommentsScreen from "./src/screens/PostCommentsScreen";
 import { AppProvider } from "./src/AppProvider";
 import LoginPage from "./src/screens/LoginPage";
+import UserAccountScreen from "./src/screens/UserAccountScreen";
+import RewardsScreen from "./src/screens/RewardsScreen";
 
 // console.log(theme);
 const Stack = createStackNavigator();
@@ -36,15 +38,17 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={theme}>
-<AppProvider>
+      <AppProvider>
         {/* React Navigation */}
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: true }}>
-          <Stack.Screen name="LoginPage" component={LoginPage} />
+            <Stack.Screen name="UserAccountScreen" component={UserAccountScreen} />
+            <Stack.Screen name="LoginPage" component={LoginPage} />
             <Stack.Screen name="ViewPostsScreen" component={ViewPostsScreen} />
             <Stack.Screen name="CreatePostScreen" component={CreatePostScreen} />
             <Stack.Screen name="PostCommentsScreen" component={PostCommentsScreen} />
 
+            <Stack.Screen name="RewardsScreen" component={RewardsScreen} />
             {/* <Stack.Screen name ="WelcomeScreen" component={WelcomeScreen}/> */}
           </Stack.Navigator>
         </NavigationContainer>

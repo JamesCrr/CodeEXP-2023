@@ -1,11 +1,12 @@
 import { Box, HStack, Image, Pressable, Text, View } from "native-base";
 import { useState } from "react";
 
-const UserAccountScreen = () => {
+const UserAccountScreen = ({ navigation }) => {
   const [profileTabSelected, setProfileTabSelected] = useState(true);
 
   return (
-    <Box marginTop={4} marginX={2}>
+    <Box marginTop={4} marginX={2} flex={1}>
+      {/* Header Section */}
       <HStack justifyContent={"space-between"}>
         <Pressable
           borderWidth={1}
@@ -19,11 +20,13 @@ const UserAccountScreen = () => {
           borderWidth={1}
           onPress={() => {
             console.log("Log out");
+            navigation.replace("LoginPage");
           }}
         >
           <Text>Log out</Text>
         </Pressable>
       </HStack>
+      {/* Top Section */}
       <Box>
         <Image
           source={{
@@ -40,6 +43,7 @@ const UserAccountScreen = () => {
           borderWidth={1}
           onPress={() => {
             console.log("Redeem Currency");
+            navigation.navigate("RewardsScreen");
           }}
         >
           <Text>Redeem Currency</Text>
@@ -48,6 +52,7 @@ const UserAccountScreen = () => {
         <Text textAlign={"center"}>Tag | @Username</Text>
       </Box>
 
+      {/* Middle Section */}
       <Box marginTop={7}>
         <Text>Recent Achievements</Text>
         <HStack space={2}>
@@ -68,7 +73,8 @@ const UserAccountScreen = () => {
         </HStack>
       </Box>
 
-      <Box marginTop={8}>
+      {/* Bottom Section */}
+      <Box marginTop={8} flexGrow={1}>
         <HStack space={2} justifyContent={"center"}>
           <Pressable onPress={() => setProfileTabSelected(true)} borderWidth={1}>
             <Text>Profile</Text>
@@ -77,7 +83,9 @@ const UserAccountScreen = () => {
             <Text>History</Text>
           </Pressable>
         </HStack>
-        {profileTabSelected ? <Text>About ME</Text> : <Text>History</Text>}
+        <Box flexGrow={1} borderWidth={2} borderColor={"red.800"}>
+          {profileTabSelected ? <Text>About ME</Text> : <Text>History</Text>}
+        </Box>
       </Box>
     </Box>
   );
