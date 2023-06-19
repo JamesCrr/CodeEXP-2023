@@ -139,7 +139,7 @@ const UserAccountScreen = ({ navigation }) => {
 
         // console.log("Seeting List aginga!!!", postList);
         // Sort list based on date
-        postList.sort((a, b) => a.postDate.getTime() - b.postDate.getTime());
+        postList.sort((a, b) => b.postDate.getTime() - a.postDate.getTime());
         // Add posts to the history tab
         setHistoryData(postList);
       });

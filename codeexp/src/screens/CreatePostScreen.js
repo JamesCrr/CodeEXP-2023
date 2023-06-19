@@ -1,5 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Box, HStack, Input, Stack, TextArea, Pressable, Image, ScrollView, Text, Button } from "native-base";
+import { Box, HStack, Input, Stack, TextArea, Pressable, Image, ScrollView, Text, Button, Modal, Center, VStack, NativeBaseProvider } from "native-base";
 import { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 
@@ -11,11 +11,12 @@ import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useAppContext, useAppDispatchContext } from "../AppProvider";
 
 const appWidth = "90%";
-const CreatePostScreen = ({ navigation }) => {
+const CreatePostScreen = ({ route, navigation }) => {
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
   const [validPost, setValidPost] = useState(false);
   const [image, setImage] = useState(undefined);
+  const { completeQuestModal } = route.params;
 
   const { userInfo, completedQuestId } = useAppContext();
   const uid = userInfo.uid;
@@ -90,15 +91,17 @@ const CreatePostScreen = ({ navigation }) => {
       let updatedAllQuests = [];
       if (userData.socialQuest) {
         updatedAllQuests = [...userData.socialQuest];
+        console.log("Updated All Quests: ", updatedAllQuests);
         for (let i = 0; i < updatedAllQuests.length; i++) {
           const { completed, questsId } = updatedAllQuests[i];
+          console.log("completedquestId: ",completedQuestId);
           if (questsId == completedQuestId) {
             updatedAllQuests[i].completed = true;
+            completeQuestModal();
             break;
           }
         }
       }
-      // console.log(updatedAllQuests);
       // Add Post History
       let newPostHistory = [...userData.postHistory, newPostRef.key];
 
@@ -132,13 +135,13 @@ const CreatePostScreen = ({ navigation }) => {
       }
 
       const currentDate = new Date();
-      set(newPostRef, {
-        userId: uid,
-        postTitle,
-        postContent,
-        postDate: currentDate.toString(),
-        imageStoragePath: image ? imageStoragePath : null,
-      });
+      // set(newPostRef, {
+      //   userId: uid,
+      //   postTitle,
+      //   postContent,
+      //   postDate: currentDate.toString(),
+      //   imageStoragePath: image ? imageStoragePath : null,
+      // });
       console.log("Post Uploaded to Realtime Database");
     } catch (error) {
       console.log(error.message);
