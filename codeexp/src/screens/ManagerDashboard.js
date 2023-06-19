@@ -28,7 +28,7 @@ import {
   getDocs,
   setDoc,
 } from "firebase/firestore";
-import { db } from "../Firebase";
+import { firestore } from "../Firebase";
 import { auth } from "../Firebase";
 
 export default function ManagerDashboard({ navigation }) {
@@ -43,7 +43,7 @@ export default function ManagerDashboard({ navigation }) {
   useEffect(() => {
     const Auth = auth;
     async function managerData() {
-      const docRef = doc(db, "managers", Auth.currentUser.uid);
+      const docRef = doc(firestore, "managers", Auth.currentUser.uid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
@@ -52,7 +52,7 @@ export default function ManagerDashboard({ navigation }) {
         // docSnap.data() will be undefined in this case
         console.log("No such document!");
       }
-      const docRef2 = doc(db, "factions", docSnap.data().faction);
+      const docRef2 = doc(firestore, "factions", docSnap.data().faction);
       const docSnap2 = await getDoc(docRef2);
       if (docSnap2.exists()) {
         console.log("Document data:", docSnap2.data());

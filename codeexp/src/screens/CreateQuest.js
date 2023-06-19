@@ -14,7 +14,7 @@ import {
   Button,
 } from "native-base";
 import { useState, useEffect } from "react";
-import { db } from "../Firebase";
+import { firestore } from "../Firebase";
 import { auth } from "../Firebase";
 import {
   collection,
@@ -50,7 +50,7 @@ const CreateQuest = () => {
   useEffect(() => {
     const Auth = auth;
     async function managerData() {
-      const docRef = doc(db, "managers", Auth.currentUser.uid);
+      const docRef = doc(firestore, "managers", Auth.currentUser.uid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         console.log(
@@ -63,7 +63,7 @@ const CreateQuest = () => {
         // docSnap.data() will be undefined in this case
         console.log("No such document!");
       }
-      const docRef2 = doc(db, "factions", docSnap.data().faction);
+      const docRef2 = doc(firestore, "factions", docSnap.data().faction);
       const docSnap2 = await getDoc(docRef2);
       if (docSnap2.exists()) {
         console.log("Document data:", docSnap2.data());
@@ -114,7 +114,7 @@ const CreateQuest = () => {
     showMode("time");
   };
   const uploadQuest = async () => {
-    const docRef = doc(collection(db, "quests"));
+    const docRef = doc(collection(firestore, "quests"));
     setQuestId(docRef.id);
     console.log(docRef.id);
     await setDoc(docRef, {
@@ -127,12 +127,12 @@ const CreateQuest = () => {
       completed: false,
     });
     const Auth = auth;
-    const ManagerRef = doc(db, "managers", Auth.currentUser.uid);
+    const ManagerRef = doc(firestore, "managers", Auth.currentUser.uid);
     await updateDoc(ManagerRef, {
       assignedQuest: arrayUnion(docRef.id),
     });
     selected.forEach(async (user) => {
-      const userRef = doc(db, "users", user);
+      const userRef = doc(firestore, "users", user);
       await updateDoc(userRef, {
         assignedQuest: arrayUnion(docRef.id),
       });

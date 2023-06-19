@@ -18,7 +18,7 @@ import {
 } from "native-base";
 
 import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
-import { db } from "../Firebase";
+import { firestore } from "../Firebase";
 
 const CreateUser = () => {
   const Auth = auth;
@@ -37,7 +37,7 @@ const CreateUser = () => {
 
   useEffect(() => {
     async function managerData() {
-      const docRef = doc(db, "managers", Auth.currentUser.uid);
+      const docRef = doc(firestore, "managers", Auth.currentUser.uid);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -48,7 +48,7 @@ const CreateUser = () => {
         // docSnap.data() will be undefined in this case
         console.log("No such document!");
       }
-      const docRef2 = doc(db, "factions", docSnap.data().faction);
+      const docRef2 = doc(firestore, "factions", docSnap.data().faction);
       const docSnap2 = await getDoc(docRef2);
       if (docSnap2.exists()) {
         console.log("Document data:", docSnap2.data());
@@ -76,7 +76,7 @@ const CreateUser = () => {
       postHistory: [],
       socialQuest: [],
     };
-    await setDoc(doc(db, "users", UID), employeeData);
+    await setDoc(doc(firestore, "users", UID), employeeData);
 
     const newArray = [
       ...members,
@@ -85,7 +85,7 @@ const CreateUser = () => {
         uid: UID,
       },
     ];
-    await updateDoc(doc(db, "factions", faction), {
+    await updateDoc(doc(firestore, "factions", faction), {
       members: newArray,
     });
   }
