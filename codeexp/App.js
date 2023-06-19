@@ -1,9 +1,10 @@
 import "react-native-gesture-handler";
 import { NativeBaseProvider, useTheme } from "native-base";
-import { theme } from "./src/NativeBase";
-import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { theme } from "./src/NativeBase";
+import { useFonts } from "expo-font";
+import { AppProvider } from "./src/AppProvider";
 import FirstScreen from "./src/screens/FirstScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import CreatePostScreen from "./src/screens/CreatePostScreen";
@@ -12,7 +13,7 @@ import Login from "./src/screens/Login";
 import CreateUser from "./src/screens/CreateUser";
 import CreateQuest from "./src/screens/CreateQuest";
 
-
+// console.log(theme);
 const Stack = createStackNavigator();
 export default function App() {
   const [fontsLoaded, fontsLoadingError] = useFonts({
@@ -21,7 +22,6 @@ export default function App() {
     "Inter-Regular": require("./assets/fonts/Inter-Regular.ttf"),
     "Inter-SemiBold": require("./assets/fonts/Inter-SemiBold.ttf"),
   });
-  // console.log(theme);
 
   // Wait for the fonts to load first
   if (!fontsLoaded) {
@@ -32,7 +32,7 @@ export default function App() {
     return null;
   }
   if (fontsLoaded) {
-    console.log("here");
+    console.log("Fonts Loaded!");
   }
 
   return (

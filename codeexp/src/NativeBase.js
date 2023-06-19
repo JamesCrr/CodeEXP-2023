@@ -37,16 +37,16 @@ export const theme = extendTheme({
       900: "#c7782d",
     },
     accent: {
-        50: "#ffead7",
-        100: "#ffd6af",
-        200: "#fec188",
-        300: "#f9ad65",
-        400: "#f8983e", //MAIN COLOR
-        500: "#f18d2f",
-        600: "#e88120",
-        700: "#d2751e",
-        800: "#b76a22",
-        900: "#9e5f24",
+      50: "#ffead7",
+      100: "#ffd6af",
+      200: "#fec188",
+      300: "#f9ad65",
+      400: "#f8983e", //MAIN COLOR
+      500: "#f18d2f",
+      600: "#e88120",
+      700: "#d2751e",
+      800: "#b76a22",
+      900: "#9e5f24",
     },
     socialQuests: {
       50: "#117101118",
@@ -72,11 +72,11 @@ export const theme = extendTheme({
       800: "#4d95d8",
       900: "#4189cd",
     },
-},
-    config: {
-    // Changing initialColorMode to 'dark'
-    initialColorMode: "dark",
   },
+  //   config: {
+  //   // Changing initialColorMode to 'dark'
+  //   initialColorMode: "dark",
+  // },
   fonts: {
     Logo: "Monsterrat-SemiBold",
     button: "Inter-SemiBold",
