@@ -19,9 +19,6 @@ const myReducer = (state, action) => {
     case "setUserInfo": {
       return { ...state, userInfo: action.val };
     }
-    case "allQuests": {
-      return { ...state, allQuests: action.val };
-    }
     default: {
       throw Error("Unknown action: " + action.type);
     }

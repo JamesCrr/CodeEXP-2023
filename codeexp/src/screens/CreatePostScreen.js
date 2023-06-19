@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 
 // Import the functions you need from the SDKs you need
+import { storage, database, firestore } from "../Firebase";
 import { ref as createDatabaseRef, set, push } from "firebase/database";
 import { ref as createStorageRef, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage, database, firestore } from "../Firebase";
+import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useAppContext, useAppDispatchContext } from "../AppProvider";
-import { collection, doc, updateDoc } from "firebase/firestore";
 
 const appWidth = "90%";
 const CreatePostScreen = ({ navigation }) => {
@@ -76,32 +76,32 @@ const CreatePostScreen = ({ navigation }) => {
     try {
       const postListRef = createDatabaseRef(database, "UserPosts/PostData");
       const newPostRef = push(postListRef);
+      const userRef = doc(firestore, "users", uid);
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        console.log("Document data:");
+      } else {
+        // userSnap.data() will be undefined in this case
+        console.log("No such document!");
+      }
+      const userData = userSnap.data();
 
       // Quests
-      const userRef = doc(firestore, "users", uid);
-      let updatedAllQuests = [...userRef.socialQuest];
-      // console.log("Update Quest Ref: ", userRef);
-      for (let i = 0; i < updatedAllQuests.length; i++) {
-        const { completed, questsId } = updatedAllQuests[i];
-        if (questsId == completedQuestId) {
-          updatedAllQuests[i].completed = true;
-          break;
+      let updatedAllQuests = [];
+      if (userData.socialQuest) {
+        updatedAllQuests = [...userData.socialQuest];
+        for (let i = 0; i < updatedAllQuests.length; i++) {
+          const { completed, questsId } = updatedAllQuests[i];
+          if (questsId == completedQuestId) {
+            updatedAllQuests[i].completed = true;
+            break;
+          }
         }
       }
-      // allQuests.map((key) => {
-      //   if (key.questsId === completedQuestId.id) {
-      //     // console.log("FOUND QUEST");
-      //     // console.log("key", key);
-      //     updatedAllQuests.push({ ...key, completed: true });
-      //     // console.log("KEY AFTER", updatedAllQuests);
-      //   } else {
-      //     updatedAllQuests.push({ ...key });
-      //   }
-      //   // console.log("USESTATE UPDATEQUESTBLOCK", updatedAllQuests);
-      // });
-
+      // console.log(updatedAllQuests);
       // Add Post History
-      let newPostHistory = [...userRef.postHistory, newPostRef.key];
+      let newPostHistory = [...userData.postHistory, newPostRef.key];
+
       // Update the Firestore
       try {
         // console.log("TRYING TO UPDATE", updatedAllQuests);
@@ -133,7 +133,7 @@ const CreatePostScreen = ({ navigation }) => {
 
       const currentDate = new Date();
       set(newPostRef, {
-        userId: "user1",
+        userId: uid,
         postTitle,
         postContent,
         postDate: currentDate.toString(),
