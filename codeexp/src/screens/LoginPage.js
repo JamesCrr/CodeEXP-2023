@@ -18,7 +18,7 @@ signInWithEmailAndPassword(auth, email, password)
   .then((userCredential) => {
     const user = userCredential.user.uid;
     dispatch({ type: "userId", val: user });
-    navigation.navigate("ViewPostsScreen",{uid:user});
+    navigation.navigate("ViewQuests");
   })
   .catch((error) => {
     const errorCode = error.code;

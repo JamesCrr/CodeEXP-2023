@@ -1,9 +1,11 @@
 import { firestore } from '../Firebase';
 import { useState, useEffect } from "react";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, addDoc, collection } from "firebase/firestore";
 import { Box, FlatList, Heading, Avatar, HStack, VStack, Text, Spacer, Center, NativeBaseProvider } from "native-base";
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useAppContext, useAppDispatchContext } from "../AppProvider";
+// import { addTestData } from '../components/QuestSubmission';
 
 
 // const ViewQuests = ({ navigation }) => {
@@ -45,12 +47,18 @@ const ViewQuests = () => {
     const navigation = useNavigation();
     const [quests, setQuests] = useState([]);
     const [grabDataState, setGrabDataState] = useState(false);
+    const { uid } = useAppContext();
+    const [activeQuestsId,setActiveQuestsId] = useState([]);
+    const [activeQuestsDesc,setActiveQuestsDesc] = useState([]);
+    console.log(uid);
 
-    useEffect(() => {
+
+useEffect(() => {
+
+//Retrieve user's quests
 const retrieveData = async () => {
-    const docRef = doc(firestore, "users", "44yPek9RPfgJMUUJqDVGgUFl2u42");
+    const docRef = doc(firestore, "users", uid);
     const docSnap = await getDoc(docRef);
-    
     if (docSnap.exists()) {
     const quests = docSnap.data().socialQuest;
       console.log("Document data:", docSnap.data().socialQuest);
@@ -60,11 +68,53 @@ const retrieveData = async () => {
     } else {
       console.log("No such document!");
     }
-
+    
 };retrieveData();
     }, [grabDataState]);
-console.log(quests);
 
+useEffect(() => {
+quests.map((key) => {
+    console.log(key.questsId);
+    const retrieveQuests = async () => {
+    const docRef = doc(firestore, "quests", key.questsId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+    const activeQuests = docSnap.data();
+    setActiveQuestsDesc(prevQuestsDesc=>[...prevQuestsDesc,activeQuests]);
+      console.log("Quests data:", docSnap.data());
+      console.log(docSnap.data());
+
+    } else {
+      console.log("No such document!");
+    }
+}
+retrieveQuests();
+});
+},[grabDataState]);
+
+//iterate user's quests and retrieve quests data 
+// Object.keys(quests).map((key) => {
+//       console.log(quests[key].questsId);
+//       setActiveQuestsId(prevQuestsId=>[...prevQuestsId,quests[key].questsId]);
+//  });
+//  console.log("activeQuests"+activeQuestsId);
+
+// activeQuestsId.map((key) => {
+//     console.log("ACTQUEST"+activeQuestsId);
+//     console.log("key"+key);
+//     const retrieveQuests = async () => {
+//     const docRef = doc(firestore, "quests", key);
+//     const docSnap = await getDoc(docRef);
+//     if (docSnap.exists()) {
+//     const activeQuests = docSnap.data();
+//       console.log("Quests data:", docSnap.data());
+//       console.log(docSnap.data());
+
+//     } else {
+//       console.log("No such document!");
+//     }
+// };retrieveQuests();
+// });
 const goToCreatePostScreen = () => {
 navigation.navigate("CreatePostScreen");
 };
@@ -73,7 +123,7 @@ return <Box>
 <Heading fontSize="xl" p="4" pb="3">
   Current Quests
 </Heading>
-<FlatList data={quests} renderItem={({
+<FlatList data={activeQuestsDesc} renderItem={({
 item
 }) => <Box borderBottomWidth="1" _dark={{
 borderColor: "muted.50"
@@ -84,7 +134,12 @@ borderColor: "muted.50"
           <Text _dark={{
       color: "warmGray.50"
     }} color="coolGray.800" bold>
-            {item.name}
+            {item.title}
+          </Text>
+          <Text color="coolGray.600" _dark={{
+      color: "warmGray.200"
+    }}>
+            {item.description}
           </Text>
           <Text color="coolGray.600" _dark={{
       color: "warmGray.200"
@@ -104,7 +159,7 @@ borderColor: "muted.50"
   }} color="coolGray.800" alignSelf="flex-start">
         </Text>
       </HStack>
-    </Box>} keyExtractor={item => item.startdate} />
+    </Box>} keyExtractor={(item,index )=> index} />
 </Box>;
 };
 
