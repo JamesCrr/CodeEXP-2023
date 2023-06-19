@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import ViewPostsStack from "./ViewPostsStack";
 import UserAccountScreen from "./UserAccountScreen";
 import CreatePostScreen from "./CreatePostScreen";
+import ViewQuests from "./ViewQuests";
 
 const BottomTab = createBottomTabNavigator();
 const UserStack = () => {
@@ -37,7 +38,7 @@ const UserStack = () => {
       />
       <BottomTab.Screen
         name="QuestsScreen"
-        component={ViewPostsStack}
+        component={ViewQuests}
         options={{
           tabBarLabel: "Quests",
           tabBarIcon: ({ color, size }) => <FontAwesome5 name="tasks" color={color} size={size} />,

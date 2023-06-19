@@ -40,8 +40,8 @@ export default function App() {
         {/* React Navigation */}
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="UserStack" component={UserStack} options={{ headerShown: false }} />
             <Stack.Screen name="LoginPage" component={LoginPage} />
+            <Stack.Screen name="UserStack" component={UserStack} options={{ headerShown: false }} />
             <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
             <Stack.Screen name="PostCommentsScreen" component={PostCommentsScreen} />
             <Stack.Screen name="RewardsScreen" component={RewardsScreen} />

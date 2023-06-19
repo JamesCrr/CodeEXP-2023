@@ -10,10 +10,10 @@ import { storage, database, firestore } from "../Firebase";
 import { useAppContext, useAppDispatchContext } from "../AppProvider";
 import { collection, doc, updateDoc } from "firebase/firestore";
 
-
 const appWidth = "90%";
 const CreatePostScreen = ({ navigation }) => {
-  const { uid } = useAppContext();
+  const { userInfo } = useAppContext();
+  const uid = userInfo.uid;
   const { completedQuestId } = useAppContext();
   const { allQuests } = useAppContext();
   const dispatch = useAppDispatchContext();
@@ -22,7 +22,8 @@ const CreatePostScreen = ({ navigation }) => {
   const [validPost, setValidPost] = useState(false);
   const [image, setImage] = useState(undefined);
   const [updateQuestBlock, setUpdateQuestBlock] = useState([]);
-  console.log("Completed Quest Id: ", completedQuestId.id, "UID: ", uid);
+
+  console.log("Completed Quest Id: ", completedQuestId.id, "UID: ", userInfo.uid);
   console.log("All Quests: ", allQuests);
   // useEffect(() => {
   //   const pathRef = createStorageRef(storage, "UserPostAttachments/myImageName");
@@ -76,29 +77,30 @@ const CreatePostScreen = ({ navigation }) => {
     try {
       const postListRef = createDatabaseRef(database, "UserPosts/PostData");
       const newPostRef = push(postListRef);
-      const updateQuestRef = doc(firestore,"users",uid);
+      const updateQuestRef = doc(firestore, "users", uid);
       let updatedAllQuests = [];
       console.log("Update Quest Ref: ", updateQuestRef);
       allQuests.map((key) => {
-        if(key.questsId === completedQuestId.id){
+        if (key.questsId === completedQuestId.id) {
           console.log("FOUND QUEST");
-          console.log('key',key);
-          updatedAllQuests.push({...key, completed:true});
-          console.log("KEY AFTER",updatedAllQuests);
+          console.log("key", key);
+          updatedAllQuests.push({ ...key, completed: true });
+          console.log("KEY AFTER", updatedAllQuests);
+        } else {
+          updatedAllQuests.push({ ...key });
         }
-        else{
-          updatedAllQuests.push({...key});
-        }
-        console.log("USESTATE UPDATEQUESTBLOCK",updatedAllQuests);
+        console.log("USESTATE UPDATEQUESTBLOCK", updatedAllQuests);
       });
-      try{
-        console.log("TRYING TO UPDATE",updatedAllQuests);
+      try {
+        console.log("TRYING TO UPDATE", updatedAllQuests);
 
-      await updateDoc(updateQuestRef, {
-       socialQuest: updatedAllQuests,
-      });
-      console.log("UPDATED");
-    }catch(error){console.log("Error updating",error)};
+        await updateDoc(updateQuestRef, {
+          socialQuest: updatedAllQuests,
+        });
+        console.log("UPDATED");
+      } catch (error) {
+        console.log("Error updating", error);
+      }
       // console.log(newPostRef.key);
 
       // Store the Image in Firebase Storage
@@ -116,7 +118,6 @@ const CreatePostScreen = ({ navigation }) => {
         } catch (error) {
           console.log(error.message);
         }
-      
       }
 
       const currentDate = new Date();

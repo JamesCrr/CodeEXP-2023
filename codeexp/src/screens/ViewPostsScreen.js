@@ -42,11 +42,9 @@ const PostComponent = ({ username, postId, title, content, imageURL, comments, n
 const ViewPostsScreen = ({ route, navigation }) => {
   const [postsList, setPostsList] = useState([]);
   const [postsLoading, setPostsLoading] = useState(true);
-  const { uid } = useAppContext();
-  const { completedQuestId } = useAppContext();
-  const dispatch = useAppDispatchContext();
-  console.log("UID " + uid);
-  console.log("QUEST " + completedQuestId);
+  const { userInfo, completedQuestId } = useAppContext();
+  // console.log("UID " + uid);
+  // console.log("QUEST " + completedQuestId);
 
   useEffect(() => {
     // Fetch the Posts from Firebase

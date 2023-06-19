@@ -13,11 +13,11 @@ export const useAppDispatchContext = () => {
 
 const myReducer = (state, action) => {
   switch (action.type) {
-    case "userId": {
-      return { ...state, uid: action.val };
-    }
     case "completedQuestId": {
       return { ...state, completedQuestId: action.val };
+    }
+    case "setUserInfo": {
+      return { ...state, userInfo: action.val };
     }
     case "allQuests": {
       return { ...state, allQuests: action.val };
@@ -28,7 +28,7 @@ const myReducer = (state, action) => {
   }
 };
 
-const initialState = { uid: "userId" };
+const initialState = { userInfo: { uid: "123" } };
 export const AppProvider = ({ children }) => {
   const [myState, dispatch] = useReducer(myReducer, initialState);
 
