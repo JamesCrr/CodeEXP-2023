@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Box, Divider, HStack, Input, Pressable, ScrollView, Text } from "native-base";
-import { ref as createDatabaseRef, child, push, update } from "firebase/database";
 import { database } from "../Firebase";
+import { ref as createDatabaseRef, child, push, update } from "firebase/database";
+import { useAppContext } from "../AppProvider";
 
 const CommentComponent = ({ username, commentContent }) => {
   return (
@@ -12,19 +13,9 @@ const CommentComponent = ({ username, commentContent }) => {
   );
 };
 
-const testComments = [
-  {
-    username: "@sadsd",
-    commentContent: "asdsadsadsdadsadsadsadsadsadsad",
-  },
-  {
-    username: "@zczxcxc",
-    commentContent: "kosadjlkjsadsajdlkjdj",
-  },
-];
-
 const PostCommentsScreen = ({ route, navigation }) => {
-  const { username, postId, title, content, comments } = route.params;
+  const { userInfo } = useAppContext();
+  const { postId, title, content, comments } = route.params;
   const [commentList, setCommentList] = useState(comments ? comments : []);
   const [commentInput, setCommentInput] = useState("");
 
@@ -35,7 +26,7 @@ const PostCommentsScreen = ({ route, navigation }) => {
     if (commentInput.trim() === "") {
       return;
     }
-    const newCommentsData = [...commentList, { username, commentContent: commentInput }];
+    const newCommentsData = [...commentList, { username: userInfo.username, commentContent: commentInput }];
     try {
       const CommentsPath = `UserPosts/PostData/${postId}/comments`;
       const updates = {};
@@ -47,7 +38,7 @@ const PostCommentsScreen = ({ route, navigation }) => {
     }
     // Add to existing comment list
     setCommentList((prevList) => {
-      return [...prevList, { username, commentContent: commentInput }];
+      return [...prevList, { username: userInfo.username, commentContent: commentInput }];
     });
     // Reset Comment Input
     console.log("Posted Comment: ", commentInput);

@@ -30,50 +30,54 @@ const HistoryTab = ({ data, currDate }) => {
     <Box>
       <ScrollView>
         <VStack space={2}>
-          {data.map((ele, index) => {
-            // console.log(ele);
-            const dateDiff = getDateDiff(ele.isPost ? ele.postDate : ele.postDate, currDate);
-            let dateDiffStr = "";
-            if (dateDiff.d > 0) {
-              dateDiffStr = `${dateDiff.d}d`;
-            } else if (dateDiff.h > 0) {
-              dateDiffStr = `${dateDiff.h}hr`;
-            } else if (dateDiff.m > 0) {
-              dateDiffStr = `${dateDiff.m}min`;
-            } else if (dateDiff.s > 0) {
-              dateDiffStr = `${dateDiff.s}s`;
-            }
+          {data.length > 0 ? (
+            data.map((ele, index) => {
+              // console.log(ele);
+              const dateDiff = getDateDiff(ele.isPost ? ele.postDate : ele.postDate, currDate);
+              let dateDiffStr = "";
+              if (dateDiff.d > 0) {
+                dateDiffStr = `${dateDiff.d}d`;
+              } else if (dateDiff.h > 0) {
+                dateDiffStr = `${dateDiff.h}hr`;
+              } else if (dateDiff.m > 0) {
+                dateDiffStr = `${dateDiff.m}min`;
+              } else if (dateDiff.s > 0) {
+                dateDiffStr = `${dateDiff.s}s`;
+              }
 
-            return (
-              <Box key={ele.isPost ? ele.postId : index} flex={1}>
-                {ele.isPost ? (
-                  <HStack borderWidth={1} flex={1}>
-                    <Image
-                      source={{
-                        uri: ele["imageURL"],
-                      }}
-                      alt={"altText"}
-                      width={ele["imageURL"] ? "49" : "49"}
-                      height={ele["imageURL"] ? "49" : "49"}
-                      resizeMode={"cover"}
-                    />
-                    <VStack flex={1} marginLeft={2}>
-                      <HStack flexGrow={1} justifyContent={"space-between"}>
-                        <Text>{ele.postTitle}</Text>
-                        <Text marginX={2}>{dateDiffStr}</Text>
-                      </HStack>
-                      <Text>{ele.postContent}</Text>
+              return (
+                <Box key={ele.isPost ? ele.postId : index} flex={1}>
+                  {ele.isPost ? (
+                    <HStack borderWidth={1} flex={1}>
+                      <Image
+                        source={{
+                          uri: ele["imageURL"],
+                        }}
+                        alt={"altText"}
+                        width={ele["imageURL"] ? "49" : "49"}
+                        height={ele["imageURL"] ? "49" : "49"}
+                        resizeMode={"cover"}
+                      />
+                      <VStack flex={1} marginLeft={2}>
+                        <HStack flexGrow={1} justifyContent={"space-between"}>
+                          <Text>{ele.postTitle}</Text>
+                          <Text marginX={2}>{dateDiffStr}</Text>
+                        </HStack>
+                        <Text>{ele.postContent}</Text>
+                      </VStack>
+                    </HStack>
+                  ) : (
+                    <VStack>
+                      <Text>{questTitle}</Text>
+                      <Text>{questContent}</Text>
                     </VStack>
-                  </HStack>
-                ) : (
-                  <VStack>
-                    <Text>{questTitle}</Text>
-                    <Text>{questContent}</Text>
-                  </VStack>
-                )}
-              </Box>
-            );
-          })}
+                  )}
+                </Box>
+              );
+            })
+          ) : (
+            <Text>No activity history..</Text>
+          )}
         </VStack>
       </ScrollView>
     </Box>
@@ -105,6 +109,12 @@ const UserAccountScreen = ({ navigation }) => {
             const childData = val[1];
             // console.log("Key:", childKey);
             // console.log("Data:", childData);
+
+            // Does this post belong to this user?
+            if (userInfo.uid != childData.userId) {
+              return;
+            }
+
             // Destructure the data
             const { imageStoragePath, postContent, postTitle, postDate, userId, comments } = childData;
             // Is there an Image?

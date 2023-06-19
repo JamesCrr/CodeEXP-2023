@@ -36,9 +36,6 @@ const LoginPage = ({ navigation }) => {
       alert(error.message);
     }
   };
-  // const goToViewPostsScreen = () => {
-  //     navigation.navigate("ViewPostsScreen",{userId:Id});
-  //     }
 
   return (
     <Box>

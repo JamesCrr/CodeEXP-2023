@@ -5,7 +5,7 @@ import { ref as createDatabaseRef, onValue } from "firebase/database";
 import { ref as createStorageRef, getDownloadURL } from "firebase/storage";
 import { useAppContext, useAppDispatchContext } from "../AppProvider";
 
-const PostComponent = ({ username, postId, title, content, imageURL, comments, navigation }) => {
+const PostComponent = ({ postId, title, content, imageURL, comments, navigation }) => {
   let haveS = true;
   if (comments && comments.length == 1) {
     haveS = false;
@@ -26,9 +26,7 @@ const PostComponent = ({ username, postId, title, content, imageURL, comments, n
         <Text color={"black"}>{content}</Text>
         {/* Navigate to view comment screen */}
         <Pressable
-          onPress={() =>
-            navigation.navigate("PostCommentsScreen", { username, postId, title, content, comments })
-          }
+          onPress={() => navigation.navigate("PostCommentsScreen", { postId, title, content, comments })}
         >
           <Text>
             View{comments ? ` ${comments.length}` : ""} comment{haveS ? "s" : ""}
@@ -62,7 +60,7 @@ const ViewPostsScreen = ({ route, navigation }) => {
           // Process the dataList as needed
           // console.log("List:", dataList);
           dataList.forEach(async (val, index) => {
-            console.log(val, index);
+            // console.log(val, index);
             const childKey = val[0];
             const childData = val[1];
             // console.log("Key:", childKey);
@@ -139,7 +137,6 @@ const ViewPostsScreen = ({ route, navigation }) => {
           data={postsList}
           renderItem={({ item }) => (
             <PostComponent
-              username={"GET USERNAME FROM ACC"}
               postId={item.postId}
               userId={item.userId}
               title={item.postTitle}
