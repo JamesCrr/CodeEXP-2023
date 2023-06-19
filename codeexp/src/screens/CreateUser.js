@@ -17,13 +17,23 @@ import {
   Icon,
 } from "native-base";
 
-import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../Firebase";
 
 const CreateUser = () => {
   const Auth = auth;
   const AuthSecondary = authsecondary;
   console.log(Auth.currentUser.uid, "manager UID");
+  const [name, setName] = useState("Name");
+  const [username, setUserName] = useState("Username");
+  const [email, setEmail] = useState("Email");
+  const [password, setPassword] = useState("Password");
+  const [faction, setFaction] = useState("");
+  const [show, setShow] = useState(false);
+  const [errormsg, setError] = useState("");
+  const [loaded, setLoaded] = useState(false);
+  const [members, setMembers] = useState(Array);
+  const [image, setImage] = useState(null);
 
   useEffect(() => {
     async function managerData() {
@@ -38,22 +48,22 @@ const CreateUser = () => {
         // docSnap.data() will be undefined in this case
         console.log("No such document!");
       }
+      const docRef2 = doc(db, "factions", docSnap.data().faction);
+      const docSnap2 = await getDoc(docRef2);
+      if (docSnap2.exists()) {
+        console.log("Document data:", docSnap2.data());
+        setMembers(docSnap2.data().members);
+      } else {
+        // docSnap.data() will be undefined in this case
+        console.log("No such document!");
+      }
     }
     managerData();
   }, []);
-  const [name, setName] = useState("Name");
-  const [username, setUserName] = useState("Username");
-  const [email, setEmail] = useState("Email");
-  const [password, setPassword] = useState("Password");
-  const [faction, setFaction] = useState("");
-  const [show, setShow] = useState(false);
-  const [errormsg, setError] = useState("");
-  const [loaded, setLoaded] = useState(false);
-  const [image, setImage] = useState(null);
 
   const handleClick = () => setShow(!show);
 
-  async function uploadData(name, username, email, faction, UID) {
+  async function uploadData(name, username, email, faction, UID, members) {
     const employeeData = {
       name: name,
       username: username,
@@ -67,6 +77,17 @@ const CreateUser = () => {
       socialQuest: [],
     };
     await setDoc(doc(db, "users", UID), employeeData);
+
+    const newArray = [
+      ...members,
+      {
+        name: name,
+        uid: UID,
+      },
+    ];
+    await updateDoc(doc(db, "factions", faction), {
+      members: newArray,
+    });
   }
 
   const createAcc = async () => {
@@ -81,7 +102,14 @@ const CreateUser = () => {
       console.log(user.uid);
       console.log(Auth.currentUser.uid, "manager UID");
       console.log(AuthSecondary.currentUser.uid, "employee UID");
-      uploadData(name, username, email, faction, AuthSecondary.currentUser.uid);
+      uploadData(
+        name,
+        username,
+        email,
+        faction,
+        AuthSecondary.currentUser.uid,
+        members
+      );
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
