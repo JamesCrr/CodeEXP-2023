@@ -106,8 +106,8 @@ const CreatePostScreen = ({ navigation }) => {
     setValidPost(false);
     setImage(undefined);
 
-    // Navigate to ViewPostsScreen
-    navigation.replace("ViewPostsScreen");
+    // Navigate to ViewPostsStack
+    navigation.replace("UserStack", { screen: "ViewPostsStack" });
   };
 
   return (

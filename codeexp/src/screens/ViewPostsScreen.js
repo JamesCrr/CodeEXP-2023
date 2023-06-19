@@ -19,8 +19,8 @@ const PostComponent = ({ username, postId, title, content, imageURL, comments, n
             uri: imageURL,
           }}
           alt={"altText"}
-          width={"md"}
-          height={"md"}
+          width={imageURL ? "md" : "0"}
+          height={imageURL ? "md" : "0"}
           resizeMode={"cover"}
         />
         <Text color={"black"}>{content}</Text>
@@ -44,7 +44,6 @@ const ViewPostsScreen = ({ route, navigation }) => {
   const [postsLoading, setPostsLoading] = useState(true);
   const { uid } = useAppContext();
   const dispatch = useAppDispatchContext();
-  // console.log("uid", uid);
 
   useEffect(() => {
     // Fetch the Posts from Firebase
@@ -69,10 +68,11 @@ const ViewPostsScreen = ({ route, navigation }) => {
             // console.log("Data:", childData);
             // Destructure the data
             const { imageStoragePath, postContent, postTitle, postDate, userId, comments } = childData;
-            // Get the Image
-            const storageRef = createStorageRef(storage, imageStoragePath);
+
+            // Is there an Image?
+            let storageRef = imageStoragePath ? createStorageRef(storage, imageStoragePath) : undefined;
             try {
-              const url = await getDownloadURL(storageRef);
+              const url = storageRef ? await getDownloadURL(storageRef) : undefined;
               // Add to list
               setPostsList((prevList) => {
                 return [
@@ -115,7 +115,7 @@ const ViewPostsScreen = ({ route, navigation }) => {
         };
 
         // Call the function after 1s delay
-        setTimeout(UpdatePostList, 500);
+        setTimeout(UpdatePostList, 200);
       },
       {
         onlyOnce: false,
