@@ -14,6 +14,7 @@ import {
   ScrollView,
   Text,
   Button,
+  Icon,
 } from "native-base";
 
 import { collection, doc, getDoc, setDoc } from "firebase/firestore";
@@ -48,6 +49,7 @@ const CreateUser = () => {
   const [show, setShow] = useState(false);
   const [errormsg, setError] = useState("");
   const [loaded, setLoaded] = useState(false);
+  const [image, setImage] = useState(null);
 
   const handleClick = () => setShow(!show);
 
@@ -140,6 +142,7 @@ const CreateUser = () => {
             placeholder="Password"
             onChangeText={(newText) => setPassword(newText)}
           />
+
           <Button onPress={createAcc}>Create Acc</Button>
           <Text color="red">{errormsg}</Text>
         </Stack>

@@ -8,7 +8,7 @@ import { ref as createDatabaseRef, set, push } from "firebase/database";
 import { ref as createStorageRef, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage, database } from "../Firebase";
 
-const appWidth = "90%";
+
 const CreatePostScreen = ({ navigation }) => {
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");

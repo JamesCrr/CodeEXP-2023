@@ -12,6 +12,7 @@ import ManagerDashboard from "./src/screens/ManagerDashboard";
 import CreateUser from "./src/screens/CreateUser";
 import CreateQuest from "./src/screens/CreateQuest";
 import ManagerLogin from "./src/screens/ManagerLogin";
+import FactionLeaderboard from "./src/screens/FactionLeaderboard";
 
 
 const Stack = createStackNavigator();
@@ -46,6 +47,7 @@ export default function App() {
           <Stack.Screen name="CreateUser" component={CreateUser} />
           <Stack.Screen name="CreateQuest" component={CreateQuest} />
           <Stack.Screen name="ManagerLogin" component={ManagerLogin} />
+          <Stack.Screen name="FactionLeaderboard" component={FactionLeaderboard} />
 
         </Stack.Navigator>
       </NavigationContainer>
