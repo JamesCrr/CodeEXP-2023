@@ -43,7 +43,10 @@ const ViewPostsScreen = ({ route, navigation }) => {
   const [postsList, setPostsList] = useState([]);
   const [postsLoading, setPostsLoading] = useState(true);
   const { uid } = useAppContext();
+  const { completedQuestId } = useAppContext();
   const dispatch = useAppDispatchContext();
+  console.log("UID " + uid);
+  console.log("QUEST " + completedQuestId);
 
   useEffect(() => {
     // Fetch the Posts from Firebase
@@ -61,7 +64,7 @@ const ViewPostsScreen = ({ route, navigation }) => {
           // Process the dataList as needed
           // console.log("List:", dataList);
           dataList.forEach(async (val, index) => {
-            // console.log(val, index);
+            console.log(val, index);
             const childKey = val[0];
             const childData = val[1];
             // console.log("Key:", childKey);

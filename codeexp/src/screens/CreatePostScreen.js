@@ -6,15 +6,24 @@ import * as ImagePicker from "expo-image-picker";
 // Import the functions you need from the SDKs you need
 import { ref as createDatabaseRef, set, push } from "firebase/database";
 import { ref as createStorageRef, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage, database } from "../Firebase";
+import { storage, database, firestore } from "../Firebase";
+import { useAppContext, useAppDispatchContext } from "../AppProvider";
+import { collection, doc, updateDoc } from "firebase/firestore";
+
 
 const appWidth = "90%";
 const CreatePostScreen = ({ navigation }) => {
+  const { uid } = useAppContext();
+  const { completedQuestId } = useAppContext();
+  const { allQuests } = useAppContext();
+  const dispatch = useAppDispatchContext();
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
   const [validPost, setValidPost] = useState(false);
   const [image, setImage] = useState(undefined);
-
+  const [updateQuestBlock, setUpdateQuestBlock] = useState([]);
+  console.log("Completed Quest Id: ", completedQuestId.id, "UID: ", uid);
+  console.log("All Quests: ", allQuests);
   // useEffect(() => {
   //   const pathRef = createStorageRef(storage, "UserPostAttachments/myImageName");
   //   getDownloadURL(pathRef)
@@ -63,11 +72,33 @@ const CreatePostScreen = ({ navigation }) => {
     // 1. Create a Loading useState()
     // 2. Change Pressable to Button to use their isLoading State
     /***********************************************/
-
     // Store Post in Firebase Realtime Database
     try {
       const postListRef = createDatabaseRef(database, "UserPosts/PostData");
       const newPostRef = push(postListRef);
+      const updateQuestRef = doc(firestore,"users",uid);
+      let updatedAllQuests = [];
+      console.log("Update Quest Ref: ", updateQuestRef);
+      allQuests.map((key) => {
+        if(key.questsId === completedQuestId.id){
+          console.log("FOUND QUEST");
+          console.log('key',key);
+          updatedAllQuests.push({...key, completed:true});
+          console.log("KEY AFTER",updatedAllQuests);
+        }
+        else{
+          updatedAllQuests.push({...key});
+        }
+        console.log("USESTATE UPDATEQUESTBLOCK",updatedAllQuests);
+      });
+      try{
+        console.log("TRYING TO UPDATE",updatedAllQuests);
+
+      await updateDoc(updateQuestRef, {
+       socialQuest: updatedAllQuests,
+      });
+      console.log("UPDATED");
+    }catch(error){console.log("Error updating",error)};
       // console.log(newPostRef.key);
 
       // Store the Image in Firebase Storage
@@ -85,17 +116,18 @@ const CreatePostScreen = ({ navigation }) => {
         } catch (error) {
           console.log(error.message);
         }
+      
       }
 
       const currentDate = new Date();
-      set(newPostRef, {
-        userId: "user1",
-        postTitle,
-        postContent,
-        postDate: currentDate.toString(),
-        imageStoragePath: image ? imageStoragePath : null,
-      });
-      console.log("Post Uploaded to Realtime Database");
+      // set(newPostRef, {
+      //   userId: "user1",
+      //   postTitle,
+      //   postContent,
+      //   postDate: currentDate.toString(),
+      //   imageStoragePath: image ? imageStoragePath : null,
+      // });
+      // console.log("Post Uploaded to Realtime Database");
     } catch (error) {
       console.log(error.message);
     }
