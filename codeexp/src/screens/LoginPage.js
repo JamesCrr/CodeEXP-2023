@@ -8,12 +8,9 @@ import { useAppContext, useAppDispatchContext } from "../AppProvider";
 const LoginPage = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const context = useAppContext();
   const dispatch = useAppDispatchContext();
-  console.log(dispatch);
 
   const verifyLogin = async () => {
-    // console.log(email);
     // Attempt to Login
     try {
       // console.log(auth, email, password);
@@ -24,6 +21,7 @@ const LoginPage = ({ navigation }) => {
       if (docSnap.exists()) {
         const userDataObject = docSnap.data();
         // console.log("Document data:", userDataObject);
+
         // Update user information in Context
         dispatch({ type: "setUserInfo", val: { ...userDataObject, uid } });
         // User information retrieved successfully, navigate to next page

@@ -19,13 +19,31 @@ const myReducer = (state, action) => {
     case "setUserInfo": {
       return { ...state, userInfo: action.val };
     }
+    case "setUserAchievements": {
+      return { ...state, userInfo: { ...userInfo, achievements: action.val } };
+    }
+    case "setNewAchievementModal": {
+      const { newNotify, isVisible, modalDetails } = action.val;
+      return {
+        ...state,
+        newAchievementNotify: newNotify,
+        achievementModalDetails: modalDetails,
+        achievementModalVisible: isVisible,
+      };
+    }
     default: {
       throw Error("Unknown action: " + action.type);
     }
   }
 };
 
-const initialState = { userInfo: { uid: "123" } };
+const initialState = {
+  userInfo: { uid: "123" },
+  newAchievementNotify: false,
+  achievementModalDetails: {},
+  achievementModalVisible: false,
+  questModalVisible: false,
+};
 export const AppProvider = ({ children }) => {
   const [myState, dispatch] = useReducer(myReducer, initialState);
 

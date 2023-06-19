@@ -40,7 +40,7 @@ const PostComponent = ({ postId, title, content, imageURL, comments, navigation 
 const ViewPostsScreen = ({ route, navigation }) => {
   const [postsList, setPostsList] = useState([]);
   const [postsLoading, setPostsLoading] = useState(true);
-  const { userInfo, completedQuestId } = useAppContext();
+  const { userInfo, completedQuestId, newAchievementNotify } = useAppContext();
   // console.log("UID " + uid);
   // console.log("QUEST " + completedQuestId);
 

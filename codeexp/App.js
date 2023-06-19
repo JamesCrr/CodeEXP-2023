@@ -1,20 +1,20 @@
 import "react-native-gesture-handler";
-import { NativeBaseProvider, useTheme } from "native-base";
 import { theme } from "./src/NativeBase";
+import { NativeBaseProvider } from "native-base";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { AppProvider } from "./src/AppProvider";
 import FirstScreen from "./src/screens/FirstScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import CreatePostScreen from "./src/screens/CreatePostScreen";
 import ViewPostsScreen from "./src/screens/ViewPostsScreen";
 import PostCommentsScreen from "./src/screens/PostCommentsScreen";
-import { AppProvider } from "./src/AppProvider";
 import LoginPage from "./src/screens/LoginPage";
 import ViewQuests from "./src/screens/ViewQuests";
 import UserStack from "./src/screens/UserStack";
+import CustomModal from "./src/components/AchievementModal";
 
-// console.log(theme);
 const Stack = createStackNavigator();
 export default function App() {
   const [fontsLoaded, fontsLoadingError] = useFonts({
@@ -23,7 +23,6 @@ export default function App() {
     "Inter-Regular": require("./assets/fonts/Inter-Regular.ttf"),
     "Inter-SemiBold": require("./assets/fonts/Inter-SemiBold.ttf"),
   });
-
   // Wait for the fonts to load first
   if (!fontsLoaded) {
     console.log("Fonts not Loaded!");
@@ -38,13 +37,14 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={theme}>
-<AppProvider>
+      <AppProvider>
+        <CustomModal />
         {/* React Navigation */}
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: true }}>
-          <Stack.Screen name="LoginPage" component={LoginPage} />
-          <Stack.Screen name="UserStack" component={UserStack} options={{ headerShown: false }} />
-          <Stack.Screen name="ViewQuests" component={ViewQuests} />
+            <Stack.Screen name="LoginPage" component={LoginPage} />
+            <Stack.Screen name="UserStack" component={UserStack} options={{ headerShown: false }} />
+            <Stack.Screen name="ViewQuests" component={ViewQuests} />
             <Stack.Screen name="ViewPostsScreen" component={ViewPostsScreen} />
             <Stack.Screen name="CreatePostScreen" component={CreatePostScreen} />
             <Stack.Screen name="PostCommentsScreen" component={PostCommentsScreen} />

@@ -1,9 +1,10 @@
 import { firestore, database, storage } from "../Firebase";
 import { ref as createDatabaseRef, onValue } from "firebase/database";
 import { ref as createStorageRef, getDownloadURL } from "firebase/storage";
+import { doc, getDoc, addDoc, collection } from "firebase/firestore";
 import { Box, HStack, Image, Pressable, ScrollView, Text, VStack, View } from "native-base";
 import { useState, useEffect } from "react";
-import { useAppContext } from "../AppProvider";
+import { useAppContext, useAppDispatchContext } from "../AppProvider";
 
 const HistoryTab = ({ data, currDate }) => {
   /**
@@ -36,13 +37,13 @@ const HistoryTab = ({ data, currDate }) => {
               const dateDiff = getDateDiff(ele.isPost ? ele.postDate : ele.postDate, currDate);
               let dateDiffStr = "";
               if (dateDiff.d > 0) {
-                dateDiffStr = `${dateDiff.d}d`;
+                dateDiffStr = `${dateDiff.d} d`;
               } else if (dateDiff.h > 0) {
-                dateDiffStr = `${dateDiff.h}hr`;
+                dateDiffStr = `${dateDiff.h} hr`;
               } else if (dateDiff.m > 0) {
-                dateDiffStr = `${dateDiff.m}min`;
+                dateDiffStr = `${dateDiff.m} min`;
               } else if (dateDiff.s > 0) {
-                dateDiffStr = `${dateDiff.s}s`;
+                dateDiffStr = `${dateDiff.s} s`;
               }
 
               return (
@@ -85,10 +86,53 @@ const HistoryTab = ({ data, currDate }) => {
 };
 
 const UserAccountScreen = ({ navigation }) => {
-  const { userInfo } = useAppContext();
+  const { userInfo, newAchievementNotify } = useAppContext();
+  const dispatch = useAppDispatchContext();
   const [profileTabSelected, setProfileTabSelected] = useState(true);
   const [historyData, setHistoryData] = useState([]);
+  const [achievementUris, setAchievementUris] = useState([]);
 
+  useEffect(() => {
+    // New Achievement prompt?
+    // console.log(newAchievementNotify);
+    if (newAchievementNotify) {
+      /**
+       * Aysnc Function that fetches the Achievement Data
+       */
+      const fetchAchievementData = async () => {
+        const achRef = doc(firestore, "user_achievements", "Starting Your Journey!");
+        const achSnap = await getDoc(achRef);
+        if (achSnap.exists()) {
+          console.log("Document data:");
+        } else {
+          console.log("No such document!");
+        }
+        const achData = achSnap.data();
+
+        // Fetch the image
+        let storageRef = createStorageRef(storage, achData.imageStoragePath);
+        let actualUri = "";
+        try {
+          actualUri = await getDownloadURL(storageRef);
+        } catch (error) {
+          // Handle any errors
+          console.log(error);
+        }
+
+        // Dispatch to context and enable the modal
+        dispatch({
+          type: "setNewAchievementModal",
+          val: {
+            newNotify: false,
+            isVisible: true,
+            modalDetails: { title: "Starting Your Journey!", about: achData.about, imageUri: actualUri },
+          },
+        });
+      };
+      // Fetch the achievement
+      fetchAchievementData();
+    }
+  }, []);
   useEffect(() => {
     // Reset history data
     // setHistoryData([])
@@ -145,6 +189,28 @@ const UserAccountScreen = ({ navigation }) => {
       });
     };
     fetchUserPosts();
+
+    // Fetch all the achievement data
+    const fetchAchievementData = async () => {
+      const newImages = [];
+      for (let achievementName of userInfo.achievements) {
+        const achRef = doc(firestore, "user_achievements", achievementName);
+        const achSnap = await getDoc(achRef);
+        const achData = achSnap.data();
+
+        // Fetch Image from storage
+        let storageRef = createStorageRef(storage, achData.imageStoragePath);
+        try {
+          const url = await getDownloadURL(storageRef);
+          newImages.push(url);
+        } catch (error) {
+          // Handle any errors
+          console.log(error.message);
+        }
+      }
+      setAchievementUris(newImages);
+    };
+    fetchAchievementData();
   }, [userInfo]);
 
   // console.log(userInfo);
@@ -201,23 +267,20 @@ const UserAccountScreen = ({ navigation }) => {
         </Box>
 
         {/* Middle Section */}
-        <Box marginTop={7}>
-          <Text>Recent Achievements</Text>
-          <HStack space={2}>
-            <Image
-              source={{
-                uri: "https://wallpaperaccess.com/full/317501.jpg",
-              }}
-              alt="Achievement Badge"
-              size={"sm"}
-            />
-            <Image
-              source={{
-                uri: "https://wallpaperaccess.com/full/317501.jpg",
-              }}
-              alt="Achievement Badge"
-              size={"sm"}
-            />
+        <Box marginTop={7} bg={"warmGray.500"}>
+          <Text bg={"warmGray.300"}>Recent Achievements</Text>
+          <HStack space={3} minHeight={20} paddingX={2} paddingY={1}>
+            {achievementUris.map((ele) => {
+              return (
+                <Image
+                  source={{
+                    uri: ele,
+                  }}
+                  alt="Achievement Badge"
+                  size={"sm"}
+                />
+              );
+            })}
           </HStack>
         </Box>
 

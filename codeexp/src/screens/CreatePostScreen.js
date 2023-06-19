@@ -1,5 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Box, HStack, Input, Stack, TextArea, Pressable, Image, ScrollView, Text, Button, Modal, Center, VStack, NativeBaseProvider } from "native-base";
+import { Box, HStack, Input, Stack, TextArea, Pressable, Image, ScrollView, Text } from "native-base";
 import { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 
@@ -16,11 +16,10 @@ const CreatePostScreen = ({ route, navigation }) => {
   const [postContent, setPostContent] = useState("");
   const [validPost, setValidPost] = useState(false);
   const [image, setImage] = useState(undefined);
-  const { completeQuestModal } = route.params;
 
   const { userInfo, completedQuestId } = useAppContext();
-  const uid = userInfo.uid;
   const dispatch = useAppDispatchContext();
+  const uid = userInfo.uid;
   const [updateQuestBlock, setUpdateQuestBlock] = useState([]);
   // console.log("Completed Quest Id: ", completedQuestId.id, "UID: ", userInfo.uid);
   // console.log("All Quests: ", allQuests);
@@ -80,24 +79,40 @@ const CreatePostScreen = ({ route, navigation }) => {
       const userRef = doc(firestore, "users", uid);
       const userSnap = await getDoc(userRef);
       if (userSnap.exists()) {
-        console.log("Document data:");
+        // console.log("Document data:", userSnap);
       } else {
-        // userSnap.data() will be undefined in this case
         console.log("No such document!");
       }
       const userData = userSnap.data();
 
-      // Quests
+      // Quests & achievements
+      let updatedAchievements = userData.achievements;
       let updatedAllQuests = [];
       if (userData.socialQuest) {
         updatedAllQuests = [...userData.socialQuest];
-        console.log("Updated All Quests: ", updatedAllQuests);
+        // console.log("Updated All Quests: ", updatedAllQuests);
+
+        // Find the Quest to complete
         for (let i = 0; i < updatedAllQuests.length; i++) {
           const { completed, questsId } = updatedAllQuests[i];
-          console.log("completedquestId: ",completedQuestId);
+          // console.log("completedquestId: ", completedQuestId);
           if (questsId == completedQuestId) {
             updatedAllQuests[i].completed = true;
-            completeQuestModal();
+
+            // Set context to prompt achievement modal in account screen
+            dispatch({
+              type: "setNewAchievementModal",
+              val: { newNotify: true, isVisible: false, modalDetails: {} },
+            });
+            // Set context to add achievements to userInfo, if not added before
+            if (userInfo.achievements.length <= 0) {
+              dispatch({
+                type: "setUserAchievements",
+                val: ["Starting Your Journey!"],
+              });
+              // Also update firestore
+              updatedAchievements = ["Starting Your Journey!"];
+            }
             break;
           }
         }
@@ -111,6 +126,7 @@ const CreatePostScreen = ({ route, navigation }) => {
         await updateDoc(userRef, {
           socialQuest: updatedAllQuests,
           postHistory: newPostHistory,
+          achievements: updatedAchievements,
         });
         // console.log("UPDATED");
       } catch (error) {

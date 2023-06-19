@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
@@ -6,19 +7,10 @@ import ViewPostsStack from "./ViewPostsStack";
 import UserAccountScreen from "./UserAccountScreen";
 import CreatePostScreen from "./CreatePostScreen";
 import ViewQuests from "./ViewQuests";
-import { Modal, Text } from "native-base";
-import { useState } from "react";
+
 const BottomTab = createBottomTabNavigator();
 const UserStack = () => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const questModal = () => {
-    //toggle modal.
-    setModalVisible(true);
-  };
-  console.log("UserStack modal: ", modalVisible);
   return (
-    <>
-    <Modal isOpen={modalVisible} size="lg" ><Text>testteettsts</Text></Modal>
     <BottomTab.Navigator screenOptions={{ headerShown: false, tabBarShowLabel: false }}>
       <BottomTab.Screen
         name="ViewPostsStack"
@@ -44,7 +36,6 @@ const UserStack = () => {
           tabBarShowLabel: false,
           tabBarLabel: "",
         }}
-        initialParams={ { "completeQuestModal": questModal } }
       />
       <BottomTab.Screen
         name="QuestsScreen"
@@ -63,7 +54,6 @@ const UserStack = () => {
         }}
       />
     </BottomTab.Navigator>
-    </>
   );
 };
 export default UserStack;
