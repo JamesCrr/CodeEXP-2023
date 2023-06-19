@@ -1,19 +1,18 @@
 import "react-native-gesture-handler";
 import { NativeBaseProvider, useTheme } from "native-base";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { theme } from "./src/NativeBase";
 import { useFonts } from "expo-font";
-import { AppProvider } from "./src/AppProvider";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import FirstScreen from "./src/screens/FirstScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import CreatePostScreen from "./src/screens/CreatePostScreen";
-import { Linking, StyleSheet, Text, View } from "react-native";
-import ManagerDashboard from "./src/screens/ManagerDashboard";
-import CreateUser from "./src/screens/CreateUser";
-import CreateQuest from "./src/screens/CreateQuest";
-import ManagerLogin from "./src/screens/ManagerLogin";
-import FactionLeaderboard from "./src/screens/FactionLeaderboard";
+import ViewPostsScreen from "./src/screens/ViewPostsScreen";
+import PostCommentsScreen from "./src/screens/PostCommentsScreen";
+import { AppProvider } from "./src/AppProvider";
+import LoginPage from "./src/screens/LoginPage";
+import ViewQuests from "./src/screens/ViewQuests";
+import UserStack from "./src/screens/UserStack";
 
 // console.log(theme);
 const Stack = createStackNavigator();
@@ -39,18 +38,20 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: true }}>
-          <Stack.Screen name="FirstScreen" component={FirstScreen} />
-          <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-          <Stack.Screen name="ManagerDashboard" component={ManagerDashboard} />
-          <Stack.Screen name="CreateUser" component={CreateUser} />
-          <Stack.Screen name="CreateQuest" component={CreateQuest} />
-          <Stack.Screen name="ManagerLogin" component={ManagerLogin} />
-          <Stack.Screen name="FactionLeaderboard" component={FactionLeaderboard} />
-
-        </Stack.Navigator>
-      </NavigationContainer>
+<AppProvider>
+        {/* React Navigation */}
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: true }}>
+          <Stack.Screen name="LoginPage" component={LoginPage} />
+          <Stack.Screen name="UserStack" component={UserStack} options={{ headerShown: false }} />
+          <Stack.Screen name="ViewQuests" component={ViewQuests} />
+            <Stack.Screen name="ViewPostsScreen" component={ViewPostsScreen} />
+            <Stack.Screen name="CreatePostScreen" component={CreatePostScreen} />
+            <Stack.Screen name="PostCommentsScreen" component={PostCommentsScreen} />
+            {/* <Stack.Screen name ="WelcomeScreen" component={WelcomeScreen}/> */}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AppProvider>
     </NativeBaseProvider>
   );
 }

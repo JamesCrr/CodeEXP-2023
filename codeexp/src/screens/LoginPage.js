@@ -10,6 +10,7 @@ const LoginPage = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const context = useAppContext();
   const dispatch = useAppDispatchContext();
+  console.log(dispatch);
 
   const verifyLogin = async () => {
     // console.log(email);
@@ -31,8 +32,6 @@ const LoginPage = ({ navigation }) => {
         console.log("No such document!");
       }
     } catch (error) {
-      const errorCode = error.code;
-      const errorMessage = error.message;
       alert(error.message);
     }
   };
