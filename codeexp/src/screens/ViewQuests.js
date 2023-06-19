@@ -5,50 +5,13 @@ import { Box, FlatList, Heading, Avatar, HStack, VStack, Text, Spacer, Center, N
 import { Pressable } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAppContext, useAppDispatchContext } from "../AppProvider";
-// import { addTestData } from '../components/QuestSubmission';
 
-
-// const ViewQuests = ({ navigation }) => {
-//     // console.log(firestore);
-
-// const test = async () => {
-
-//     const docRef = doc(firestore, "users", "44yPek9RPfgJMUUJqDVGgUFl2u42");
-//     const docSnap = await getDoc(docRef);
-    
-//     if (docSnap.exists()) {
-//         const quests = docSnap.data().socialQuest;
-//       console.log("Document data:", docSnap.data().socialQuest);
-//       console.log(docSnap.data().socialQuest);
-//     } else {
-//       // docSnap.data() will be undefined in this case
-//       console.log("No such document!");
-//     }
-// }
-// test();
-
-//     return <Box>
-    
-//     <Box alignSelf="center" // bg="primary.500"
-//   _text={{
-//     fontSize: "md",
-//     fontWeight: "medium",
-//     color: "warmGray.50",
-//     letterSpacing: "lg",
-//     radius: "5",
-//   }} bg={["red.400", "blue.400"]}>
-//       This is a Box
-//     </Box>
-//   </Box>;
-// };
-
-// export default ViewQuests;
 const ViewQuests = () => {
     const navigation = useNavigation();
+    const dispatch = useAppDispatchContext();
     const [quests, setQuests] = useState([]);
     const [grabDataState, setGrabDataState] = useState(false);
     const { uid } = useAppContext();
-    const [activeQuestsId,setActiveQuestsId] = useState([]);
     const [activeQuestsDesc,setActiveQuestsDesc] = useState([]);
     console.log(uid);
 
@@ -61,15 +24,16 @@ const retrieveData = async () => {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
     const quests = docSnap.data().socialQuest;
-      console.log("Document data:", docSnap.data().socialQuest);
-      console.log(docSnap.data().socialQuest);
-      setGrabDataState(true);
+        console.log("Document data:", docSnap.data().socialQuest);
+        console.log(docSnap.data().socialQuest);
+        setGrabDataState(true);
         setQuests(quests);
     } else {
       console.log("No such document!");
     }
     
-};retrieveData();
+};retrieveData()
+dispatch({ type: "allQuests", val:quests });;
     }, [grabDataState]);
 
 useEffect(() => {
@@ -80,9 +44,11 @@ quests.map((key) => {
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
     const activeQuests = docSnap.data();
-    setActiveQuestsDesc(prevQuestsDesc=>[...prevQuestsDesc,activeQuests]);
+    console.log("key.questsId: " + key.questsId);
+    const activeUserQuests = {...activeQuests, id:key.questsId};
+    console.log("Document data here:", docSnap.data());
+    setActiveQuestsDesc(prevQuestsDesc=>[...prevQuestsDesc,activeUserQuests]);
       console.log("Quests data:", docSnap.data());
-      console.log(docSnap.data());
 
     } else {
       console.log("No such document!");
@@ -92,31 +58,10 @@ retrieveQuests();
 });
 },[grabDataState]);
 
-//iterate user's quests and retrieve quests data 
-// Object.keys(quests).map((key) => {
-//       console.log(quests[key].questsId);
-//       setActiveQuestsId(prevQuestsId=>[...prevQuestsId,quests[key].questsId]);
-//  });
-//  console.log("activeQuests"+activeQuestsId);
-
-// activeQuestsId.map((key) => {
-//     console.log("ACTQUEST"+activeQuestsId);
-//     console.log("key"+key);
-//     const retrieveQuests = async () => {
-//     const docRef = doc(firestore, "quests", key);
-//     const docSnap = await getDoc(docRef);
-//     if (docSnap.exists()) {
-//     const activeQuests = docSnap.data();
-//       console.log("Quests data:", docSnap.data());
-//       console.log(docSnap.data());
-
-//     } else {
-//       console.log("No such document!");
-//     }
-// };retrieveQuests();
-// });
-const goToCreatePostScreen = () => {
+const goToCreatePostScreen = (item) => {
+    console.log("item: " + item);
 navigation.navigate("CreatePostScreen");
+dispatch({ type: "completedQuestId", val: item });
 };
 
 return <Box>
@@ -146,7 +91,7 @@ borderColor: "muted.50"
     }}>
             {item.completed ? "Completed" : "In Progress"}
           </Text>
-          <Pressable onPress={() => goToCreatePostScreen()}>
+          <Pressable onPress={() => goToCreatePostScreen(item)}>
           <Text color="coolGray.600" _dark={{
       color: "warmGray.200"
     }}>

@@ -43,8 +43,10 @@ const ViewPostsScreen = ({ route, navigation }) => {
   const [postsList, setPostsList] = useState([]);
   const [postsLoading, setPostsLoading] = useState(true);
   const { uid } = useAppContext();
+  const { completedQuestId } = useAppContext();
   const dispatch = useAppDispatchContext();
-  console.log("uid", uid);
+  console.log("UID " + uid);
+  console.log("QUEST " + completedQuestId);
 
   useEffect(() => {
     // Fetch the Posts from Firebase
