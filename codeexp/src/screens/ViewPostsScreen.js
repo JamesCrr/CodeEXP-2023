@@ -5,13 +5,55 @@ import { ref as createDatabaseRef, onValue } from "firebase/database";
 import { ref as createStorageRef, getDownloadURL } from "firebase/storage";
 import { useAppContext, useAppDispatchContext } from "../AppProvider";
 
-const PostComponent = ({ postId, title, content, imageURL, comments, navigation, username }) => {
+const PostComponent = ({
+  postId,
+  title,
+  content,
+  imageURL,
+  comments,
+  navigation,
+  username,
+  postDate,
+  currDate,
+}) => {
   let haveS = true;
   if (comments && comments.length == 1) {
     haveS = false;
   }
+
+  /**
+   * Find the time difference between 2 dates
+   * @param {Date} d1
+   * @param {Date} d2
+   * @returns
+   */
+  const getDateDiff = (d1, d2) => {
+    var diff = d2 - d1;
+    return isNaN(diff)
+      ? NaN
+      : {
+          diff: diff,
+          ms: Math.floor(diff % 1000),
+          s: Math.floor((diff / 1000) % 60),
+          m: Math.floor((diff / 60000) % 60),
+          h: Math.floor((diff / 3600000) % 24),
+          d: Math.floor(diff / 86400000),
+        };
+  };
+  const dateDiff = getDateDiff(postDate, currDate);
+  let dateDiffStr = "";
+  if (dateDiff.d > 0) {
+    dateDiffStr = `${dateDiff.d}d ago`;
+  } else if (dateDiff.h > 0) {
+    dateDiffStr = `${dateDiff.h}hr ago`;
+  } else if (dateDiff.m > 0) {
+    dateDiffStr = `${dateDiff.m}min ago`;
+  } else if (dateDiff.s > 0) {
+    dateDiffStr = `${dateDiff.s}s ago`;
+  }
+
   return (
-    <Box margin={2} borderWidth={1} borderRadius={10}>
+    <Box marginX={2} marginY={2} borderWidth={1} borderRadius={10}>
       <HStack justifyContent={"flex-start"} space={3} margin={2}>
         <Image
           source={{
@@ -44,16 +86,19 @@ const PostComponent = ({ postId, title, content, imageURL, comments, navigation,
           {title}
         </Text>
         <Text>{content}</Text>
-        {/* Navigate to view comment screen */}
-        <Pressable
-          onPress={() =>
-            navigation.navigate("PostCommentsScreen", { postId, title, content, comments, imageURL })
-          }
-        >
-          <Text color={"primary.400"} fontWeight={"bold"} maxWidth={"40%"}>
-            View{comments ? ` ${comments.length}` : ""} comment{haveS ? "s" : ""}
-          </Text>
-        </Pressable>
+        <HStack justifyContent={"space-between"}>
+          {/* Navigate to view comment screen */}
+          <Pressable
+            onPress={() =>
+              navigation.navigate("PostCommentsScreen", { postId, title, content, comments, imageURL })
+            }
+          >
+            <Text color={"primary.400"} fontWeight={"bold"}>
+              View{comments ? ` ${comments.length}` : ""} comment{haveS ? "s" : ""}
+            </Text>
+          </Pressable>
+          <Text color={"warmGray.400"}>{dateDiffStr}</Text>
+        </HStack>
       </VStack>
     </Box>
   );
@@ -62,9 +107,6 @@ const PostComponent = ({ postId, title, content, imageURL, comments, navigation,
 const ViewPostsScreen = ({ route, navigation }) => {
   const [postsList, setPostsList] = useState([]);
   const [postsLoading, setPostsLoading] = useState(true);
-  const { userInfo, completedQuestId, newAchievementNotify } = useAppContext();
-  // console.log("UID " + uid);
-  // console.log("QUEST " + completedQuestId);
 
   useEffect(() => {
     // Fetch the Posts from Firebase
@@ -104,7 +146,8 @@ const ViewPostsScreen = ({ route, navigation }) => {
 
             // Add to list
             setPostsList((prevList) => {
-              return [
+              // Sort list based on date
+              newList = [
                 ...prevList,
                 {
                   postId: childKey,
@@ -112,43 +155,21 @@ const ViewPostsScreen = ({ route, navigation }) => {
                   username,
                   postTitle,
                   postContent,
-                  postDate,
+                  postDate: new Date(postDate),
                   imageURL: postImageURl,
                   comments,
                 },
               ];
+              newList.sort((a, b) => b.postDate.getTime() - a.postDate.getTime());
+              return newList;
             });
           });
-
-          // // Loop through the fetched data and add them to the list
-          // snapshot.forEach(async (childSnapshot) => {
-          //   const childKey = childSnapshot.key;
-          //   const childData = childSnapshot.val();
-          //   console.log("Key:", childKey);
-          //   // Destructure the data
-          //   const { imageStoragePath, postContent, postTitle, postDate, userId, comments } = childData;
-          //   // Get the Image
-          //   const storageRef = createStorageRef(storage, imageStoragePath);
-          //   try {
-          //     const url = await getDownloadURL(storageRef);
-          //     // Add to list
-          //     setPostsList((prevList) => {
-          //       return [
-          //         ...prevList,
-          //         { postId: childKey, userId, postTitle, postContent, postDate, imageURL: url, comments },
-          //       ];
-          //     });
-          //   } catch (error) {
-          //     // Handle any errors
-          //     console.log(error);
-          //   }
-          // });
 
           // Posts no longer loading
           setPostsLoading(false);
         };
 
-        // Call the function after 1s delay
+        // Call the function after delay
         setTimeout(UpdatePostList, 200);
       },
       {
@@ -158,6 +179,7 @@ const ViewPostsScreen = ({ route, navigation }) => {
   }, []);
 
   // console.log(postsList);
+  const tempDate = new Date();
   return (
     <View flex={1}>
       {postsLoading ? (
@@ -180,6 +202,8 @@ const ViewPostsScreen = ({ route, navigation }) => {
               comments={item.comments}
               navigation={navigation}
               username={item.username}
+              postDate={item.postDate}
+              currDate={tempDate}
             />
           )}
           keyExtractor={(item) => item.postId}
