@@ -92,7 +92,6 @@ export default function App() {
               component={ManagerDashboard}
             />
             <Stack.Screen name="CreateUser" component={CreateUser} />
-            <Stack.Screen name="ManagerLogin" component={ManagerLogin} />
           </Stack.Navigator>
         </NavigationContainer>
         <AchievementModal />
