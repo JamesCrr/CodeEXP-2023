@@ -215,7 +215,7 @@ const UserAccountScreen = ({ navigation }) => {
         <Box>
           <Image
             source={{
-              uri: "https://wallpaperaccess.com/full/317501.jpg",
+              uri: "https://scontent-xsp1-3.xx.fbcdn.net/v/t39.30808-1/241039872_147750170869515_8588369519299265339_n.jpg?stp=dst-jpg_p200x200&_nc_cat=100&ccb=1-7&_nc_sid=c6021c&_nc_ohc=c_puhPRMs40AX_4SRKd&_nc_oc=AQnA9b2enyzypM2-zH36LsOIWn4J17NxumBEkZbWL9tdzVidsu0L4vqh40wzrTzm1XA&_nc_ht=scontent-xsp1-3.xx&oh=00_AfCuKZfJ11LYbkRD3Wz1S5g5iIY45XiDOThiznHfhUyxpg&oe=649752BA",
             }}
             alt="Profile Picture"
             size={150}

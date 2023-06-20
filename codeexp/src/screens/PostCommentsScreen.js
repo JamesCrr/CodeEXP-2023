@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Divider, HStack, Input, Pressable, ScrollView, Text } from "native-base";
+import { Box, Divider, HStack, Image, Input, Pressable, ScrollView, Text } from "native-base";
 import { database } from "../Firebase";
 import { ref as createDatabaseRef, child, push, update } from "firebase/database";
 import { useAppContext } from "../AppProvider";
@@ -7,7 +7,9 @@ import { useAppContext } from "../AppProvider";
 const CommentComponent = ({ username, commentContent }) => {
   return (
     <Box padding={1} marginY={1}>
-      <Text fontWeight={"bold"}>{username}</Text>
+      <Text fontSize={"md"} fontWeight={"bold"}>
+        @{username}
+      </Text>
       <Text>{commentContent}</Text>
     </Box>
   );
@@ -15,7 +17,7 @@ const CommentComponent = ({ username, commentContent }) => {
 
 const PostCommentsScreen = ({ route, navigation }) => {
   const { userInfo } = useAppContext();
-  const { postId, title, content, comments } = route.params;
+  const { postId, title, content, comments, imageURL } = route.params;
   const [commentList, setCommentList] = useState(comments ? comments : []);
   const [commentInput, setCommentInput] = useState("");
 
@@ -47,11 +49,28 @@ const PostCommentsScreen = ({ route, navigation }) => {
 
   return (
     <Box height={"100%"} width={"100%"}>
-      <Box paddingX={2} paddingY={2}>
-        <Text>{title}</Text>
-        <Text>{content}</Text>
-        <Divider my={2} height={1} bg={"orange.500"} />
-        <ScrollView>
+      <ScrollView>
+        <Box paddingX={2} paddingY={2}>
+          {imageURL && (
+            <Image
+              source={{
+                uri: imageURL,
+              }}
+              alt={"altText"}
+              width={imageURL ? "md" : "0"}
+              height={imageURL ? "md" : "0"}
+              resizeMode={"cover"}
+              borderWidth={1}
+              borderColor={"black"}
+              borderRadius={12}
+            />
+          )}
+          <Text fontWeight={"bold"} fontSize={"lg"}>
+            {title}
+          </Text>
+          <Text>{content}</Text>
+          <Divider my={2} height={1} bg={"orange.500"} />
+
           {commentList.length > 0 ? (
             commentList.map((ele, index) => {
               const { username, commentContent } = ele;
@@ -61,8 +80,8 @@ const PostCommentsScreen = ({ route, navigation }) => {
           ) : (
             <Text alignSelf={"center"}>No comments yet!</Text>
           )}
-        </ScrollView>
-      </Box>
+        </Box>
+      </ScrollView>
 
       <Box position={"absolute"} bottom={0} bg={"gray.400"} width={"100%"}>
         <HStack justifyContent={"space-between"} paddingY={2}>

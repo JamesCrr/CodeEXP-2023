@@ -1,5 +1,17 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Box, HStack, Input, Stack, TextArea, Pressable, Image, ScrollView, Text } from "native-base";
+import {
+  Box,
+  HStack,
+  Input,
+  Stack,
+  TextArea,
+  Pressable,
+  Image,
+  ScrollView,
+  Text,
+  Button,
+  useTheme,
+} from "native-base";
 import { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
 
@@ -17,6 +29,7 @@ const CreatePostScreen = ({ route, navigation }) => {
   const [validPost, setValidPost] = useState(false);
   const [image, setImage] = useState(undefined);
 
+  const theme = useTheme();
   const { userInfo, completedQuestId } = useAppContext();
   const dispatch = useAppDispatchContext();
   const uid = userInfo.uid;
@@ -35,7 +48,6 @@ const CreatePostScreen = ({ route, navigation }) => {
   //       console.log(error);
   //     });
   // }, []);
-
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -215,10 +227,13 @@ const CreatePostScreen = ({ route, navigation }) => {
     <ScrollView h={"200"}>
       <Box alignItems="center" w="100%" h="100%" marginTop={5} safeArea>
         {/* Title & Content & Selected Image (if have) */}
-        <Stack w={appWidth} space={"sm"}>
+        <Stack marginTop={10} w={appWidth} space={"sm"}>
           <Input
             size={"md"}
             fontWeight={"bold"}
+            fontSize={"md"}
+            bg={"warmGray.200"}
+            borderwe
             placeholder="Post Title"
             value={postTitle}
             onChangeText={(text) => {
@@ -257,6 +272,8 @@ const CreatePostScreen = ({ route, navigation }) => {
           )}
           <TextArea
             h={400}
+            fontSize={12}
+            bg={"warmGray.200"}
             placeholder="Post Content"
             value={postContent}
             onChangeText={(text) => {
@@ -278,26 +295,18 @@ const CreatePostScreen = ({ route, navigation }) => {
           {/* Render the color differently if there is already an image attached */}
           <Pressable onPress={onSelectImageHandler} isDisabled={image != undefined}>
             {image != undefined ? (
-              <MaterialIcons name="image" size={35} color="grey" />
+              <MaterialIcons name="image" size={35} color={theme.colors.warmGray[400]} />
             ) : (
-              <MaterialIcons name="image" size={35} color="black" />
+              <MaterialIcons name="image" size={35} color={theme.colors.primary[400]} />
             )}
           </Pressable>
         </HStack>
         {/* Submit Post Button */}
-        <Pressable
-          width={"70%"}
-          backgroundColor={validPost ? "orange.100" : "warmGray.600"}
-          borderRadius={2}
-          onPress={onSubmitPostHandler}
-          padding={2}
-          marginY={12}
-          isDisabled={!validPost}
-        >
-          <Text fontWeight={"bold"} fontSize={18} textAlign={"center"}>
+        <Button isDisabled={!validPost} onPress={onSubmitPostHandler}>
+          <Text color={"white"} fontWeight={"bold"} fontSize={18} textAlign={"center"}>
             Submit
           </Text>
-        </Pressable>
+        </Button>
       </Box>
     </ScrollView>
   );
