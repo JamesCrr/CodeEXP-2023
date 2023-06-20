@@ -129,12 +129,18 @@ const CreateQuest = () => {
     const Auth = auth;
     const ManagerRef = doc(firestore, "managers", Auth.currentUser.uid);
     await updateDoc(ManagerRef, {
-      assignedQuest: arrayUnion(docRef.id),
+      assignedQuest: arrayUnion({
+        completed: false,
+        questId: docRef.id,
+      }),
     });
     selected.forEach(async (user) => {
       const userRef = doc(firestore, "users", user);
       await updateDoc(userRef, {
-        assignedQuest: arrayUnion(docRef.id),
+        assignedQuest: arrayUnion({
+          completed: false,
+          questId: docRef.id,
+        }),
       });
     });
   };
