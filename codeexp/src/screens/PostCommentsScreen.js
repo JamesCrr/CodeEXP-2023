@@ -1,8 +1,22 @@
 import { useState } from "react";
-import { Box, Divider, HStack, Input, Pressable, ScrollView, Text } from "native-base";
+import {
+  Box,
+  Divider,
+  HStack,
+  Input,
+  Pressable,
+  ScrollView,
+  Text,
+} from "native-base";
 import { database } from "../Firebase";
-import { ref as createDatabaseRef, child, push, update } from "firebase/database";
+import {
+  ref as createDatabaseRef,
+  child,
+  push,
+  update,
+} from "firebase/database";
 import { useAppContext } from "../AppProvider";
+import ReturnButton from "../components/ReturnButton";
 
 const CommentComponent = ({ username, commentContent }) => {
   return (
@@ -26,7 +40,10 @@ const PostCommentsScreen = ({ route, navigation }) => {
     if (commentInput.trim() === "") {
       return;
     }
-    const newCommentsData = [...commentList, { username: userInfo.username, commentContent: commentInput }];
+    const newCommentsData = [
+      ...commentList,
+      { username: userInfo.username, commentContent: commentInput },
+    ];
     try {
       const CommentsPath = `UserPosts/PostData/${postId}/comments`;
       const updates = {};
@@ -38,7 +55,10 @@ const PostCommentsScreen = ({ route, navigation }) => {
     }
     // Add to existing comment list
     setCommentList((prevList) => {
-      return [...prevList, { username: userInfo.username, commentContent: commentInput }];
+      return [
+        ...prevList,
+        { username: userInfo.username, commentContent: commentInput },
+      ];
     });
     // Reset Comment Input
     console.log("Posted Comment: ", commentInput);
@@ -47,6 +67,7 @@ const PostCommentsScreen = ({ route, navigation }) => {
 
   return (
     <Box height={"100%"} width={"100%"}>
+      <ReturnButton />
       <Box paddingX={2} paddingY={2}>
         <Text>{title}</Text>
         <Text>{content}</Text>
@@ -56,7 +77,13 @@ const PostCommentsScreen = ({ route, navigation }) => {
             commentList.map((ele, index) => {
               const { username, commentContent } = ele;
               const key = `${username}+${index}`;
-              return <CommentComponent key={key} username={username} commentContent={commentContent} />;
+              return (
+                <CommentComponent
+                  key={key}
+                  username={username}
+                  commentContent={commentContent}
+                />
+              );
             })
           ) : (
             <Text alignSelf={"center"}>No comments yet!</Text>
