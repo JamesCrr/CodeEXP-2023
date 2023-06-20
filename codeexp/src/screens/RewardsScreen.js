@@ -6,45 +6,45 @@ import { doc, getDoc, collection, updateDoc } from "firebase/firestore";
 import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 
+const starbucksIcon = require("../../assets/starbucksRedeemIcon.jpg");
 const RewardsScreen = () => {
   const { userInfo } = useAppContext();
   const [currency, setCurrency] = useState(0);
   let navigation = useNavigation();
   // /Users/matthias/Documents/GitHub/CodeEXP-2023/codeexp/assets/starbucksRedeemIcon.jpg
   // /Users/matthias/Documents/GitHub/CodeEXP-2023/codeexp/src/screens/RewardsScreen.js
-  const starbucksIcon = require("../../assets/starbucksRedeemIcon.jpg");
-  const getCurrency = async () => {
-    const docRef = doc(firestore, "users", userInfo.uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data().currency);
-      setCurrency(docSnap.data().currency);
-    } else {
-      console.log("No such document!");
-    }
-  };
-  getCurrency();
+
+  useEffect(() => {
+    const getCurrency = async () => {
+      const docRef = doc(firestore, "users", userInfo.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        // console.log("Document data:", docSnap.data().currency);
+        setCurrency(docSnap.data().currency);
+      } else {
+        console.log("No such document!");
+      }
+    };
+    getCurrency();
+  }, []);
   console.log("Currency: ", currency);
 
-  const redeemAlert = async () =>{
-    //update firestore user currency
-    //update user currency
+  const redeemAlert = async () => {
+    // Update firestore user currency
     const docRef = doc(firestore, "users", userInfo.uid);
-    try{
+    try {
       await updateDoc(docRef, {
-      currency: parseInt(currency) - 20,
-    });
-  }catch(e){
-    console.log(e);
-  }
+        currency: parseInt(currency) - 20,
+      });
+      console.log("updated!");
+    } catch (e) {
+      console.log(e.message);
+    }
 
     alert("Your redemption is successfull!. Instructions have been sent to email!");
-    try{
-    navigation.replace("RewardsScreen");
-  }catch(e){
-    console.log(e);
-  }
-  }
+    setCurrency((prevCurrency) => currency - 20);
+  };
+
   return (
     <Box>
       <Box bg={"orange.400"}>
@@ -65,8 +65,7 @@ const RewardsScreen = () => {
             onPress={() => {
               console.log("See Currency History");
             }}
-          >
-          </Pressable>
+          ></Pressable>
         </Box>
 
         {/* Individual Rewards */}
@@ -84,19 +83,17 @@ const RewardsScreen = () => {
           </HStack>
           <HStack space={2}>
             <Box>
-          <Image
-          source={
-          starbucksIcon
-          }
-          alt="no image cb"
-          width={"sm"}
-          height={"sm"}
-          resizeMode={"center"}
-        />
-        <Text bold> Starbucks $10 voucher</Text>
-        <Text>20 Currency</Text>
-        <Button onPress = {redeemAlert}>Redeem!</Button>
-        </Box>
+              <Image
+                source={starbucksIcon}
+                alt="no image cb"
+                width={"sm"}
+                height={"sm"}
+                resizeMode={"center"}
+              />
+              <Text bold> Starbucks $10 voucher</Text>
+              <Text>20 Currency</Text>
+              <Button onPress={redeemAlert}>Redeem!</Button>
+            </Box>
           </HStack>
         </Box>
       </Box>

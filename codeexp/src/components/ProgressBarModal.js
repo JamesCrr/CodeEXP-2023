@@ -10,7 +10,7 @@ const ProgressBarModal = () => {
 
   return (
     // <Modal isOpen={questModalVisible}>
-    <Box padding={2} position={"absolute"} bottom={16} width={"100%"}>
+    <Box padding={2} position={"absolute"} bottom={16} width={"100%"} zIndex={questModalVisible ? 1 : -10}>
       <PresenceTransition
         visible={questModalVisible}
         initial={{
