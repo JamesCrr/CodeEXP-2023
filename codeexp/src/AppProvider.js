@@ -23,12 +23,20 @@ const myReducer = (state, action) => {
       return { ...state, userInfo: { ...userInfo, achievements: action.val } };
     }
     case "setNewAchievementModal": {
-      const { newNotify, isVisible, modalDetails } = action.val;
+      const { newAchievementNotify, achievementModalVisible, achievementModalDetails } = action.val;
       return {
         ...state,
-        newAchievementNotify: newNotify,
-        achievementModalDetails: modalDetails,
-        achievementModalVisible: isVisible,
+        newAchievementNotify: newAchievementNotify,
+        achievementModalDetails: achievementModalDetails,
+        achievementModalVisible: achievementModalVisible,
+      };
+    }
+    case "setNewAchievementModalVisible": {
+      const { newAchievementNotify, achievementModalVisible } = action.val;
+      return {
+        ...state,
+        newAchievementNotify: newAchievementNotify,
+        achievementModalVisible: achievementModalVisible,
       };
     }
     default: {

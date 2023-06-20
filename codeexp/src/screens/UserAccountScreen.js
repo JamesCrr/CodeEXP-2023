@@ -96,43 +96,16 @@ const UserAccountScreen = ({ navigation }) => {
     // New Achievement prompt?
     // console.log(newAchievementNotify);
     if (newAchievementNotify) {
-      /**
-       * Aysnc Function that fetches the Achievement Data
-       */
-      const fetchAchievementData = async () => {
-        const achRef = doc(firestore, "user_achievements", "Starting Your Journey!");
-        const achSnap = await getDoc(achRef);
-        if (achSnap.exists()) {
-          console.log("Document data:");
-        } else {
-          console.log("No such document!");
-        }
-        const achData = achSnap.data();
-
-        // Fetch the image
-        let storageRef = createStorageRef(storage, achData.imageStoragePath);
-        let actualUri = "";
-        try {
-          actualUri = await getDownloadURL(storageRef);
-        } catch (error) {
-          // Handle any errors
-          console.log(error);
-        }
-
-        // Dispatch to context and enable the modal
-        dispatch({
-          type: "setNewAchievementModal",
-          val: {
-            newNotify: false,
-            isVisible: true,
-            modalDetails: { title: "Starting Your Journey!", about: achData.about, imageUri: actualUri },
-          },
-        });
-      };
-      // Fetch the achievement
-      fetchAchievementData();
+      // Dispatch to context and enable the modal
+      dispatch({
+        type: "setNewAchievementModalVisible",
+        val: {
+          newAchievementNotify: false,
+          achievementModalVisible: true,
+        },
+      });
     }
-  }, []);
+  });
   useEffect(() => {
     // Reset history data
     // setHistoryData([])

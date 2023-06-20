@@ -99,11 +99,45 @@ const CreatePostScreen = ({ route, navigation }) => {
           if (questsId == completedQuestId) {
             updatedAllQuests[i].completed = true;
 
-            // Set context to prompt achievement modal in account screen
-            dispatch({
-              type: "setNewAchievementModal",
-              val: { newNotify: true, isVisible: false, modalDetails: {} },
-            });
+            /**
+             * Aysnc Function that fetches the Achievement Data
+             */
+            const fetchAchievementData = async () => {
+              const achRef = doc(firestore, "user_achievements", "Starting Your Journey!");
+              const achSnap = await getDoc(achRef);
+              if (achSnap.exists()) {
+              } else {
+                console.log("No such document!");
+              }
+              const achData = achSnap.data();
+
+              // Fetch the image
+              let storageRef = createStorageRef(storage, achData.imageStoragePath);
+              let actualUri = "";
+              try {
+                actualUri = await getDownloadURL(storageRef);
+              } catch (error) {
+                // Handle any errors
+                console.log(error);
+              }
+
+              // Set context to prompt achievement modal in account screen
+              dispatch({
+                type: "setNewAchievementModal",
+                val: {
+                  newAchievementNotify: true,
+                  achievementModalVisible: false,
+                  achievementModalDetails: {
+                    title: "Starting Your Journey!",
+                    about: achData.about,
+                    imageUri: actualUri,
+                  },
+                },
+              });
+            };
+            // Fetch the achievement
+            fetchAchievementData();
+
             // Set context to add achievements to userInfo, if not added before
             if (userInfo.achievements.length <= 0) {
               dispatch({

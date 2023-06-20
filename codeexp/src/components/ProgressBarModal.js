@@ -1,7 +1,15 @@
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  useDerivedValue,
+  interpolate,
+  withRepeat,
+} from "react-native-reanimated";
 import { PresenceTransition, Modal, Button, Text, Box, Image, VStack } from "native-base";
 import { useAppContext, useAppDispatchContext } from "../AppProvider";
 
-const AchievementModal = () => {
+const ProgressBarModal = () => {
   const { achievementModalDetails, achievementModalVisible } = useAppContext();
   const { title, about, imageUri } = achievementModalDetails;
   const dispatch = useAppDispatchContext();
@@ -69,4 +77,4 @@ const AchievementModal = () => {
     </PresenceTransition>
   );
 };
-export default AchievementModal;
+export default ProgressBarModal;
