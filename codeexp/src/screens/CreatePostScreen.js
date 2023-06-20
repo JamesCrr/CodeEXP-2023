@@ -37,6 +37,7 @@ const CreatePostScreen = ({ route, navigation }) => {
   //     });
   // }, []);
 
+
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -88,6 +89,7 @@ const CreatePostScreen = ({ route, navigation }) => {
       const userData = userSnap.data();
 
       // Quests
+      let currencyAwarded = 0;
       let updatedAllQuests = [];
       if (userData.socialQuest) {
         updatedAllQuests = [...userData.socialQuest];
@@ -98,6 +100,13 @@ const CreatePostScreen = ({ route, navigation }) => {
           if (questsId == completedQuestId) {
             updatedAllQuests[i].completed = true;
             completeQuestModal();
+              const docRef = doc(firestore, "quests", completedQuestId);
+              const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+      currencyAwarded = docSnap.data().currency;
+    } else {
+      console.log("No such document!");
+    }
             break;
           }
         }
@@ -111,6 +120,7 @@ const CreatePostScreen = ({ route, navigation }) => {
         await updateDoc(userRef, {
           socialQuest: updatedAllQuests,
           postHistory: newPostHistory,
+          currency: parseInt(userData.currency) + parseInt(currencyAwarded),
         });
         // console.log("UPDATED");
       } catch (error) {

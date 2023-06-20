@@ -20,9 +20,13 @@ const WelcomeScreen = () => {
       </View>
       <Pressable
         style={styles.buttonprimary}
-        onPress={() => navigation.navigate("LoginScreen1")}
+        onPress={() => navigation.navigate("LoginPage")}
       >
         <Text style={styles.continue}>Continue</Text>
+      </Pressable>
+      <Pressable
+onPress={() => navigation.navigate("ManagerLogin")}>
+      <Text>Login as admin</Text>
       </Pressable>
     </View>
   );
@@ -35,6 +39,7 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_45xl,
     width: "99.63%",
     position: "absolute",
+    lineHeight: 50,
   },
   bgIcon: {
     top: 0,

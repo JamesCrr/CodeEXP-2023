@@ -88,8 +88,8 @@ console.log("MONTHLY QUESTS:", monthlyQuests);
 };
 manageActiveQuests();
 
-return <Box>
-<Heading fontSize="xl" p="4" pb="3">
+return <Box alignItems="center">
+<Heading fontSize="xl" p="1">
   Weekly Quests
 </Heading>
 <FlatList data={weeklyQuests} renderItem={({
