@@ -26,6 +26,7 @@ export default function App() {
     "Inter-Regular": require("./assets/fonts/Inter-Regular.ttf"),
     "Inter-SemiBold": require("./assets/fonts/Inter-SemiBold.ttf"),
   });
+
   // Wait for the fonts to load first
   if (!fontsLoaded) {
     console.log("Fonts not Loaded!");
@@ -44,15 +45,29 @@ export default function App() {
         {/* React Navigation */}
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: true }}>
-            <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
+            <Stack.Screen
+              name="WelcomeScreen"
+              component={WelcomeScreen}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen name="LoginPage" component={LoginPage} />
             <Stack.Screen name="ManagerLogin" component={ManagerLogin} />
-            <Stack.Screen name="UserStack" component={UserStack} options={{ headerShown: false }} />
+            <Stack.Screen
+              name="UserStack"
+              component={UserStack}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen name="ViewQuests" component={ViewQuests} />
             <Stack.Screen name="RewardsScreen" component={RewardsScreen} />
             <Stack.Screen name="ViewPostsScreen" component={ViewPostsScreen} />
-            <Stack.Screen name="CreatePostScreen" component={CreatePostScreen} />
-            <Stack.Screen name="PostCommentsScreen" component={PostCommentsScreen} />
+            <Stack.Screen
+              name="CreatePostScreen"
+              component={CreatePostScreen}
+            />
+            <Stack.Screen
+              name="PostCommentsScreen"
+              component={PostCommentsScreen}
+            />
             {/* <Stack.Screen name ="WelcomeScreen" component={WelcomeScreen}/> */}
           </Stack.Navigator>
         </NavigationContainer>

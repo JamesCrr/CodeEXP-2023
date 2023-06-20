@@ -11,7 +11,9 @@ import {
   ScrollView,
   Text,
   Button,
+  Spacer,
 } from "native-base";
+import ReturnButton from "../components/ReturnButton";
 
 const auth = getAuth();
 
@@ -43,12 +45,24 @@ const ManagerLogin = ({ navigation }) => {
 
   return (
     <Box>
-      return{" "}
+      <ReturnButton />
+      <Text
+        fontSize="3xl"
+        fontWeight="900"
+        textAlign="center"
+        color={"primary.500"}
+        fontFamily={"Montserrat-SemiBold"}
+      >
+        Admin Log In
+      </Text>
+      <Spacer my={2} />
       <Stack space={4} w="75%" maxW="300px" mx="auto">
         <Input
           color="black"
           size="md"
-          placeholder={email}
+          w="100%"
+          h="50px"
+          placeholder="Email"
           value={email}
           onChangeText={(newText) => setEmail(newText)}
         />
@@ -57,11 +71,12 @@ const ManagerLogin = ({ navigation }) => {
           w="100%"
           py="0"
           color="black"
+          h="50px"
           InputRightElement={
             <Button
               size="xs"
               rounded="none"
-              w="1/6"
+              w="1/5"
               h="full"
               onPress={handleClick}
             >
