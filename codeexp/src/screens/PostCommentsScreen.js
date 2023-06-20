@@ -13,23 +13,13 @@ import {
   Spacer,
 } from "native-base";
 import { database } from "../Firebase";
-import {
-  ref as createDatabaseRef,
-  child,
-  push,
-  update,
-} from "firebase/database";
+import { ref as createDatabaseRef, child, push, update } from "firebase/database";
 import { useAppContext } from "../AppProvider";
 import ReturnButton from "../components/ReturnButton";
 
 const CommentComponent = ({ username, commentContent }) => {
   return (
-    <Box
-      padding={1}
-      marginY={1}
-      borderBottomWidth={1}
-      borderBottomColor="black"
-    >
+    <Box padding={1} marginY={2} borderLeftWidth={2} paddingLeft={2}>
       <Text fontSize={"md"} fontWeight={"bold"}>
         @{username}
       </Text>
@@ -51,10 +41,7 @@ const PostCommentsScreen = ({ route, navigation }) => {
     if (commentInput.trim() === "") {
       return;
     }
-    const newCommentsData = [
-      ...commentList,
-      { username: userInfo.username, commentContent: commentInput },
-    ];
+    const newCommentsData = [...commentList, { username: userInfo.username, commentContent: commentInput }];
     try {
       const CommentsPath = `UserPosts/PostData/${postId}/comments`;
       const updates = {};
@@ -66,10 +53,7 @@ const PostCommentsScreen = ({ route, navigation }) => {
     }
     /* Add to existing comment list */
     setCommentList((prevList) => {
-      return [
-        ...prevList,
-        { username: userInfo.username, commentContent: commentInput },
-      ];
+      return [...prevList, { username: userInfo.username, commentContent: commentInput }];
     });
     /* Reset Comment Input */
     console.log("Posted Comment: ", commentInput);
@@ -82,13 +66,7 @@ const PostCommentsScreen = ({ route, navigation }) => {
         <Flex direction="row" alignItems="flex-start" pl={1}>
           <ReturnButton customStyle={{ marginLeft: 10, marginTop: 10 }} />
         </Flex>
-        <Box
-          paddingX={2}
-          paddingY={2}
-          borderWidth={1}
-          width={"90%"}
-          alignSelf={"center"}
-        >
+        <Box paddingX={2} paddingY={2} alignSelf={"center"} width={"95%"}>
           {imageURL && (
             <Image
               source={{
@@ -107,7 +85,7 @@ const PostCommentsScreen = ({ route, navigation }) => {
             {title}
           </Text>
           <Text>{content}</Text>
-          <Divider my={2} height={1} bg={"orange.500"} />
+          <Divider my={2} orientation="horizontal" thickness="4" bg={"orange.500"} />
 
           {commentList.length > 0 ? (
             commentList.map((ele, index) => {
@@ -117,13 +95,7 @@ const PostCommentsScreen = ({ route, navigation }) => {
                 Math.min(3, commentContent.length)
               )}`;
               // console.log(key);
-              return (
-                <CommentComponent
-                  key={key}
-                  username={username}
-                  commentContent={commentContent}
-                />
-              );
+              return <CommentComponent key={key} username={username} commentContent={commentContent} />;
             })
           ) : (
             <Text alignSelf={"center"}>No comments yet!</Text>
@@ -132,15 +104,10 @@ const PostCommentsScreen = ({ route, navigation }) => {
         <Spacer m="35" />
       </ScrollView>
 
-      <Box
-        position={"absolute"}
-        bottom={0}
-        bg={"background.400"}
-        width={"100%"}
-      >
+      <Box position={"absolute"} bottom={0} bg={"background.400"} width={"100%"}>
         <HStack justifyContent={"space-between"} paddingY={2}>
           <Input
-            bg={"primary.500"}
+            bg={"primary.800"}
             value={commentInput}
             placeholder="Your comment here"
             placeholderTextColor={"white"}
@@ -158,9 +125,9 @@ const PostCommentsScreen = ({ route, navigation }) => {
             marginX={2}
             flexGrow={1}
             borderRadius={"full"}
-            bg={"primary.500"}
+            bg={"primary.400"}
           >
-            <Text textAlign={"center"} fontSize={10} color={"white"} top={1.5}>
+            <Text textAlign={"center"} fontSize={14} fontWeight={"bold"} color={"white"} top={1}>
               Comment
             </Text>
           </Pressable>

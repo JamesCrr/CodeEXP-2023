@@ -53,7 +53,7 @@ const PostComponent = ({
   }
 
   return (
-    <Box margin={5} borderWidth={1} borderRadius={2} width={"85%"} alignSelf={"center"}>
+    <Box margin={2} borderWidth={1} borderRadius={2}>
       <HStack justifyContent={"flex-start"} space={3} margin={2}>
         <Image
           source={{
@@ -193,20 +193,18 @@ const ViewPostsScreen = ({ route, navigation }) => {
         <FlatList
           data={postsList}
           renderItem={({ item }) => (
-            <Box margin={-3}>
-              <PostComponent
-                postId={item.postId}
-                userId={item.userId}
-                title={item.postTitle}
-                content={item.postContent}
-                imageURL={item.imageURL}
-                comments={item.comments}
-                navigation={navigation}
-                username={item.username}
-                postDate={item.postDate}
-                currDate={tempDate}
-              />
-            </Box>
+            <PostComponent
+              postId={item.postId}
+              userId={item.userId}
+              title={item.postTitle}
+              content={item.postContent}
+              imageURL={item.imageURL}
+              comments={item.comments}
+              navigation={navigation}
+              username={item.username}
+              postDate={item.postDate}
+              currDate={tempDate}
+            />
           )}
           keyExtractor={(item) => item.postId}
           initialNumToRender={3}
