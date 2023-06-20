@@ -14,6 +14,7 @@ import {
   Text,
   Button,
   Spinner,
+  Spacer,
 } from "native-base";
 import { useState, useEffect } from "react";
 import { firestore } from "../Firebase";
@@ -34,6 +35,7 @@ import {
 import SectionedMultiSelect from "react-native-sectioned-multi-select";
 import { MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import ReturnButton from "../components/ReturnButton";
 
 const CreateQuest = ({ navigation }) => {
   const [ManagerQuest, setManagerQuest] = useState(Array);
@@ -62,7 +64,7 @@ const CreateQuest = ({ navigation }) => {
         );
         setManagerQuest(docSnap.data().assignedQuest);
       } else {
-        // docSnap.data() will be undefined in this case
+        /* docSnap.data() will be undefined in this case */
         console.log("No such document!");
       }
       const docRef2 = doc(firestore, "factions", docSnap.data().faction);
@@ -79,7 +81,7 @@ const CreateQuest = ({ navigation }) => {
           setMembers(memberarray);
         });
       } else {
-        // docSnap.data() will be undefined in this case
+        /* docSnap.data() will be undefined in this case */
         console.log("No such document!");
       }
       setLoaded(true);
@@ -103,7 +105,7 @@ const CreateQuest = ({ navigation }) => {
   const showMode = (currentMode) => {
     if (Platform.OS === "android") {
       setShow(true);
-      // for iOS, add a button that closes the picker
+      /* for iOS, add a button that closes the picker */
     }
     setMode(currentMode);
   };
@@ -154,25 +156,43 @@ const CreateQuest = ({ navigation }) => {
 
   if (loaded) {
     return (
-      <VStack space={4} alignItems="center">
-        <SectionedMultiSelect
-          items={members}
-          IconRenderer={MaterialIcons}
-          uniqueKey="id"
-          subKey="children"
-          selectText="Choose some things..."
-          showDropDowns={true}
-          onSelectedItemsChange={onSelectedItemsChange}
-          selectedItems={selected}
-        />
+      <VStack space={4}>
+        <ReturnButton />
+        <Box bg="primary.400" width="75%" alignSelf="center">
+          <SectionedMultiSelect
+            items={members}
+            IconRenderer={MaterialIcons}
+            uniqueKey="id"
+            subKey="children"
+            selectText="Choose Quest Members"
+            showDropDowns={true}
+            onSelectedItemsChange={onSelectedItemsChange}
+            selectedItems={selected}
+            styles={{
+              selectToggleText: {
+                color: "white",
+                fontSize: 14,
+              },
+            }}
+          />
+        </Box>
         <Input
+          width={"75%"}
+          alignSelf={"center"}
+          bg={"primary.400"}
           variant="rounded"
-          placeholder="Quest title"
+          placeholder="Quest Title"
+          placeholderTextColor={"white"}
           onChangeText={(newText) => setTitle(newText)}
         />
-        <Text color="black" textAlign="center">
-          Currency Earned - {currency}
-        </Text>
+        <Box>
+          <Text color="black" textAlign="center" fontSize={15}>
+            Currency Earned
+          </Text>
+          <Text color="black" textAlign="center" fontSize={20}>
+            {currency}
+          </Text>
+        </Box>
         <Slider
           defaultValue={70}
           colorScheme="cyan"
@@ -187,14 +207,19 @@ const CreateQuest = ({ navigation }) => {
         </Slider>
         <TextArea
           h={20}
+          bg={"primary.400"}
           placeholder="Quest Details"
-          w="75%"
-          maxW="300"
+          placeholderTextColor={"white"}
+          w="90%"
+          alignSelf={"center"}
           onChangeText={(newText) => setDetails(newText)}
         />
-        <Button onPress={showDatepicker}>Show date picker!</Button>
-        <Button onPress={showTimepicker}>Show time picker!</Button>
-        <Text>selected: {date.toLocaleString()}</Text>
+        <HStack alignSelf={"center"} space={5}>
+          <Button onPress={showDatepicker}>Due Date</Button>
+          <Button onPress={showTimepicker}>Due Time</Button>
+        </HStack>
+
+        <Text paddingLeft={3}>Selected Dateline: {date.toLocaleString()}</Text>
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
@@ -204,7 +229,14 @@ const CreateQuest = ({ navigation }) => {
             onChange={onChange}
           />
         )}
-        <Button onPress={uploadData}>Create</Button>
+        <Button
+          width="70%"
+          alignSelf={"center"}
+          rounded={"full"}
+          onPress={uploadData}
+        >
+          Create
+        </Button>
       </VStack>
     );
   } else {

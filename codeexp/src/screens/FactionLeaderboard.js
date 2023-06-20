@@ -5,6 +5,7 @@ import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import { firestore } from "../Firebase";
 import React from "react";
 import { Center, Heading, Box, HStack, Spinner, Text } from "native-base";
+import ReturnButton from "../components/ReturnButton";
 
 const FactionLeaderboard = ({ navigation }) => {
   const [faction, setFaction] = useState(Array);
@@ -37,8 +38,9 @@ const FactionLeaderboard = ({ navigation }) => {
   if (loaded) {
     return (
       <>
-        <Box alignItems="center">
-          <Heading fontSize={"3xl"} color="primary.500">
+        <Box>
+          <ReturnButton />
+          <Heading alignSelf="center" fontSize={"3xl"} color="primary.500">
             Faction Leaderboard
           </Heading>
         </Box>

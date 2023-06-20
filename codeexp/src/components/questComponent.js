@@ -7,6 +7,7 @@ import {
   HStack,
   Flex,
   Text,
+  Spacer,
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState, useEffect } from "react";
@@ -18,7 +19,11 @@ export const QuestComponent = ({ questData, navigation, screen }) => {
   const [member, setMember] = useState();
   const [loaded, setLoaded] = useState(false);
 
-  let date = questData.deadline.toDate().toDateString();
+  let date = questData.deadline.toDate().toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
   const members = questData.questMembers;
   const mainMember = questData.questMembers[0];
   useEffect(() => {
@@ -30,7 +35,7 @@ export const QuestComponent = ({ questData, navigation, screen }) => {
         console.log("Document data:", docSnap.data());
         setMember(docSnap.data().name);
       } else {
-        // docSnap.data() will be undefined in this case
+        /* docSnap.data() will be undefined in this case */
         console.log("No such document!");
       }
     }
@@ -41,7 +46,8 @@ export const QuestComponent = ({ questData, navigation, screen }) => {
   if (loaded) {
     return (
       <Box
-        width="100%"
+        width="90%"
+        rounded={"full"}
         height={60}
         alignSelf="center"
         borderRadius="lg"
@@ -56,31 +62,32 @@ export const QuestComponent = ({ questData, navigation, screen }) => {
             <Heading isTruncated fontSize="md">
               {questData.title}
             </Heading>
-            <Heading isTruncated fontSize="sm" color="gray.500">
-              Deadline: {date}
-            </Heading>
-            <Text mx="3" alignItems="center" flexDirection="row">
+            <Text>
               {member}+{members.length - 1} others
             </Text>
           </VStack>
-
-          <Flex justifyContent="flex-end" flexGrow={1} pl={10}>
-            <Button
-              bg="background.500"
-              size="sm"
-              endIcon={
-                <Icon
-                  as={Ionicons}
-                  name="chevron-forward"
-                  size={5}
-                  color="black"
-                />
-              }
-              onPress={() =>
-                navigation.navigate("ManageQuest", { questData, date })
-              }
-            />
-          </Flex>
+          <Spacer />
+          <VStack>
+            <Text>Deadline:</Text>
+            <Heading isTruncated fontSize="sm" color="gray.500">
+              {date}
+            </Heading>
+          </VStack>
+          <Button
+            bg="background.500"
+            size="sm"
+            endIcon={
+              <Icon
+                as={Ionicons}
+                name="chevron-forward"
+                size={5}
+                color="black"
+              />
+            }
+            onPress={() =>
+              navigation.navigate("ManageQuest", { questData, date })
+            }
+          />
         </HStack>
       </Box>
     );

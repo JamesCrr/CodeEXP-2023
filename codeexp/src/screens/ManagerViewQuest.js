@@ -29,8 +29,10 @@ import {
   Icon,
   VStack,
   Spinn,
+  Flex,
 } from "native-base";
 import { QuestComponent } from "../components/questComponent";
+import ReturnButton from "../components/ReturnButton";
 
 const ManagerViewQuest = ({ navigation }) => {
   const Auth = auth;
@@ -46,10 +48,13 @@ const ManagerViewQuest = ({ navigation }) => {
       setFilteredQuests(allQuestState);
     } else {
       const filtered = allQuestState.filter((quest) => {
-        if (quest.title) {
-          return quest.title.toLowerCase().includes(searchTerm.toLowerCase());
-        }
-        return false;
+        const isTitleMatch = quest.title
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+        const isMemberMatch = quest.questMembers.some((member) =>
+          member.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        return isTitleMatch || isMemberMatch;
       });
       setFilteredQuests(filtered);
     }
@@ -64,15 +69,14 @@ const ManagerViewQuest = ({ navigation }) => {
         console.log("Document data:", docSnap.data());
         var allQuest = docSnap.data().assignedQuest;
       } else {
-        // docSnap.data() will be undefined in this case
+        /* docSnap.data() will be undefined in this case */
         console.log("No such document!");
       }
       await Promise.all(
         allQuest.map(async (item) => {
           const docRef2 = doc(firestore, "quests", item.questId);
           const docSnap2 = await getDoc(docRef2);
-          //   return docSnap2;
-          const docdata = docSnap2.data();
+          /*   return docSnap2 */ const docdata = docSnap2.data();
           console.log(docSnap2.data(), "DOCSNAP");
           console.log(docdata, "DOCSNAP");
           docdata.questId = item.questId;
@@ -86,14 +90,16 @@ const ManagerViewQuest = ({ navigation }) => {
       setNum(notCompleted.length);
       setAllQuest(allQuestArray);
       setLoaded(true);
-      setFilteredQuests(allQuestArray); // Set the initial filteredQuests state
+      setFilteredQuests(
+        allQuestArray
+      ); /* Set the initial filteredQuests state */
     }
     managerData();
   }, []);
   if (loaded) {
     return (
       <Box>
-        <HStack alignItems="center">
+        <HStack alignItems="center" left={2}>
           <Badge>
             <Text fontSize="5xl">{numOfQuest}</Text>
           </Badge>
@@ -101,26 +107,31 @@ const ManagerViewQuest = ({ navigation }) => {
             <Text fontSize="xl">Active</Text>
             <Text fontSize="xl">Quests</Text>
           </VStack>
+          <Flex flex={1} alignItems="flex-end" right={5}>
+            <ReturnButton />
+          </Flex>
         </HStack>
         <Input
           borderRadius={"full"}
           bg={"primary.500"}
           width={"80%"}
           alignSelf={"center"}
-          placeholder="Search for a quest"
+          placeholderTextColor={"white"}
+          placeholder="Search Quest"
           onChangeText={(text) => handleSearch(text)}
         />
         <React.Fragment>
-          {allQuestState.map((quest) => {
+          {filteredQuests.map((quest) => {
             if (!quest.completed) {
               return (
                 <QuestComponent
                   questData={quest}
                   navigation={navigation}
                   key={quest.questId}
-                ></QuestComponent>
+                />
               );
             }
+            return null; // Add this line to handle the case when the quest is completed
           })}
         </React.Fragment>
       </Box>

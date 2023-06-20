@@ -20,6 +20,7 @@ import {
 
 import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { firestore } from "../Firebase";
+import ReturnButton from "../components/ReturnButton";
 
 const CreateUser = ({ navigation }) => {
   const Auth = auth;
@@ -46,7 +47,7 @@ const CreateUser = ({ navigation }) => {
         setFaction(docSnap.data().faction);
         setLoaded(true);
       } else {
-        // docSnap.data() will be undefined in this case
+        /* docSnap.data() will be undefined in this case */
         console.log("No such document!");
       }
       const docRef2 = doc(firestore, "factions", docSnap.data().faction);
@@ -55,7 +56,7 @@ const CreateUser = ({ navigation }) => {
         console.log("Document data:", docSnap2.data());
         setMembers(docSnap2.data().members);
       } else {
-        // docSnap.data() will be undefined in this case
+        /* docSnap.data() will be undefined in this case */
         console.log("No such document!");
       }
     }
@@ -98,7 +99,7 @@ const CreateUser = ({ navigation }) => {
         email,
         password
       );
-      // Signed in
+      /* Signed in */
       const user = userCredential.user;
       console.log(user.uid);
       console.log(Auth.currentUser.uid, "manager UID");
@@ -116,14 +117,13 @@ const CreateUser = ({ navigation }) => {
       const errorCode = error.code;
       const errorMessage = error.message;
       setError(errorMessage);
-      // ..
     }
   };
 
   if (loaded) {
     return (
       <Box>
-        return{" "}
+        <ReturnButton />
         <Stack space={4} w="75%" maxW="300px" mx="auto">
           <Input
             color="black"
@@ -131,38 +131,46 @@ const CreateUser = ({ navigation }) => {
             isDisabled
             placeholder={faction}
             value={faction}
+            height={10}
           />
           <Input
             color="black"
             size="md"
-            placeholder={name}
-            value={name}
+            placeholder="Name"
+            //value={name}
             onChangeText={(newText) => setName(newText)}
+            height={10}
+            placeholderTextColor="gray.400"
           />
           <Input
             color="black"
             size="md"
-            placeholder={username}
-            value={username}
+            placeholder="Username"
+            //value={username}
             onChangeText={(newText) => setUserName(newText)}
+            height={10}
+            placeholderTextColor="gray.400"
           />
           <Input
             color="black"
             size="md"
-            placeholder={email}
-            value={email}
+            placeholder="Email"
+            //value={email}
             onChangeText={(newText) => setEmail(newText)}
+            height={10}
+            placeholderTextColor="gray.400"
           />
           <Input
             type={show ? "text" : "password"}
             w="100%"
+            height={10}
             py="0"
             color="black"
             InputRightElement={
               <Button
                 size="xs"
                 rounded="none"
-                w="1/6"
+                w="1/5"
                 h="full"
                 onPress={handleClick}
               >
@@ -173,7 +181,14 @@ const CreateUser = ({ navigation }) => {
             onChangeText={(newText) => setPassword(newText)}
           />
 
-          <Button onPress={createAcc}>Create Acc</Button>
+          <Button
+            onPress={createAcc}
+            rounded={"full"}
+            width={250}
+            alignSelf={"center"}
+          >
+            Create Account
+          </Button>
           <Text color="red">{errormsg}</Text>
         </Stack>
       </Box>
