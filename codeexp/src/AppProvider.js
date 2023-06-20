@@ -22,6 +22,15 @@ const myReducer = (state, action) => {
     case "setUserAchievements": {
       return { ...state, userInfo: { ...userInfo, achievements: action.val } };
     }
+    case "setQuestModal": {
+      const { questModalVisible, questModalTitle, questModalContent } = action.val;
+      return {
+        ...state,
+        questModalVisible,
+        questModalTitle,
+        questModalContent,
+      };
+    }
     case "setNewAchievementModal": {
       const { newAchievementNotify, achievementModalVisible, achievementModalDetails } = action.val;
       return {
@@ -51,6 +60,8 @@ const initialState = {
   achievementModalDetails: {},
   achievementModalVisible: false,
   questModalVisible: false,
+  questModalTitle: "",
+  questModalContent: "",
 };
 export const AppProvider = ({ children }) => {
   const [myState, dispatch] = useReducer(myReducer, initialState);

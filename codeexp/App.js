@@ -13,7 +13,8 @@ import PostCommentsScreen from "./src/screens/PostCommentsScreen";
 import LoginPage from "./src/screens/LoginPage";
 import ViewQuests from "./src/screens/ViewQuests";
 import UserStack from "./src/screens/UserStack";
-import CustomModal from "./src/components/AchievementModal";
+import AchievementModal from "./src/components/AchievementModal";
+import ProgressBarModal from "./src/components/ProgressBarModal";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -38,7 +39,8 @@ export default function App() {
   return (
     <NativeBaseProvider theme={theme}>
       <AppProvider>
-        <CustomModal />
+        <AchievementModal />
+        <ProgressBarModal />
         {/* React Navigation */}
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: true }}>

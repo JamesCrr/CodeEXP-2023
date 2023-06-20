@@ -1,80 +1,67 @@
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  useDerivedValue,
-  interpolate,
-  withRepeat,
-} from "react-native-reanimated";
-import { PresenceTransition, Modal, Button, Text, Box, Image, VStack } from "native-base";
+import { Animated } from "react-native";
+import { Entypo } from "@expo/vector-icons";
+import { PresenceTransition, Modal, Text, Box, IconButton, Icon, HStack } from "native-base";
+
 import { useAppContext, useAppDispatchContext } from "../AppProvider";
 
 const ProgressBarModal = () => {
-  const { achievementModalDetails, achievementModalVisible } = useAppContext();
-  const { title, about, imageUri } = achievementModalDetails;
+  const { questModalVisible, questModalTitle, questModalContent } = useAppContext();
   const dispatch = useAppDispatchContext();
 
   return (
-    <PresenceTransition
-      visible={true}
-      initial={{
-        opacity: 0,
-        scale: 0,
-      }}
-      animate={{
-        opacity: 1,
-        scale: 1,
-        transition: {
-          duration: 250,
-        },
-      }}
-    >
-      <Modal isOpen={achievementModalVisible}>
-        <Modal.Content>
-          {/* <Modal.CloseButton /> */}
-          <Modal.Header>
-            <Text textAlign={"center"} fontWeight={"bold"} fontSize={"xl"}>
-              {title}
-            </Text>
-          </Modal.Header>
-          <Modal.Body>
-            <VStack marginBottom={4}>
-              <Image
-                alignSelf={"center"}
-                source={{
-                  uri: imageUri,
-                }}
-                alt={"altText"}
-                width={100}
-                height={100}
-                resizeMode={"cover"}
-              />
-              <Text textAlign={"center"} fontSize={"lg"}>
-                {about}
-              </Text>
-              <Text textAlign={"center"} fontSize={"xs"}>
-                86.4% of people
-              </Text>
-            </VStack>
-            <Button
-              flex="1"
+    // <Modal isOpen={questModalVisible}>
+    <Box padding={2} position={"absolute"} zIndex={100} bottom={2} width={"100%"}>
+      <PresenceTransition
+        visible={questModalVisible}
+        initial={{
+          translateY: 100,
+        }}
+        animate={{
+          translateY: 0,
+          transition: {
+            duration: 600,
+          },
+        }}
+      >
+        <Box bg={"red.200"} marginX={2} padding={2}>
+          <HStack justifyContent={"space-between"} marginBottom={4}>
+            <Text>Quest Completed!</Text>
+            <IconButton
+              // borderWidth={1}
+              icon={<Icon as={Entypo} name="cross" />}
+              size={7}
+              _icon={{
+                color: "orange.500",
+                size: "lg",
+              }}
               onPress={() => {
                 dispatch({
-                  type: "setNewAchievementModal",
-                  val: {
-                    newAchievementNotify: false,
-                    achievementModalVisible: false,
-                    achievementModalDetails: {},
-                  },
+                  type: "setQuestModal",
+                  val: { questModalVisible: false, questModalTitle, questModalContent },
                 });
               }}
+            />
+          </HStack>
+          <Box overflow={"hidden"}>
+            <PresenceTransition
+              visible={questModalVisible}
+              initial={{
+                translateX: -300,
+              }}
+              animate={{
+                translateX: 0,
+                transition: {
+                  duration: 900,
+                },
+              }}
             >
-              Nice!
-            </Button>
-          </Modal.Body>
-        </Modal.Content>
-      </Modal>
-    </PresenceTransition>
+              <Box bg={"blue.700"} padding={2}></Box>
+            </PresenceTransition>
+          </Box>
+        </Box>
+      </PresenceTransition>
+    </Box>
+    // </Modal>
   );
 };
 export default ProgressBarModal;
