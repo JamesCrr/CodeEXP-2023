@@ -15,13 +15,13 @@ import {
   Text,
   Button,
   Icon,
-  Spinner
+  Spinner,
 } from "native-base";
 
 import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { firestore } from "../Firebase";
 
-const CreateUser = () => {
+const CreateUser = ({ navigation }) => {
   const Auth = auth;
   const AuthSecondary = authsecondary;
   console.log(Auth.currentUser.uid, "manager UID");
@@ -111,6 +111,7 @@ const CreateUser = () => {
         AuthSecondary.currentUser.uid,
         members
       );
+      navigation.navigate("ManagerDashboard");
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;

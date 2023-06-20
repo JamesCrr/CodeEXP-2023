@@ -102,6 +102,7 @@ const ManageQuest = ({ route, navigation }) => {
     await updateDoc(factionRef, {
       currency: factionSnap.data().currency + newpoints,
     });
+    navigation.navigate("ManagerDashboard");
   };
   if (loaded) {
     return (

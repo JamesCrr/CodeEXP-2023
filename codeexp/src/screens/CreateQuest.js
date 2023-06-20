@@ -35,7 +35,7 @@ import SectionedMultiSelect from "react-native-sectioned-multi-select";
 import { MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-const CreateQuest = ({ navigate }) => {
+const CreateQuest = ({ navigation }) => {
   const [ManagerQuest, setManagerQuest] = useState(Array);
   const [members, setMembers] = useState(Array);
   const [loaded, setLoaded] = useState(false);
@@ -145,6 +145,7 @@ const CreateQuest = ({ navigate }) => {
         }),
       });
     });
+    navigation.navigate("ManagerDashboard");
   };
 
   const uploadData = () => {
