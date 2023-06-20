@@ -1,15 +1,15 @@
-// ReturnButton.js
-
 import React from "react";
 import { Pressable, Text, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTheme } from "native-base";
 
 const ReturnButton = ({ customStyle = {} }) => {
   const navigation = useNavigation();
+  const theme = useTheme();
 
   return (
     <Pressable
-      style={[styles.button, customStyle]}
+      style={[styles.button, { backgroundColor: theme.colors.primary[500] }]}
       onPress={() => navigation.goBack()}
     >
       <Text style={styles.buttonText}>&lt;</Text>
@@ -19,10 +19,9 @@ const ReturnButton = ({ customStyle = {} }) => {
 
 const styles = StyleSheet.create({
   button: {
-    width: 40,
-    height: 40,
+    width: 30,
+    height: 30,
     borderRadius: 20,
-    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#000",
@@ -35,7 +34,7 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#333",
+    color: "#fff",
   },
 });
 

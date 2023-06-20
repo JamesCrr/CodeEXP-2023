@@ -89,7 +89,7 @@ const ManagerLogin = ({ navigation }) => {
         />
         <Spacer my={8} />
         <Button rounded={"full"} onPress={signin}>
-          Sign In
+          Log In
         </Button>
         <Text color="red">{errormsg}</Text>
       </Stack>
