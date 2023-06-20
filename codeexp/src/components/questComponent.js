@@ -39,7 +39,6 @@ export const QuestComponent = ({ questData, navigation, screen }) => {
         bg="background.500"
         my={4}
         pt={2}
-        height="20"
         paddingTop={5}
       >
         <HStack space={2} mx="3" alignItems="center">
