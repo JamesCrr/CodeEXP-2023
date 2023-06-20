@@ -33,25 +33,25 @@ export const QuestComponent = ({ questData, navigation, screen }) => {
     return (
       <Box
         width="80%"
-        height={50}
+        height={60}
         alignSelf="center"
         borderRadius="lg"
         bg="background.500"
         my={4}
         pt={2}
-        paddingTop={5}
+        paddingTop={2}
       >
         <HStack space={2} mx="3" alignItems="center">
           <Icon as={Ionicons} name="flag" size="lg" />
           <VStack alignItems="flex-start" justifyContent="center">
-            <Heading isTruncated fontSize="lg">
+            <Heading isTruncated fontSize="md">
               {questData.title}
             </Heading>
-            <Heading isTruncated fontSize="md" color="gray.500">
+            <Heading isTruncated fontSize="sm" color="gray.500">
               Deadline: {date}
             </Heading>
           </VStack>
-          <Flex alignItems="center" justifyContent="flex-end" flexGrow={1}>
+          <Flex justifyContent="flex-end" flexGrow={1} pl={10}>
             <Button
               bg="background.500"
               size="sm"
