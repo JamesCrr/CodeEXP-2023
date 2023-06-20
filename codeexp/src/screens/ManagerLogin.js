@@ -46,6 +46,7 @@ const ManagerLogin = ({ navigation }) => {
   return (
     <Box>
       <ReturnButton />
+      <Spacer my={10} />
       <Text
         fontSize="3xl"
         fontWeight="900"
@@ -86,7 +87,10 @@ const ManagerLogin = ({ navigation }) => {
           placeholder="Password"
           onChangeText={(newText) => setPassword(newText)}
         />
-        <Button onPress={signin}>Sign In</Button>
+        <Spacer my={8} />
+        <Button rounded={"full"} onPress={signin}>
+          Sign In
+        </Button>
         <Text color="red">{errormsg}</Text>
       </Stack>
     </Box>

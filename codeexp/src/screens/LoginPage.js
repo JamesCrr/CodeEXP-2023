@@ -46,7 +46,7 @@ const LoginPage = ({ navigation }) => {
   return (
     <Box>
       <ReturnButton />
-      <Spacer my={2} />
+      <Spacer my={10} />
       <Text
         fontSize="3xl"
         fontWeight="900"
@@ -98,13 +98,14 @@ const LoginPage = ({ navigation }) => {
           }
         />
       </FormControl>
-      <Spacer my={1} />
+      <Spacer my={10} />
       <Button
         onPress={verifyLogin}
         w="75%"
         mt="3"
         alignSelf="center"
         bg="primary.500"
+        rounded={"full"}
         _pressed={{ bg: "blue.700" }}
         _text={{ color: "white" }}
       >
