@@ -2,6 +2,7 @@ import {
   Divider,
   Box,
   Heading,
+  HStack,
   VStack,
   Select,
   FormControl,
@@ -12,6 +13,7 @@ import {
   Slider,
   Text,
   Button,
+  Spinner,
 } from "native-base";
 import { useState, useEffect } from "react";
 import { firestore } from "../Firebase";
@@ -33,7 +35,7 @@ import SectionedMultiSelect from "react-native-sectioned-multi-select";
 import { MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-const CreateQuest = () => {
+const CreateQuest = ({ navigate }) => {
   const [ManagerQuest, setManagerQuest] = useState(Array);
   const [members, setMembers] = useState(Array);
   const [loaded, setLoaded] = useState(false);
@@ -203,6 +205,25 @@ const CreateQuest = () => {
         )}
         <Button onPress={uploadData}>Create</Button>
       </VStack>
+    );
+  } else {
+    return (
+      <HStack
+        space={2}
+        justifyContent="center"
+        height={"100%"}
+        alignItems={"center"}
+      >
+        <Spinner accessibilityLabel="Loading posts" size={"lg"} />
+        <Text
+          color="primary.500"
+          fontSize="md"
+          textAlign={"center"}
+          fontWeight={"bold"}
+        >
+          Loading
+        </Text>
+      </HStack>
     );
   }
 };

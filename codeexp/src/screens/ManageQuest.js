@@ -30,6 +30,7 @@ import {
   Center,
   Container,
   Heading,
+  Spinner,
 } from "native-base";
 import { QuestComponent } from "../components/questComponent";
 import { update } from "firebase/database";
@@ -88,14 +89,19 @@ const ManageQuest = ({ route, navigation }) => {
           filterMember.push({ completed: true, questId: quest.questId });
           updateDoc(memberRef, {
             assignedQuest: filterMember,
+            currency: memberSnap.data().currency + quest.currency,
           }).then((value) => {
             console.log("done");
           });
         });
       })
     );
-
-    console.log(quest.questId);
+    const factionRef = doc(firestore, "factions", ManagerSnap.data().faction);
+    const factionSnap = await getDoc(factionRef);
+    const newpoints = quest.questMembers.length * quest.currency;
+    await updateDoc(factionRef, {
+      currency: factionSnap.data().currency + newpoints,
+    });
   };
   if (loaded) {
     return (
@@ -122,6 +128,25 @@ const ManageQuest = ({ route, navigation }) => {
           <Button onPress={completeQuest}>Complete Quest</Button>
         </Container>
       </Center>
+    );
+  } else {
+    return (
+      <HStack
+        space={2}
+        justifyContent="center"
+        height={"100%"}
+        alignItems={"center"}
+      >
+        <Spinner accessibilityLabel="Loading posts" size={"lg"} />
+        <Text
+          color="primary.500"
+          fontSize="md"
+          textAlign={"center"}
+          fontWeight={"bold"}
+        >
+          Loading
+        </Text>
+      </HStack>
     );
   }
 };

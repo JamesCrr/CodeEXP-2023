@@ -2,12 +2,14 @@ import { FactionBoardComponent } from "../components/leaderboardItem";
 import { useState, useEffect } from "react";
 
 import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
-import {firestore } from "../Firebase";
+import { firestore } from "../Firebase";
 import React from "react";
-import { Center, Heading, Box } from "native-base";
+import { Center, Heading, Box, HStack, Spinner, Text } from "native-base";
 
 const FactionLeaderboard = ({ navigation }) => {
   const [faction, setFaction] = useState(Array);
+  const [loaded, setLoaded] = useState(false);
+
   useEffect(() => {
     async function FactionData() {
       const factionData = [];
@@ -23,6 +25,7 @@ const FactionLeaderboard = ({ navigation }) => {
         console.log("pushed");
       });
       setFaction(factionData);
+      setLoaded(true);
     }
     FactionData();
   }, []);
@@ -31,26 +34,47 @@ const FactionLeaderboard = ({ navigation }) => {
     return b.factionCurrency - a.factionCurrency;
   });
   console.log(sorted);
-  return (
-    <>
-      <Box alignItems="center">
-        <Heading fontSize={"3xl"} color="primary.500">
-          Faction Leaderboard
-        </Heading>
-      </Box>
-      {sorted.map(function (data) {
-        return (
-          <FactionBoardComponent
-            key={data.factionName}
-            name={data.factionName}
-            placing={sorted.indexOf(data)}
-            currency={data.factionCurrency}
-            navigation={navigation}
-          ></FactionBoardComponent>
-        );
-      })}
-    </>
-  );
+  if (loaded) {
+    return (
+      <>
+        <Box alignItems="center">
+          <Heading fontSize={"3xl"} color="primary.500">
+            Faction Leaderboard
+          </Heading>
+        </Box>
+        {sorted.map(function (data) {
+          return (
+            <FactionBoardComponent
+              key={data.factionName}
+              name={data.factionName}
+              placing={sorted.indexOf(data)}
+              currency={data.factionCurrency}
+              navigation={navigation}
+            ></FactionBoardComponent>
+          );
+        })}
+      </>
+    );
+  } else {
+    return (
+      <HStack
+        space={2}
+        justifyContent="center"
+        height={"100%"}
+        alignItems={"center"}
+      >
+        <Spinner accessibilityLabel="Loading posts" size={"lg"} />
+        <Text
+          color="primary.500"
+          fontSize="md"
+          textAlign={"center"}
+          fontWeight={"bold"}
+        >
+          Loading
+        </Text>
+      </HStack>
+    );
+  }
 };
 
 export default FactionLeaderboard;

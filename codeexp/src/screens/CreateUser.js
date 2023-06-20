@@ -15,6 +15,7 @@ import {
   Text,
   Button,
   Icon,
+  Spinner
 } from "native-base";
 
 import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
@@ -175,6 +176,25 @@ const CreateUser = () => {
           <Text color="red">{errormsg}</Text>
         </Stack>
       </Box>
+    );
+  } else {
+    return (
+      <HStack
+        space={2}
+        justifyContent="center"
+        height={"100%"}
+        alignItems={"center"}
+      >
+        <Spinner accessibilityLabel="Loading posts" size={"lg"} />
+        <Text
+          color="primary.500"
+          fontSize="md"
+          textAlign={"center"}
+          fontWeight={"bold"}
+        >
+          Loading
+        </Text>
+      </HStack>
     );
   }
 };

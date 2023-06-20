@@ -13,6 +13,7 @@ import {
   Badge,
   Icon,
   Button,
+  Spinner,
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -100,11 +101,11 @@ export default function ManagerDashboard({ navigation }) {
           </Heading>
         </VStack>
         <VStack space={8} p="6" alignItems="center">
-          <ButtonComponent
+          {/* <ButtonComponent
             navigation={navigation}
             name="Create User"
             screen="CreateUser"
-          ></ButtonComponent>
+          ></ButtonComponent> */}
           <Button
             width="80"
             rounded={"80"}
@@ -132,20 +133,33 @@ export default function ManagerDashboard({ navigation }) {
           <Button
             width="80"
             rounded={"80"}
-            rightIcon={<Icon as={AntDesign} name="team" size="sm" />}
-          >
-            Faction Management
-          </Button>
-          <Button
-            width="80"
-            rounded={"80"}
             rightIcon={<Icon as={AntDesign} name="user" size="sm" />}
+            onPress={() => navigation.navigate("CreateUser")}
           >
             Create Employee Account
           </Button>
         </VStack>
         ;
       </Box>
+    );
+  } else {
+    return (
+      <HStack
+        space={2}
+        justifyContent="center"
+        height={"100%"}
+        alignItems={"center"}
+      >
+        <Spinner accessibilityLabel="Loading posts" size={"lg"} />
+        <Text
+          color="primary.500"
+          fontSize="md"
+          textAlign={"center"}
+          fontWeight={"bold"}
+        >
+          Loading
+        </Text>
+      </HStack>
     );
   }
 }

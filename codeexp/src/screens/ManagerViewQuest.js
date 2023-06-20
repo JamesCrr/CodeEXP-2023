@@ -28,6 +28,7 @@ import {
   Button,
   Icon,
   VStack,
+  Spinn,
 } from "native-base";
 import { QuestComponent } from "../components/questComponent";
 
@@ -116,13 +117,32 @@ const ManagerViewQuest = ({ navigation }) => {
                 <QuestComponent
                   questData={quest}
                   navigation={navigation}
-                  key={quest}
+                  key={quest.questId}
                 ></QuestComponent>
               );
             }
           })}
         </React.Fragment>
       </Box>
+    );
+  } else {
+    return (
+      <HStack
+        space={2}
+        justifyContent="center"
+        height={"100%"}
+        alignItems={"center"}
+      >
+        <Spinner accessibilityLabel="Loading posts" size={"lg"} />
+        <Text
+          color="primary.500"
+          fontSize="md"
+          textAlign={"center"}
+          fontWeight={"bold"}
+        >
+          Loading
+        </Text>
+      </HStack>
     );
   }
 };
