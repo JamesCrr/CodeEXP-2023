@@ -15,6 +15,8 @@ import ViewQuests from "./src/screens/ViewQuests";
 import UserStack from "./src/screens/UserStack";
 import AchievementModal from "./src/components/AchievementModal";
 import ProgressBarModal from "./src/components/ProgressBarModal";
+import RewardsScreen from "./src/screens/RewardsScreen";
+import ManagerLogin from "./src/screens/ManagerLogin";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -44,9 +46,12 @@ export default function App() {
         {/* React Navigation */}
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: true }}>
-            <Stack.Screen name="LoginPage" component={LoginPage} />
-            <Stack.Screen name="UserStack" component={UserStack} options={{ headerShown: false }} />
-            <Stack.Screen name="ViewQuests" component={ViewQuests} />
+          <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options ={{headerShown: false}} />
+          <Stack.Screen name="LoginPage" component={LoginPage} />
+          <Stack.Screen name="ManagerLogin" component={ManagerLogin} />
+          <Stack.Screen name="UserStack" component={UserStack} options={{ headerShown: false }} />
+          <Stack.Screen name="ViewQuests" component={ViewQuests} />
+          <Stack.Screen name="RewardsScreen" component={RewardsScreen} />
             <Stack.Screen name="ViewPostsScreen" component={ViewPostsScreen} />
             <Stack.Screen name="CreatePostScreen" component={CreatePostScreen} />
             <Stack.Screen name="PostCommentsScreen" component={PostCommentsScreen} />

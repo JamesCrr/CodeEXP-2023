@@ -36,6 +36,7 @@ const CreatePostScreen = ({ route, navigation }) => {
   //     });
   // }, []);
 
+
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -87,6 +88,8 @@ const CreatePostScreen = ({ route, navigation }) => {
 
       // Quests & achievements
       let updatedAchievements = userData.achievements;
+      // Quests
+      let currencyAwarded = 0;
       let updatedAllQuests = [];
       if (userData.socialQuest) {
         updatedAllQuests = [...userData.socialQuest];
@@ -161,6 +164,7 @@ const CreatePostScreen = ({ route, navigation }) => {
           socialQuest: updatedAllQuests,
           postHistory: newPostHistory,
           achievements: updatedAchievements,
+          currency: parseInt(userData.currency) + parseInt(currencyAwarded),
         });
         // console.log("UPDATED");
       } catch (error) {
