@@ -49,7 +49,6 @@ const ManagerLogin = ({ navigation }) => {
       <Spacer my={10} />
       <Text
         fontSize="3xl"
-        fontWeight="900"
         textAlign="center"
         color={"primary.500"}
         fontFamily={"Montserrat-SemiBold"}

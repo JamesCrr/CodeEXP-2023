@@ -16,11 +16,13 @@ import {
   Button,
   Icon,
   Spinner,
+  Avatar,
 } from "native-base";
 
 import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { firestore } from "../Firebase";
 import ReturnButton from "../components/ReturnButton";
+import { AntDesign } from "@expo/vector-icons";
 
 const CreateUser = ({ navigation }) => {
   const Auth = auth;
@@ -120,99 +122,85 @@ const CreateUser = ({ navigation }) => {
     }
   };
 
-  if (loaded) {
-    return (
-      <Box>
-        <ReturnButton />
-        <Stack space={4} w="75%" maxW="300px" mx="auto">
-          <Input
-            color="black"
-            size="md"
-            isDisabled
-            placeholder={faction}
-            value={faction}
-            height={10}
-          />
-          <Input
-            color="black"
-            size="md"
-            placeholder="Name"
-            //value={name}
-            onChangeText={(newText) => setName(newText)}
-            height={10}
-            placeholderTextColor="gray.400"
-          />
-          <Input
-            color="black"
-            size="md"
-            placeholder="Username"
-            //value={username}
-            onChangeText={(newText) => setUserName(newText)}
-            height={10}
-            placeholderTextColor="gray.400"
-          />
-          <Input
-            color="black"
-            size="md"
-            placeholder="Email"
-            //value={email}
-            onChangeText={(newText) => setEmail(newText)}
-            height={10}
-            placeholderTextColor="gray.400"
-          />
-          <Input
-            type={show ? "text" : "password"}
-            w="100%"
-            height={10}
-            py="0"
-            color="black"
-            InputRightElement={
-              <Button
-                size="xs"
-                rounded="none"
-                w="1/5"
-                h="full"
-                onPress={handleClick}
-              >
-                {show ? "Hide" : "Show"}
-              </Button>
-            }
-            placeholder="Password"
-            onChangeText={(newText) => setPassword(newText)}
-          />
-
-          <Button
-            onPress={createAcc}
-            rounded={"full"}
-            width={250}
-            alignSelf={"center"}
-          >
-            Create Account
-          </Button>
-          <Text color="red">{errormsg}</Text>
-        </Stack>
-      </Box>
-    );
-  } else {
-    return (
-      <HStack
-        space={2}
-        justifyContent="center"
-        height={"100%"}
-        alignItems={"center"}
-      >
-        <Spinner accessibilityLabel="Loading posts" size={"lg"} />
-        <Text
-          color="primary.500"
-          fontSize="md"
-          textAlign={"center"}
-          fontWeight={"bold"}
-        >
-          Loading
-        </Text>
+  return (
+    <Box>
+      <ReturnButton />
+      <HStack justifyContent="center" m={4}>
+        <Avatar
+          bg="gray.200"
+          size="2xl"
+          icon={<Icon as={AntDesign} name="user" size="lg" />}
+        />
       </HStack>
-    );
-  }
+      <Stack space={4} w="75%" maxW="300px" mx="auto">
+        <Input
+          color="black"
+          size="md"
+          isDisabled
+          placeholder={faction}
+          value={faction}
+          height={10}
+        />
+        <Input
+          color="black"
+          size="md"
+          placeholder="Name"
+          onChangeText={(newText) => setName(newText)}
+          height={10}
+          placeholderTextColor="gray.400"
+        />
+        <Input
+          color="black"
+          size="md"
+          placeholder="Username"
+          onChangeText={(newText) => setUserName(newText)}
+          height={10}
+          placeholderTextColor="gray.400"
+        />
+        <Input
+          color="black"
+          size="md"
+          placeholder="Email"
+          onChangeText={(newText) => setEmail(newText)}
+          height={10}
+          placeholderTextColor="gray.400"
+        />
+        <Input
+          type={show ? "text" : "password"}
+          w="100%"
+          height={10}
+          py="0"
+          color="black"
+          InputRightElement={
+            <Button
+              size="xs"
+              rounded="none"
+              w="1/5"
+              h="full"
+              onPress={handleClick}
+            >
+              {show ? "Hide" : "Show"}
+            </Button>
+          }
+          placeholder="Password"
+          onChangeText={(newText) => setPassword(newText)}
+        />
+
+        <Button
+          onPress={createAcc}
+          rounded="full"
+          width={250}
+          alignSelf="center"
+        >
+          Create Account
+        </Button>
+        <Text color="red">{errormsg}</Text>
+
+        {/* Image Upload */}
+        {/* Your image upload logic here */}
+      </Stack>
+    </Box>
+  );
 };
 
 export default CreateUser;

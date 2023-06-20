@@ -14,6 +14,7 @@ import {
   Icon,
   Button,
   Spinner,
+  Spacer,
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -50,7 +51,7 @@ export default function ManagerDashboard({ navigation }) {
         console.log("Document data:", docSnap.data());
         setFaction(docSnap.data().faction);
       } else {
-        // docSnap.data() will be undefined in this case
+        /* docSnap.data() will be undefined in this case */
         console.log("No such document!");
       }
       const docRef2 = doc(firestore, "factions", docSnap.data().faction);
@@ -60,7 +61,7 @@ export default function ManagerDashboard({ navigation }) {
         setMembers(docSnap2.data().members);
         setCurrency(docSnap2.data().currency);
       } else {
-        // docSnap.data() will be undefined in this case
+        / docSnap.data() will be undefined in this case */;
         console.log("No such document!");
       }
       setNoOfMembers(docSnap2.data().members.length);
@@ -80,10 +81,18 @@ export default function ManagerDashboard({ navigation }) {
         shadow={2}
       >
         <VStack bg="primary.500" space={4} alignItems="center">
-          <HStack space={2}>
-            <Heading fontSize={"md"}>Dashboard</Heading>
+          <HStack pt={2} pr={2}>
+            <Heading color="white" fontSize={18} left={150}>
+              Dashboard
+            </Heading>
+            <Spacer />
+            <Pressable onPress={() => navigation.goBack()}>
+              <Ionicons name="log-out" size={24} color="white" />
+            </Pressable>
           </HStack>
-          <Heading fontSize={"4xl"}>{faction}</Heading>
+          <Heading color="white" fontSize="5xl">
+            {faction.toUpperCase()}
+          </Heading>
           <Badge
             borderRadius={"xl"}
             width={"150"}
@@ -96,8 +105,8 @@ export default function ManagerDashboard({ navigation }) {
             </Text>
           </Badge>
 
-          <Heading fontSize={"4xl"} p="3">
-            {currency} Currency
+          <Heading color={"white"} fontSize={"4xl"} pt="3" pb={10}>
+            {currency} CURRENCY
           </Heading>
         </VStack>
         <VStack space={8} p="6" alignItems="center">
