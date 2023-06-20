@@ -47,10 +47,12 @@ useEffect(() => {
           const questDescription = questDescriptionSnap.data();
           if (questDescription.duration === "weekly") {
             console.log("questDescriptionWEEKLY:", questDescription);
+            questDescription.questsId = val[1];
             weeklyQuests.push(questDescription);
           }
           else if (questDescription.duration === "monthly") {
             console.log("questDescriptionMONTHLY:", questDescription);
+            questDescription.questsId = val[1];
             monthlyQuests.push(questDescription);
           };
         };
@@ -125,12 +127,12 @@ useEffect(() => {
 // });
 // },[grabDataState]);
 
-// const goToCreatePostScreen = (item) => {
-//   console.log("item: " + Object.values(item) ,Object.keys(item));
-//     console.log("item: " + item.id);
-// navigation.navigate("CreatePostScreen");
-// dispatch({ type: "completedQuestId", val: item.id });
-// };  
+const goToCreatePostScreen = (item) => {
+  console.log("item: " + Object.values(item) ,Object.keys(item));
+    console.log("item: " + item.questsId);
+navigation.navigate("CreatePostScreen");
+dispatch({ type: "completedQuestId", val: item.questsId });
+};  
 
 // const manageActiveQuests = () => {
 //   console.log("NEW FUNCTION:", activeQuestsDesc);
