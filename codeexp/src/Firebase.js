@@ -12,8 +12,8 @@ import {
   uploadBytes,
   getDownloadURL,
 } from "firebase/storage";
-import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -41,4 +41,4 @@ export const database = getDatabase(app);
 export const auth = getAuth(app);
 export const authsecondary = getAuth(secondaryApp);
 
-export const db = getFirestore(app);
+export const firestore = getFirestore(app);

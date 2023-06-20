@@ -7,14 +7,20 @@ import { createStackNavigator } from "@react-navigation/stack";
 import FirstScreen from "./src/screens/FirstScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import CreatePostScreen from "./src/screens/CreatePostScreen";
-import { Linking, StyleSheet, Text, View } from "react-native";
-import ManagerDashboard from "./src/screens/ManagerDashboard";
-import CreateUser from "./src/screens/CreateUser";
+import ViewPostsScreen from "./src/screens/ViewPostsScreen";
+import PostCommentsScreen from "./src/screens/PostCommentsScreen";
+import { AppProvider } from "./src/AppProvider";
+import LoginPage from "./src/screens/LoginPage";
+import ViewQuests from "./src/screens/ViewQuests";
+import UserStack from "./src/screens/UserStack";
 import CreateQuest from "./src/screens/CreateQuest";
-import ManagerLogin from "./src/screens/ManagerLogin";
 import FactionLeaderboard from "./src/screens/FactionLeaderboard";
+import ManagerDashboard from "./src/screens/ManagerDashboard";
+import ManagerLogin from "./src/screens/ManagerLogin";
+import CreateUser from "./src/screens/CreateUser";
+import ManagerViewQuest from "./src/screens/ManagerViewQuest";
 
-
+// console.log(theme);
 const Stack = createStackNavigator();
 export default function App() {
   const [fontsLoaded, fontsLoadingError] = useFonts({
@@ -23,7 +29,6 @@ export default function App() {
     "Inter-Regular": require("./assets/fonts/Inter-Regular.ttf"),
     "Inter-SemiBold": require("./assets/fonts/Inter-SemiBold.ttf"),
   });
-  // console.log(theme);
 
   // Wait for the fonts to load first
   if (!fontsLoaded) {
@@ -34,23 +39,51 @@ export default function App() {
     return null;
   }
   if (fontsLoaded) {
-    console.log("here");
+    console.log("Fonts Loaded!");
   }
 
   return (
     <NativeBaseProvider theme={theme}>
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: true }}>
-          <Stack.Screen name="FirstScreen" component={FirstScreen} />
-          <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-          <Stack.Screen name="ManagerDashboard" component={ManagerDashboard} />
-          <Stack.Screen name="CreateUser" component={CreateUser} />
-          <Stack.Screen name="CreateQuest" component={CreateQuest} />
-          <Stack.Screen name="ManagerLogin" component={ManagerLogin} />
-          <Stack.Screen name="FactionLeaderboard" component={FactionLeaderboard} />
+      <AppProvider>
+        {/* React Navigation */}
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: true }}>
+            <Stack.Screen name="LoginPage" component={FirstScreen} />
+            <Stack.Screen
+              name="UserStack"
+              component={UserStack}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="ViewQuests" component={ViewQuests} />
+            <Stack.Screen name="ViewPostsScreen" component={ViewPostsScreen} />
+            <Stack.Screen
+              name="CreatePostScreen"
+              component={CreatePostScreen}
+            />
+            <Stack.Screen
+              name="PostCommentsScreen"
+              component={PostCommentsScreen}
+            />
+            {/* <Stack.Screen name ="WelcomeScreen" component={WelcomeScreen}/> */}
+            <Stack.Screen name="CreateQuest" component={CreateQuest} />
+            <Stack.Screen
+              name="ManagerViewQuest"
+              component={ManagerViewQuest}
+            />
 
-        </Stack.Navigator>
-      </NavigationContainer>
+            <Stack.Screen
+              name="FactionLeaderboard"
+              component={FactionLeaderboard}
+            />
+            <Stack.Screen
+              name="ManagerDashboard"
+              component={ManagerDashboard}
+            />
+            <Stack.Screen name="CreateUser" component={CreateUser} />
+            <Stack.Screen name="ManagerLogin" component={ManagerLogin} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </AppProvider>
     </NativeBaseProvider>
   );
 }

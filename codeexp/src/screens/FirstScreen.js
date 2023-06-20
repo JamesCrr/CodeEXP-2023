@@ -21,7 +21,10 @@ const FirstScreen = () => {
         <Text> Press me</Text>
       </Pressable>
       <Pressable onPress={() => navigation.navigate("WelcomeScreen")}>
-        <Text>Press me</Text>
+        <Text>Press me</Text></Pressable>
+        
+        <Pressable onPress={() => navigation.navigate("LoginPage")}>
+        <Text>go login</Text>
       </Pressable>
       <Text style={{ fontFamily: "Montserrat-SemiBold", fontSize: 50 }}>
         borrow buddies
