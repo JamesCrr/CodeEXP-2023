@@ -1,4 +1,5 @@
-import { Button, Heading, Divider, Box, Text } from "native-base";
+import { Button, Heading, Box, VStack, Icon, HStack, Flex } from "native-base";
+import { Ionicons } from "@expo/vector-icons";
 import React, { useState, useEffect } from "react";
 import { firestore } from "../Firebase";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
@@ -31,6 +32,7 @@ export const QuestComponent = ({
     EmployeeData();
     setLoaded(true);
   }, []);
+
   if (loaded) {
     return (
       <Box alignItems="center">
