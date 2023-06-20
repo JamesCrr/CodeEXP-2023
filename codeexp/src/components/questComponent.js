@@ -1,4 +1,13 @@
-import { Button, Heading, Box, VStack, Icon, HStack, Flex } from "native-base";
+import {
+  Button,
+  Heading,
+  Box,
+  VStack,
+  Icon,
+  HStack,
+  Flex,
+  Text,
+} from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState, useEffect } from "react";
 import { firestore } from "../Firebase";
@@ -32,7 +41,7 @@ export const QuestComponent = ({ questData, navigation, screen }) => {
   if (loaded) {
     return (
       <Box
-        width="80%"
+        width="100%"
         height={60}
         alignSelf="center"
         borderRadius="lg"
@@ -51,9 +60,9 @@ export const QuestComponent = ({ questData, navigation, screen }) => {
               Deadline: {date}
             </Heading>
           </VStack>
-          <Text mx="3" alignItems="center" flexDirection="row">
+          {/* <Text mx="3" alignItems="center" flexDirection="row">
             {member}+{members.length - 1} others
-          </Text>
+          </Text> */}
           <Flex justifyContent="flex-end" flexGrow={1} pl={10}>
             <Button
               bg="background.500"

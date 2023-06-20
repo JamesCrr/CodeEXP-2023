@@ -56,9 +56,8 @@ export default function App() {
               component={WelcomeScreen}
               options={{ headerShown: false }}
             />
-            {/* <Stack.Screen name="LoginPage" component={LoginPage} /> */}
+            <Stack.Screen name="LoginPage" component={LoginPage} />
             <Stack.Screen name="ManagerLogin" component={ManagerLogin} />
-            <Stack.Screen name="LoginPage" component={FirstScreen} />
             <Stack.Screen
               name="UserStack"
               component={UserStack}
