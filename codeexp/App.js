@@ -17,6 +17,12 @@ import AchievementModal from "./src/components/AchievementModal";
 import ProgressBarModal from "./src/components/ProgressBarModal";
 import RewardsScreen from "./src/screens/RewardsScreen";
 import ManagerLogin from "./src/screens/ManagerLogin";
+import CreateQuest from "./src/screens/CreateQuest";
+import FactionLeaderboard from "./src/screens/FactionLeaderboard";
+import ManagerDashboard from "./src/screens/ManagerDashboard";
+import CreateUser from "./src/screens/CreateUser";
+import ManagerViewQuest from "./src/screens/ManagerViewQuest";
+import ManageQuest from "./src/screens/ManageQuest";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -50,8 +56,9 @@ export default function App() {
               component={WelcomeScreen}
               options={{ headerShown: false }}
             />
-            <Stack.Screen name="LoginPage" component={LoginPage} />
+            {/* <Stack.Screen name="LoginPage" component={LoginPage} /> */}
             <Stack.Screen name="ManagerLogin" component={ManagerLogin} />
+            <Stack.Screen name="LoginPage" component={FirstScreen} />
             <Stack.Screen
               name="UserStack"
               component={UserStack}
@@ -69,6 +76,23 @@ export default function App() {
               component={PostCommentsScreen}
             />
             {/* <Stack.Screen name ="WelcomeScreen" component={WelcomeScreen}/> */}
+            <Stack.Screen name="CreateQuest" component={CreateQuest} />
+            <Stack.Screen
+              name="ManagerViewQuest"
+              component={ManagerViewQuest}
+            />
+            <Stack.Screen name="ManageQuest" component={ManageQuest} />
+
+            <Stack.Screen
+              name="FactionLeaderboard"
+              component={FactionLeaderboard}
+            />
+            <Stack.Screen
+              name="ManagerDashboard"
+              component={ManagerDashboard}
+            />
+            <Stack.Screen name="CreateUser" component={CreateUser} />
+            <Stack.Screen name="ManagerLogin" component={ManagerLogin} />
           </Stack.Navigator>
         </NavigationContainer>
         <AchievementModal />

@@ -107,7 +107,10 @@ export default function ManagerDashboard({ navigation }) {
           >
             Create Quest
           </Button>
-          <Button rightIcon={<Icon as={Entypo} name="list" size="sm" />}>
+          <Button
+            rightIcon={<Icon as={Entypo} name="list" size="sm" />}
+            onPress={() => navigation.navigate("ManagerViewQuest")}
+          >
             View Quest
           </Button>
           <Button rightIcon={<Icon as={AntDesign} name="team" size="sm" />}>
