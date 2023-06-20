@@ -54,11 +54,18 @@ const ManagerViewQuest = ({ navigation }) => {
           const docRef2 = doc(firestore, "quests", item.questId);
           const docSnap2 = await getDoc(docRef2);
           //   return docSnap2;
-          allQuestArray.push(docSnap2.data());
+          const docdata = docSnap2.data();
+          console.log(docSnap2.data(), "DOCSNAP");
+          console.log(docdata, "DOCSNAP");
+          docdata.questId = item.questId;
+          console.log(docdata, "DOCSNAP");
+          allQuestArray.push(docdata);
         })
       );
       console.log(allQuestArray, "allQuestArray");
-      setNum(allQuestArray.length);
+      const notCompleted = allQuestArray.filter((i) => i.completed == false);
+      console.log(notCompleted, "NOT");
+      setNum(notCompleted.length);
       setAllQuest(allQuestArray);
       setLoaded(true);
     }
@@ -70,13 +77,15 @@ const ManagerViewQuest = ({ navigation }) => {
         <Badge>{numOfQuest} Active Quest</Badge>
         <React.Fragment>
           {allQuestState.map((quest) => {
-            return (
-              <QuestComponent
-                questData={quest}
-                navigation={navigation}
-                screen="placeholder"
-              ></QuestComponent>
-            );
+            if (!quest.completed) {
+              return (
+                <QuestComponent
+                  questData={quest}
+                  navigation={navigation}
+                  key={quest}
+                ></QuestComponent>
+              );
+            }
           })}
         </React.Fragment>
       </Box>

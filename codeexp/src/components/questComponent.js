@@ -3,7 +3,11 @@ import React, { useState, useEffect } from "react";
 import { firestore } from "../Firebase";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
-export const QuestComponent = ({ questData, navigation, screen }) => {
+export const QuestComponent = ({
+  questData,
+  navigation,
+  screen,
+}) => {
   console.log(questData);
   const [member, setMember] = useState();
   const [loaded, setLoaded] = useState(false);
@@ -49,7 +53,13 @@ export const QuestComponent = ({ questData, navigation, screen }) => {
           <Text mx="3" alignItems="center" flexDirection="row">
             {member}+{members.length - 1} others
           </Text>
-          <Button onPress={() => navigation.navigate(screen)}>Manage Quest</Button>
+          <Button
+            onPress={() =>
+              navigation.navigate("ManageQuest", { questData, date})
+            }
+          >
+            Manage Quest
+          </Button>
         </Box>
       </Box>
     );

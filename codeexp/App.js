@@ -19,6 +19,7 @@ import ManagerDashboard from "./src/screens/ManagerDashboard";
 import ManagerLogin from "./src/screens/ManagerLogin";
 import CreateUser from "./src/screens/CreateUser";
 import ManagerViewQuest from "./src/screens/ManagerViewQuest";
+import ManageQuest from "./src/screens/ManageQuest";
 
 // console.log(theme);
 const Stack = createStackNavigator();
@@ -70,6 +71,7 @@ export default function App() {
               name="ManagerViewQuest"
               component={ManagerViewQuest}
             />
+            <Stack.Screen name="ManageQuest" component={ManageQuest} />
 
             <Stack.Screen
               name="FactionLeaderboard"
