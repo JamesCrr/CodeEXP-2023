@@ -70,7 +70,6 @@ export default function ManagerDashboard({ navigation }) {
   if (loaded) {
     return (
       <Box
-        p="2"
         _text={{
           fontSize: "md",
           fontWeight: "medium",
@@ -81,42 +80,67 @@ export default function ManagerDashboard({ navigation }) {
       >
         <VStack bg="primary.500" space={4} alignItems="center">
           <HStack space={2}>
-            <Heading>Dashboard</Heading>
+            <Heading fontSize={"md"}>Dashboard</Heading>
           </HStack>
-          <Heading>{faction}</Heading>
-          <Badge p="3">{numOfMember} Members</Badge>
+          <Heading fontSize={"4xl"}>{faction}</Heading>
+          <Badge
+            borderRadius={"xl"}
+            width={"150"}
+            bg={"warmGray.50"}
+            height={"50"}
+          >
+            <Text numberOfLines={1} color={"black"}>
+              {numOfMember} Members{" "}
+              <Icon as={AntDesign} name="user" size="md" />
+            </Text>
+          </Badge>
 
-          <Badge p="3">{currency} Currency</Badge>
-
+          <Heading fontSize={"4xl"} p="3">
+            {currency} Currency
+          </Heading>
+        </VStack>
+        <VStack space={8} p="6" alignItems="center">
           <ButtonComponent
             navigation={navigation}
             name="Create User"
             screen="CreateUser"
           ></ButtonComponent>
-        </VStack>
-        <VStack space={4} p="6" alignItems="center">
           <Button
+            width="80"
+            rounded={"80"}
             rightIcon={<Icon as={MaterialIcons} name="leaderboard" size="sm" />}
             onPress={() => navigation.navigate("FactionLeaderboard")}
           >
             View Leaderboard
           </Button>
           <Button
+            width="80"
+            rounded={"80"}
             rightIcon={<Icon as={Ionicons} name="create" size="sm" />}
             onPress={() => navigation.navigate("CreateQuest")}
           >
             Create Quest
           </Button>
           <Button
+            width="80"
+            rounded={"80"}
             rightIcon={<Icon as={Entypo} name="list" size="sm" />}
             onPress={() => navigation.navigate("ManagerViewQuest")}
           >
             View Quest
           </Button>
-          <Button rightIcon={<Icon as={AntDesign} name="team" size="sm" />}>
+          <Button
+            width="80"
+            rounded={"80"}
+            rightIcon={<Icon as={AntDesign} name="team" size="sm" />}
+          >
             Faction Management
           </Button>
-          <Button rightIcon={<Icon as={AntDesign} name="user" size="sm" />}>
+          <Button
+            width="80"
+            rounded={"80"}
+            rightIcon={<Icon as={AntDesign} name="user" size="sm" />}
+          >
             Create Employee Account
           </Button>
         </VStack>

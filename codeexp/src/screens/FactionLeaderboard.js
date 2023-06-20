@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 import {firestore } from "../Firebase";
 import React from "react";
+import { Center, Heading, Box } from "native-base";
 
 const FactionLeaderboard = ({ navigation }) => {
   const [faction, setFaction] = useState(Array);
@@ -32,6 +33,11 @@ const FactionLeaderboard = ({ navigation }) => {
   console.log(sorted);
   return (
     <>
+      <Box alignItems="center">
+        <Heading fontSize={"3xl"} color="primary.500">
+          Faction Leaderboard
+        </Heading>
+      </Box>
       {sorted.map(function (data) {
         return (
           <FactionBoardComponent

@@ -4,11 +4,7 @@ import React, { useState, useEffect } from "react";
 import { firestore } from "../Firebase";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 
-export const QuestComponent = ({
-  questData,
-  navigation,
-  screen,
-}) => {
+export const QuestComponent = ({ questData, navigation, screen }) => {
   console.log(questData);
   const [member, setMember] = useState();
   const [loaded, setLoaded] = useState(false);
@@ -35,34 +31,47 @@ export const QuestComponent = ({
 
   if (loaded) {
     return (
-      <Box alignItems="center">
-        <Box w="90%">
-          <Heading mx="3" alignItems="center" flexDirection="row">
-            {questData.title}
-          </Heading>
-          <Divider
-            my="2"
-            _light={{
-              bg: "muted.800",
-            }}
-            _dark={{
-              bg: "muted.50",
-            }}
-          />
-          <Text mx="3" alignItems="center" flexDirection="row">
-            Deadline: {date}
-          </Text>
+      <Box
+        width="80%"
+        height={60}
+        alignSelf="center"
+        borderRadius="lg"
+        bg="background.500"
+        my={4}
+        pt={2}
+        paddingTop={2}
+      >
+        <HStack space={2} mx="3" alignItems="center">
+          <Icon as={Ionicons} name="flag" size="lg" />
+          <VStack alignItems="flex-start" justifyContent="center">
+            <Heading isTruncated fontSize="md">
+              {questData.title}
+            </Heading>
+            <Heading isTruncated fontSize="sm" color="gray.500">
+              Deadline: {date}
+            </Heading>
+          </VStack>
           <Text mx="3" alignItems="center" flexDirection="row">
             {member}+{members.length - 1} others
           </Text>
-          <Button
-            onPress={() =>
-              navigation.navigate("ManageQuest", { questData, date})
-            }
-          >
-            Manage Quest
-          </Button>
-        </Box>
+          <Flex justifyContent="flex-end" flexGrow={1} pl={10}>
+            <Button
+              bg="background.500"
+              size="sm"
+              endIcon={
+                <Icon
+                  as={Ionicons}
+                  name="chevron-forward"
+                  size={5}
+                  color="black"
+                />
+              }
+              onPress={() =>
+                navigation.navigate("ManageQuest", { questData, date })
+              }
+            />
+          </Flex>
+        </HStack>
       </Box>
     );
   }
