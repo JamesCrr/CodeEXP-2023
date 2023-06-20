@@ -11,9 +11,12 @@ import {
   Text,
   Button,
   useTheme,
+  View,
+  VStack,
 } from "native-base";
 import { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
+import { Camera, CameraType } from "expo-camera";
 
 // Import the functions you need from the SDKs you need
 import { storage, database, firestore } from "../Firebase";
@@ -23,6 +26,7 @@ import { collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { useAppContext, useAppDispatchContext } from "../AppProvider";
 
 const appWidth = "90%";
+let camera = undefined;
 const CreatePostScreen = ({ route, navigation }) => {
   const [postTitle, setPostTitle] = useState("");
   const [postContent, setPostContent] = useState("");
@@ -31,23 +35,13 @@ const CreatePostScreen = ({ route, navigation }) => {
 
   const theme = useTheme();
   const { userInfo, completedQuestId } = useAppContext();
-  const dispatch = useAppDispatchContext();
   const uid = userInfo.uid;
-  const [updateQuestBlock, setUpdateQuestBlock] = useState([]);
+  const dispatch = useAppDispatchContext();
   // console.log("Completed Quest Id: ", completedQuestId.id, "UID: ", userInfo.uid);
   // console.log("All Quests: ", allQuests);
-
-  // useEffect(() => {
-  //   const pathRef = createStorageRef(storage, "UserPostAttachments/myImageName");
-  //   getDownloadURL(pathRef)
-  //     .then((url) => {
-  //       setImage(url);
-  //     })
-  //     .catch((error) => {
-  //       // Handle any errors
-  //       console.log(error);
-  //     });
-  // }, []);
+  const [cameraVisible, setCameraVisible] = useState(false);
+  const [cameraType, setCameraType] = useState(CameraType.back);
+  const [cameraPermission, requestCameraPermission] = Camera.useCameraPermissions();
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -223,92 +217,192 @@ const CreatePostScreen = ({ route, navigation }) => {
     navigation.replace("UserStack", { screen: "ViewPostsStack" });
   };
 
+  /**
+   * Start the Camera
+   */
+  const startCamera = async () => {
+    setCameraVisible(true);
+  };
+  /**
+   * Takes a picture from the Camera
+   */
+  const takePicture = async () => {
+    if (!camera) return;
+    const photo = await camera.takePictureAsync();
+
+    setImage(photo.uri);
+    setCameraVisible(false);
+  };
+  const toggleCameraType = () => {
+    setCameraType((prevType) => {
+      return prevType === CameraType.back ? CameraType.front : CameraType.back;
+    });
+  };
+
   return (
-    <ScrollView h={"200"}>
-      <Box alignItems="center" w="100%" h="100%" marginTop={5} safeArea>
-        {/* Title & Content & Selected Image (if have) */}
-        <Stack marginTop={10} w={appWidth} space={"sm"}>
-          <Input
-            size={"md"}
-            fontWeight={"bold"}
-            fontSize={"md"}
-            bg={"warmGray.200"}
-            borderwe
-            placeholder="Post Title"
-            value={postTitle}
-            onChangeText={(text) => {
-              setPostTitle(text);
-              if (validPost) {
-                if (text.trim() === "") {
-                  setValidPost(false);
-                }
-              } else {
-                if (text.trim() !== "" && postContent.trim() !== "") {
-                  setValidPost(true);
-                }
-              }
-            }}
-          />
-          {image && (
-            <Box w={"auto"} h={80}>
-              <Image
-                source={{
-                  uri: image,
+    <>
+      {cameraVisible ? (
+        <View flex={1}>
+          {cameraPermission.granted ? (
+            <Camera
+              style={{ flex: 1, zIndex: 2, height: "100%" }}
+              type={cameraType}
+              ref={(r) => {
+                camera = r;
+              }}
+            >
+              <View
+                style={{
+                  position: "absolute",
+                  bottom: 0,
+                  flexDirection: "row",
+                  flex: 1,
+                  width: "100%",
+                  padding: 20,
+                  justifyContent: "space-between",
                 }}
-                alt={"altText"}
-                resizeMode={"cover"}
-                size={"100%"}
-              />
-              <Pressable
-                onPress={onRemoveSelectedImageHandler}
-                alignSelf={"center"}
-                position={"absolute"}
-                right={"2"}
-                top={"2"}
               >
-                <MaterialIcons name="cancel" size={30} color="black" />
-              </Pressable>
-            </Box>
+                <View
+                  style={{
+                    alignSelf: "center",
+                    flex: 1,
+                    alignItems: "center",
+                  }}
+                >
+                  <Pressable
+                    onPress={takePicture}
+                    style={{
+                      width: 70,
+                      height: 70,
+                      bottom: 0,
+                      borderRadius: 50,
+                      backgroundColor: "#fff",
+                    }}
+                  />
+                </View>
+              </View>
+              <View
+                style={{
+                  position: "absolute",
+                  bottom: 80,
+                  flexDirection: "row",
+                  flex: 1,
+                  width: "100%",
+                  padding: 20,
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Pressable onPress={toggleCameraType} borderWidth={1} borderColor={"white"}>
+                  <Text fontWeight={"bold"} color={"white"} fontSize={"md"}>
+                    Flip Camera
+                  </Text>
+                </Pressable>
+              </View>
+            </Camera>
+          ) : (
+            <VStack space={"md"} flexGrow={1} justifyContent={"center"} borderWidth={1}>
+              <Text textAlign={"center"}>We need your permission to use the camera!</Text>
+              <Button width={"80%"} alignSelf={"center"} onPress={requestCameraPermission}>
+                Grant Permission
+              </Button>
+            </VStack>
           )}
-          <TextArea
-            h={400}
-            fontSize={12}
-            bg={"warmGray.200"}
-            placeholder="Post Content"
-            value={postContent}
-            onChangeText={(text) => {
-              setPostContent(text);
-              if (validPost) {
-                if (text.trim() === "") {
-                  setValidPost(false);
-                }
-              } else {
-                if (text.trim() !== "" && postTitle.trim() !== "") {
-                  setValidPost(true);
-                }
-              }
-            }}
-          />
-        </Stack>
-        {/* Icon Buttons to attach things */}
-        <HStack space={"md"} w={appWidth} justifyContent={"flex-start"} marginTop={2}>
-          {/* Render the color differently if there is already an image attached */}
-          <Pressable onPress={onSelectImageHandler} isDisabled={image != undefined}>
-            {image != undefined ? (
-              <MaterialIcons name="image" size={35} color={theme.colors.warmGray[400]} />
-            ) : (
-              <MaterialIcons name="image" size={35} color={theme.colors.primary[400]} />
-            )}
-          </Pressable>
-        </HStack>
-        {/* Submit Post Button */}
-        <Button isDisabled={!validPost} onPress={onSubmitPostHandler}>
-          <Text color={"white"} fontWeight={"bold"} fontSize={18} textAlign={"center"}>
-            Submit
-          </Text>
-        </Button>
-      </Box>
-    </ScrollView>
+        </View>
+      ) : (
+        <ScrollView h={"200"}>
+          <Box alignItems="center" w="100%" h="100%" marginTop={5} safeArea>
+            {/* Title & Content & Selected Image (if have) */}
+            <Stack marginTop={10} w={appWidth} space={"sm"}>
+              <Input
+                size={"md"}
+                fontWeight={"bold"}
+                fontSize={"md"}
+                bg={"warmGray.200"}
+                borderwe
+                placeholder="Post Title"
+                value={postTitle}
+                onChangeText={(text) => {
+                  setPostTitle(text);
+                  if (validPost) {
+                    if (text.trim() === "") {
+                      setValidPost(false);
+                    }
+                  } else {
+                    if (text.trim() !== "" && postContent.trim() !== "") {
+                      setValidPost(true);
+                    }
+                  }
+                }}
+              />
+              {image && (
+                <Box w={"auto"} h={80}>
+                  <Image
+                    source={{
+                      uri: image,
+                    }}
+                    alt={"altText"}
+                    resizeMode={"cover"}
+                    size={"100%"}
+                  />
+                  <Pressable
+                    onPress={onRemoveSelectedImageHandler}
+                    alignSelf={"center"}
+                    position={"absolute"}
+                    right={"2"}
+                    top={"2"}
+                  >
+                    <MaterialIcons name="cancel" size={30} color="black" />
+                  </Pressable>
+                </Box>
+              )}
+              <TextArea
+                h={400}
+                fontSize={12}
+                bg={"warmGray.200"}
+                placeholder="Post Content"
+                value={postContent}
+                onChangeText={(text) => {
+                  setPostContent(text);
+                  if (validPost) {
+                    if (text.trim() === "") {
+                      setValidPost(false);
+                    }
+                  } else {
+                    if (text.trim() !== "" && postTitle.trim() !== "") {
+                      setValidPost(true);
+                    }
+                  }
+                }}
+              />
+            </Stack>
+            {/* Icon Buttons to attach things */}
+            <HStack space={"sm"} w={appWidth} justifyContent={"flex-start"} marginTop={2}>
+              {/* Render the color differently if there is already an image attached */}
+              <Pressable onPress={onSelectImageHandler} isDisabled={image != undefined}>
+                {image != undefined ? (
+                  <MaterialIcons name="image" size={35} color={theme.colors.warmGray[400]} />
+                ) : (
+                  <MaterialIcons name="image" size={35} color={theme.colors.primary[400]} />
+                )}
+              </Pressable>
+              <Pressable onPress={startCamera} isDisabled={image != undefined}>
+                {image != undefined ? (
+                  <MaterialIcons name="image" size={35} color={theme.colors.warmGray[400]} />
+                ) : (
+                  <MaterialIcons name="image" size={35} color={theme.colors.primary[400]} />
+                )}
+              </Pressable>
+            </HStack>
+            {/* Submit Post Button */}
+            <Button isDisabled={!validPost} onPress={onSubmitPostHandler}>
+              <Text color={"white"} fontWeight={"bold"} fontSize={18} textAlign={"center"}>
+                Submit
+              </Text>
+            </Button>
+          </Box>
+        </ScrollView>
+      )}
+    </>
   );
 };
 
