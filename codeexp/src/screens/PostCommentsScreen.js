@@ -75,7 +75,11 @@ const PostCommentsScreen = ({ route, navigation }) => {
           {commentList.length > 0 ? (
             commentList.map((ele, index) => {
               const { username, commentContent } = ele;
-              const key = `${username}+${index}`;
+              const key = `${username}+${index}+${commentContent.slice(
+                0,
+                Math.min(3, commentContent.length)
+              )}`;
+              // console.log(key);
               return <CommentComponent key={key} username={username} commentContent={commentContent} />;
             })
           ) : (
@@ -84,7 +88,7 @@ const PostCommentsScreen = ({ route, navigation }) => {
         </Box>
       </ScrollView>
 
-      <Box position={"absolute"} bottom={0} bg={"gray.400"} width={"100%"}>
+      <Box bg={"gray.400"} width={"100%"}>
         <HStack justifyContent={"space-between"} paddingY={2}>
           <Input
             bg={"white"}

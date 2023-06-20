@@ -49,12 +49,11 @@ const LoginPage = ({ navigation }) => {
       <Spacer my={10} />
       <Text
         fontSize="3xl"
-        fontWeight="900"
         textAlign="center"
         color={"primary.500"}
         fontFamily={"Montserrat-SemiBold"}
       >
-        User Log In
+        Log In
       </Text>
       <Spacer my={2} />
       <FormControl space={4} w="75%" maxW="300px" mx="auto">
@@ -106,10 +105,10 @@ const LoginPage = ({ navigation }) => {
         alignSelf="center"
         bg="primary.500"
         rounded={"full"}
-        _pressed={{ bg: "blue.700" }}
+        _pressed={{ bg: "base.700" }}
         _text={{ color: "white" }}
       >
-        Sign In
+        Log In
       </Button>
     </Box>
   );
