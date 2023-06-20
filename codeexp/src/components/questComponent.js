@@ -1,4 +1,5 @@
-import { Button, Heading, Divider, Box, Text } from "native-base";
+import { Button, Heading, Box, VStack, Icon, HStack, Flex } from "native-base";
+import { Ionicons } from "@expo/vector-icons";
 import React, { useState, useEffect } from "react";
 import { firestore } from "../Firebase";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
@@ -27,30 +28,46 @@ export const QuestComponent = ({ questData, navigation, screen }) => {
     EmployeeData();
     setLoaded(true);
   }, []);
+
   if (loaded) {
     return (
-      <Box alignItems="center">
-        <Box w="90%">
-          <Heading mx="3" alignItems="center" flexDirection="row">
-            {questData.title}
-          </Heading>
-          <Divider
-            my="2"
-            _light={{
-              bg: "muted.800",
-            }}
-            _dark={{
-              bg: "muted.50",
-            }}
-          />
-          <Text mx="3" alignItems="center" flexDirection="row">
-            Deadline: {date}
-          </Text>
-          <Text mx="3" alignItems="center" flexDirection="row">
-            {member}+{members.length - 1} others
-          </Text>
-          <Button onPress={() => navigation.navigate(screen)}>Manage Quest</Button>
-        </Box>
+      <Box
+        width="80%"
+        height={50}
+        alignSelf="center"
+        borderRadius="lg"
+        bg="background.500"
+        my={4}
+        pt={2}
+        height="20"
+        paddingTop={5}
+      >
+        <HStack space={2} mx="3" alignItems="center">
+          <Icon as={Ionicons} name="flag" size="lg" />
+          <VStack alignItems="flex-start" justifyContent="center">
+            <Heading isTruncated fontSize="lg">
+              {questData.title}
+            </Heading>
+            <Heading isTruncated fontSize="md" color="gray.500">
+              Deadline: {date}
+            </Heading>
+          </VStack>
+          <Flex alignItems="center" justifyContent="flex-end" flexGrow={1}>
+            <Button
+              bg="background.500"
+              size="sm"
+              endIcon={
+                <Icon
+                  as={Ionicons}
+                  name="chevron-forward"
+                  size={5}
+                  color="black"
+                />
+              }
+              onPress={() => navigation.navigate(screen)}
+            />
+          </Flex>
+        </HStack>
       </Box>
     );
   }

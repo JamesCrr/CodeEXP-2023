@@ -27,6 +27,7 @@ import {
   Text,
   Button,
   Icon,
+  VStack,
 } from "native-base";
 import { QuestComponent } from "../components/questComponent";
 
@@ -35,8 +36,24 @@ const ManagerViewQuest = ({ navigation }) => {
   const [loaded, setLoaded] = useState(Array);
   const [numOfQuest, setNum] = useState(0);
   const [allQuestState, setAllQuest] = useState([]);
+  const [filteredQuests, setFilteredQuests] = useState([]);
 
   const allQuestArray = [];
+
+  const handleSearch = (searchTerm) => {
+    if (searchTerm === "") {
+      setFilteredQuests(allQuestState);
+    } else {
+      const filtered = allQuestState.filter((quest) => {
+        if (quest.title) {
+          return quest.title.toLowerCase().includes(searchTerm.toLowerCase());
+        }
+        return false;
+      });
+      setFilteredQuests(filtered);
+    }
+  };
+
   useEffect(() => {
     async function managerData() {
       const docRef = doc(firestore, "managers", Auth.currentUser.uid);
@@ -61,15 +78,32 @@ const ManagerViewQuest = ({ navigation }) => {
       setNum(allQuestArray.length);
       setAllQuest(allQuestArray);
       setLoaded(true);
+      setFilteredQuests(allQuestArray); // Set the initial filteredQuests state
     }
     managerData();
   }, []);
   if (loaded) {
     return (
       <Box>
-        <Badge>{numOfQuest} Active Quest</Badge>
+        <HStack alignItems="center">
+          <Badge>
+            <Text fontSize="5xl">{numOfQuest}</Text>
+          </Badge>
+          <VStack>
+            <Text fontSize="xl">Active</Text>
+            <Text fontSize="xl">Quests</Text>
+          </VStack>
+        </HStack>
+        <Input
+          borderRadius={"full"}
+          bg={"primary.500"}
+          width={"80%"}
+          alignSelf={"center"}
+          placeholder="Search for a quest"
+          onChangeText={(text) => handleSearch(text)}
+        />
         <React.Fragment>
-          {allQuestState.map((quest) => {
+          {filteredQuests.map((quest) => {
             return (
               <QuestComponent
                 questData={quest}
