@@ -13,6 +13,12 @@ import { AppProvider } from "./src/AppProvider";
 import LoginPage from "./src/screens/LoginPage";
 import ViewQuests from "./src/screens/ViewQuests";
 import UserStack from "./src/screens/UserStack";
+import CreateQuest from "./src/screens/CreateQuest";
+import FactionLeaderboard from "./src/screens/FactionLeaderboard";
+import ManagerDashboard from "./src/screens/ManagerDashboard";
+import ManagerLogin from "./src/screens/ManagerLogin";
+import CreateUser from "./src/screens/CreateUser";
+import ManagerViewQuest from "./src/screens/ManagerViewQuest";
 
 // console.log(theme);
 const Stack = createStackNavigator();
@@ -38,17 +44,43 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={theme}>
-<AppProvider>
+      <AppProvider>
         {/* React Navigation */}
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: true }}>
-          <Stack.Screen name="LoginPage" component={LoginPage} />
-          <Stack.Screen name="UserStack" component={UserStack} options={{ headerShown: false }} />
-          <Stack.Screen name="ViewQuests" component={ViewQuests} />
+            <Stack.Screen name="LoginPage" component={FirstScreen} />
+            <Stack.Screen
+              name="UserStack"
+              component={UserStack}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="ViewQuests" component={ViewQuests} />
             <Stack.Screen name="ViewPostsScreen" component={ViewPostsScreen} />
-            <Stack.Screen name="CreatePostScreen" component={CreatePostScreen} />
-            <Stack.Screen name="PostCommentsScreen" component={PostCommentsScreen} />
+            <Stack.Screen
+              name="CreatePostScreen"
+              component={CreatePostScreen}
+            />
+            <Stack.Screen
+              name="PostCommentsScreen"
+              component={PostCommentsScreen}
+            />
             {/* <Stack.Screen name ="WelcomeScreen" component={WelcomeScreen}/> */}
+            <Stack.Screen name="CreateQuest" component={CreateQuest} />
+            <Stack.Screen
+              name="ManagerViewQuest"
+              component={ManagerViewQuest}
+            />
+
+            <Stack.Screen
+              name="FactionLeaderboard"
+              component={FactionLeaderboard}
+            />
+            <Stack.Screen
+              name="ManagerDashboard"
+              component={ManagerDashboard}
+            />
+            <Stack.Screen name="CreateUser" component={CreateUser} />
+            <Stack.Screen name="ManagerLogin" component={ManagerLogin} />
           </Stack.Navigator>
         </NavigationContainer>
       </AppProvider>
