@@ -51,7 +51,7 @@ const ManagerViewQuest = ({ navigation }) => {
       }
       await Promise.all(
         allQuest.map(async (item) => {
-          const docRef2 = doc(firestore, "quests", item);
+          const docRef2 = doc(firestore, "quests", item.questId);
           const docSnap2 = await getDoc(docRef2);
           //   return docSnap2;
           allQuestArray.push(docSnap2.data());
@@ -67,7 +67,7 @@ const ManagerViewQuest = ({ navigation }) => {
   if (loaded) {
     return (
       <Box>
-        <Badge>{numOfQuest}</Badge>
+        <Badge>{numOfQuest} Active Quest</Badge>
         <React.Fragment>
           {allQuestState.map((quest) => {
             return (
