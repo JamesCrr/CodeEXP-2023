@@ -20,6 +20,7 @@ const WelcomeScreen = () => {
             styles.topTypo,
             { fontFamily: "Montserrat-SemiBold" },
           ]}
+          numberOfLines={1}
         >
           buddies
         </Text>
@@ -54,8 +55,9 @@ const styles = StyleSheet.create({
   topTypo: {
     textAlign: "left",
     color: Color.base,
-    width: "99.63%",
+    width: "100%",
     position: "absolute",
+    left: -10,
   },
   bgIcon: {
     top: 0,
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
   bottom: {
     top: "53.76%",
     left: "0.37%",
-    letterSpacing: -1.9,
+    letterSpacing: -3.5,
     fontWeight: "500",
     fontSize: 64,
     lineHeight: 64,
@@ -76,7 +78,7 @@ const styles = StyleSheet.create({
   top: {
     top: "0%",
     left: "0%",
-    fontWeight: "600",
+    fontWeight: "500",
     fontSize: 64,
     lineHeight: 64,
   },
