@@ -62,7 +62,7 @@ export default function ManagerDashboard({ navigation }) {
         // docSnap.data() will be undefined in this case
         console.log("No such document!");
       }
-      setNoOfMembers(members.length);
+      setNoOfMembers(docSnap2.data().members.length);
       setLoaded(true);
     }
     managerData();

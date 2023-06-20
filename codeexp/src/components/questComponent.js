@@ -59,10 +59,11 @@ export const QuestComponent = ({ questData, navigation, screen }) => {
             <Heading isTruncated fontSize="sm" color="gray.500">
               Deadline: {date}
             </Heading>
+            <Text mx="3" alignItems="center" flexDirection="row">
+              {member}+{members.length - 1} others
+            </Text>
           </VStack>
-          {/* <Text mx="3" alignItems="center" flexDirection="row">
-            {member}+{members.length - 1} others
-          </Text> */}
+
           <Flex justifyContent="flex-end" flexGrow={1} pl={10}>
             <Button
               bg="background.500"
