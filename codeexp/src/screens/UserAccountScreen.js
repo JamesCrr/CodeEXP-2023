@@ -37,13 +37,13 @@ const HistoryTab = ({ data, currDate }) => {
               const dateDiff = getDateDiff(ele.isPost ? ele.postDate : ele.postDate, currDate);
               let dateDiffStr = "";
               if (dateDiff.d > 0) {
-                dateDiffStr = `${dateDiff.d} d`;
+                dateDiffStr = `${dateDiff.d}d ago`;
               } else if (dateDiff.h > 0) {
-                dateDiffStr = `${dateDiff.h} hr`;
+                dateDiffStr = `${dateDiff.h}hr ago`;
               } else if (dateDiff.m > 0) {
-                dateDiffStr = `${dateDiff.m} min`;
+                dateDiffStr = `${dateDiff.m}min ago`;
               } else if (dateDiff.s > 0) {
-                dateDiffStr = `${dateDiff.s} s`;
+                dateDiffStr = `${dateDiff.s}s ago`;
               }
 
               return (
