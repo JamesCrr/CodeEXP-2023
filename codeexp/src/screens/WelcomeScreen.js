@@ -26,7 +26,7 @@ const WelcomeScreen = () => {
         </View> */}
         <Center marginTop={10}>
           <Image source={Logo} size={260} resizeMode={"contain"} alt="Logo" />
-          <VStack marginTop={10} space={10}>
+          <VStack marginTop={200} space={10}>
             <Button borderRadius={30} onPress={() => navigation.navigate("LoginPage")}>
               <Text
                 fontSize={"md"}
