@@ -44,7 +44,7 @@ const ManagerLogin = ({ navigation }) => {
   };
 
   return (
-    <Box>
+    <Box safeArea>
       <ReturnButton />
       <Spacer my={10} />
       <Text

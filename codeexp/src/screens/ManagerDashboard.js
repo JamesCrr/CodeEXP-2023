@@ -79,6 +79,7 @@ export default function ManagerDashboard({ navigation }) {
           letterSpacing: "lg",
         }}
         shadow={2}
+        safeArea
       >
         <VStack bg="primary.500" space={4} alignItems="center">
           <HStack pt={2} pr={2}>

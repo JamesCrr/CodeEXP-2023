@@ -53,25 +53,52 @@ export default function App() {
       <AppProvider>
         {/* React Navigation */}
         <NavigationContainer>
-          <Stack.Navigator screenOptions={{ headerShown: true }}>
-            <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} options={{ headerShown: false }} />
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen
+              name="WelcomeScreen"
+              component={WelcomeScreen}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen name="LoginPage" component={LoginPage} />
             <Stack.Screen name="ManagerLogin" component={ManagerLogin} />
-            <Stack.Screen name="UserStack" component={UserStack} options={{ headerShown: false }} />
+            <Stack.Screen
+              name="UserStack"
+              component={UserStack}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen name="ViewQuests" component={ViewQuests} />
             <Stack.Screen name="RewardsScreen" component={RewardsScreen} />
             <Stack.Screen name="ViewPostsScreen" component={ViewPostsScreen} />
             <Stack.Screen name="UserLeaderboard" component={UserLeaderboard} />
-            <Stack.Screen name="CreatePostScreen" component={CreatePostScreen} />
-            <Stack.Screen name="CameraScreen" component={CameraScreen} options={{ headerShown: false }} />
-            <Stack.Screen name="PostCommentsScreen" component={PostCommentsScreen} />
+            <Stack.Screen
+              name="CreatePostScreen"
+              component={CreatePostScreen}
+            />
+            <Stack.Screen
+              name="CameraScreen"
+              component={CameraScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="PostCommentsScreen"
+              component={PostCommentsScreen}
+            />
             {/* <Stack.Screen name ="WelcomeScreen" component={WelcomeScreen}/> */}
             <Stack.Screen name="CreateQuest" component={CreateQuest} />
-            <Stack.Screen name="ManagerViewQuest" component={ManagerViewQuest} />
+            <Stack.Screen
+              name="ManagerViewQuest"
+              component={ManagerViewQuest}
+            />
             <Stack.Screen name="ManageQuest" component={ManageQuest} />
 
-            <Stack.Screen name="FactionLeaderboard" component={FactionLeaderboard} />
-            <Stack.Screen name="ManagerDashboard" component={ManagerDashboard} />
+            <Stack.Screen
+              name="FactionLeaderboard"
+              component={FactionLeaderboard}
+            />
+            <Stack.Screen
+              name="ManagerDashboard"
+              component={ManagerDashboard}
+            />
             <Stack.Screen name="CreateUser" component={CreateUser} />
           </Stack.Navigator>
         </NavigationContainer>

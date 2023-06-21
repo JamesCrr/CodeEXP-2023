@@ -38,7 +38,7 @@ const FactionLeaderboard = ({ navigation }) => {
   if (loaded) {
     return (
       <>
-        <Box>
+        <Box safeArea>
           <ReturnButton />
           <Heading alignSelf="center" fontSize={"3xl"} color="primary.500">
             Faction Leaderboard

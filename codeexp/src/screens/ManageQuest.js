@@ -60,14 +60,57 @@ const ManageQuest = ({ route, navigation }) => {
   }, []);
 
   const completeQuest = async () => {
-    /* ... implementation code for completing the quest */
+    const questRef = doc(firestore, "quests", quest.questId);
+    await updateDoc(questRef, {
+      completed: true,
+    });
+    const managerRef = doc(firestore, "managers", Auth.currentUser.uid);
+    const ManagerSnap = await getDoc(managerRef);
+    if (ManagerSnap.exists()) {
+      console.log("Document data:", ManagerSnap.data());
+      let ManagerQuest = ManagerSnap.data().assignedQuest;
+      const filterManager = ManagerQuest.filter(
+        (i) => i.questId != quest.questId
+      );
+      filterManager.push({ completed: true, questId: quest.questId });
+      await updateDoc(managerRef, {
+        assignedQuest: filterManager,
+      });
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No such document!");
+    }
+    await Promise.all(
+      quest.questMembers.map(async (member) => {
+        const memberRef = doc(firestore, "users", member);
+        getDoc(memberRef).then((memberSnap) => {
+          let memberQuest = memberSnap.data().assignedQuest;
+          const filterMember = memberQuest.filter(
+            (i) => i.questId != quest.questId
+          );
+          filterMember.push({ completed: true, questId: quest.questId });
+          updateDoc(memberRef, {
+            assignedQuest: filterMember,
+            currency: memberSnap.data().currency + quest.currency,
+          }).then((value) => {
+            console.log("done");
+          });
+        });
+      })
+    );
+    const factionRef = doc(firestore, "factions", ManagerSnap.data().faction);
+    const factionSnap = await getDoc(factionRef);
+    const newpoints = quest.questMembers.length * quest.currency;
+    await updateDoc(factionRef, {
+      currency: factionSnap.data().currency + newpoints,
+    });
 
     navigation.navigate("ManagerDashboard");
   };
 
   if (loaded) {
     return (
-      <Box>
+      <Box safeArea>
         <ReturnButton />
         <Center>
           <Container>

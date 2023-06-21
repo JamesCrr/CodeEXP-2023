@@ -98,7 +98,7 @@ const ManagerViewQuest = ({ navigation }) => {
   }, []);
   if (loaded) {
     return (
-      <Box>
+      <Box safeArea>
         <HStack alignItems="center" left={2}>
           <Badge>
             <Text fontSize="5xl">{numOfQuest}</Text>

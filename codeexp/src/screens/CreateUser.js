@@ -123,7 +123,7 @@ const CreateUser = ({ navigation }) => {
   };
 
   return (
-    <Box>
+    <Box safeArea>
       <ReturnButton />
       <HStack justifyContent="center" m={4}>
         <Avatar
