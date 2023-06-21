@@ -4,18 +4,19 @@ import { doc, getDoc, addDoc, collection, updateDoc } from "firebase/firestore";
 import {
   RefreshControl,
   Box,
-  FlatList,
-  Heading,
   Avatar,
   HStack,
   VStack,
   Text,
+  FlatList,
   Spacer,
   Center,
   NativeBaseProvider,
   ScrollView,
   SafeAreaView,
-  StyleSheet
+  StyleSheet,
+  Button,
+  Heading,
 } from "native-base";
 import { Pressable } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -48,13 +49,13 @@ const ViewQuests = () => {
     console.log("item: " + item.questId);
     navigation.navigate("CreatePostScreen");
     dispatch({ type: "completedQuestId", val: item.questId });
-  }
+  };
 
   const goToCompleteScreen = async (item) => {
     console.log("item: " + Object.values(item), Object.keys(item));
     dispatch({ type: "completedQuestId", val: item.questId });
     alert("Quest Completed! Review sent to manager!");
-    console.log("item: " + item.questId, "USER:",uid);
+    console.log("item: " + item.questId, "USER:", uid);
     //fetch data from firestore
     const userQuestRef = doc(firestore, "users", uid);
     const userQuestSnap = await getDoc(userQuestRef);
@@ -99,7 +100,10 @@ const ViewQuests = () => {
             console.log("HELLLLOOOOOO", questDescriptionSnap.data());
             if (questDescriptionSnap.exists()) {
               const questDescription = questDescriptionSnap.data();
-              if (questDescriptionSnap.data().duration === "weekly" && questDescriptionSnap.data().type !== "assigned") {
+              if (
+                questDescriptionSnap.data().duration === "weekly" &&
+                questDescriptionSnap.data().type !== "assigned"
+              ) {
                 questDescription.questId = val[1];
                 weeklyQuests.push(questDescription);
                 console.log(
@@ -107,8 +111,11 @@ const ViewQuests = () => {
                   questDescriptionSnap.data()
                 );
                 console.log("WEEKLY", weeklyQuests);
-                // setUserWeeklyQuest(weeklyQuests);
-              } else if (questDescriptionSnap.data().duration === "monthly" && questDescriptionSnap.data().type !== "assigned") {
+                /* setUserWeeklyQuest(weeklyQuests); */
+              } else if (
+                questDescriptionSnap.data().duration === "monthly" &&
+                questDescriptionSnap.data().type !== "assigned"
+              ) {
                 questDescription.questId = val[1];
                 monthlyQuests.push(questDescription);
                 console.log(
@@ -116,9 +123,8 @@ const ViewQuests = () => {
                   questDescriptionSnap.data()
                 );
                 console.log("MONTHLY:", monthlyQuests);
-                // setUserMonthlyQuest(monthlyQuests);
-              }
-              else if(questDescriptionSnap.data().type === "assigned"){
+                /* setUserMonthlyQuest(monthlyQuests); */
+              } else if (questDescriptionSnap.data().type === "assigned") {
                 questDescription.questId = val[1];
                 workQuests.push(questDescription);
                 console.log(
@@ -155,228 +161,153 @@ const ViewQuests = () => {
   console.log("userWorkQuest HERE:", userWorkQuest);
 
   return (
-    // <SafeAreaView >
-    // <ScrollView
-    //   refreshControl={
-    //     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-    //   }>
     <ScrollView>
-    <Box alignItems="center">
-      <Heading fontSize="xl" pt="10">
-        Work Quests
-      </Heading>
-      <FlatList
-        data={userWorkQuest}
-        renderItem={({ item }) => (
-          <Box
-            borderBottomWidth="1"
-            _dark={{
-              borderColor: "muted.50",
-            }}
-            borderColor="muted.800"
-            pl={["0", "4"]}
-            pr={["0", "5"]}
-            py="2"
-          >
-            <HStack space={[2, 3]} justifyContent="space-between">
-              <VStack>
-                <Text
-                  _dark={{
-                    color: "warmGray.50",
-                  }}
-                  color="coolGray.800"
-                  bold
-                >
-                  {item.title}
-                </Text>
-                <Text
-                  color="coolGray.600"
-                  _dark={{
-                    color: "warmGray.200",
-                  }}
-                >
-                  {item.description}
-                </Text>
-                <Text
-                  color="coolGray.600"
-                  _dark={{
-                    color: "warmGray.200",
-                  }}
-                >
-                  {item.currency}
-                </Text>
-                <Pressable onPress={() => goToCompleteScreen(item)}>
-                  <Text
-                    color="coolGray.600"
-                    _dark={{
-                      color: "warmGray.200",
-                    }}
-                  >
-                    Perform Quest!
-                  </Text>
-                </Pressable>
-              </VStack>
-              <Spacer />
-              <Text
-                fontSize="xs"
-                _dark={{
-                  color: "warmGray.50",
-                }}
-                color="coolGray.800"
-                alignSelf="flex-start"
-              ></Text>
-            </HStack>
-          </Box>
-        )}
-        keyExtractor={(item, index) => index}
-      />
+      <Box alignItems="center">
+        <Heading fontSize="3xl" pt="10" color="black">
+          Work Quests
+        </Heading>
+        <FlatList
+          data={userWorkQuest}
+          renderItem={({ item }) => (
+            <VStack alignItems="flex-start">
+              {/* Quest Title and Currency */}
 
-      <Heading fontSize="xl" pt="10">
-        Weekly Quests
-      </Heading>
-      <FlatList
-        data={userWeeklyQuest}
-        renderItem={({ item }) => (
-          <Box
-            borderBottomWidth="1"
-            _dark={{
-              borderColor: "muted.50",
-            }}
-            borderColor="muted.800"
-            pl={["0", "4"]}
-            pr={["0", "5"]}
-            py="2"
-          >
-            <HStack space={[2, 3]} justifyContent="space-between">
-              <VStack>
-                <Text
-                  _dark={{
-                    color: "warmGray.50",
-                  }}
-                  color="coolGray.800"
-                  bold
-                >
-                  {item.title}
-                </Text>
-                <Text
-                  color="coolGray.600"
-                  _dark={{
-                    color: "warmGray.200",
-                  }}
-                >
-                  {item.description}
-                </Text>
-                <Text
-                  color="coolGray.600"
-                  _dark={{
-                    color: "warmGray.200",
-                  }}
-                >
-                  {item.currency}
-                </Text>
-                <Pressable onPress={() => goToCreatePostScreen(item)}>
-                  <Text
-                    color="coolGray.600"
-                    _dark={{
-                      color: "warmGray.200",
-                    }}
-                  >
-                    Perform Quest!
+              <Box
+                bg="primary.300"
+                rounded="full"
+                minHeight={60}
+                p={5}
+                width={380}
+                mb={5}
+              >
+                <VStack alignItems="flex-start" left="5">
+                  <Text fontSize="sm" bold fontSize="15">
+                    {item.title}
                   </Text>
-                </Pressable>
-              </VStack>
-              <Spacer />
-              <Text
-                fontSize="xs"
-                _dark={{
-                  color: "warmGray.50",
-                }}
-                color="coolGray.800"
-                alignSelf="flex-start"
-              ></Text>
-            </HStack>
-          </Box>
-        )}
-        keyExtractor={(item, index) => index}
-      />
+                  <Text fontSize="xs" color="coolGray.600" fontSize="15">
+                    {item.currency}
+                  </Text>
+                </VStack>
+                <Text fontSize="xs" left="5" pr={5}>
+                  {item.details}
+                </Text>
+                <Button
+                  bg="primary.400"
+                  mt={5}
+                  rounded="full"
+                  width={"40%"}
+                  alignSelf={"flex-end"}
+                  onPress={() => goToCreatePostScreen(item)}
+                >
+                  Perform Quest!
+                </Button>
+              </Box>
 
-      <Heading fontSize="xl" p="4" pb="3">
-        Monthly Quests
-      </Heading>
-      {console.log("userMONTHLYQUEST:", userMonthlyQuest)}
-      <FlatList
-        data={userMonthlyQuest}
-        renderItem={({ item }) => (
-          <Box
-            rounded={"full"}
-            bg="cyan.500"
-            _dark={{
-              borderColor: "muted.50",
-            }}
-            pl={["0", "4"]}
-            pr={["0", "5"]}
-            py="2"
-          >
-            <HStack space={[2, 3]} justifyContent="space-between">
-              <VStack>
-                <Text
-                  _dark={{
-                    color: "warmGray.50",
-                  }}
-                  color="coolGray.800"
-                  bold
-                >
-                  {item.title}
-                </Text>
-                <Text
-                  color="coolGray.600"
-                  _dark={{
-                    color: "warmGray.200",
-                  }}
-                >
+              {/* Perform Quest Button */}
+            </VStack>
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
+
+        <Heading fontSize="3xl" pt="10" color="black">
+          Weekly Quests
+        </Heading>
+        <FlatList
+          data={userWeeklyQuest}
+          renderItem={({ item }) => (
+            <VStack alignItems="flex-start">
+              {/* Quest Title and Currency */}
+
+              <Box
+                bg="socialQuests.300"
+                rounded="full"
+                minHeight={60}
+                p={5}
+                width={380}
+                mb={5}
+              >
+                <VStack alignItems="flex-start" left="5">
+                  <Text fontSize="sm" bold fontSize="15">
+                    {item.title}
+                  </Text>
+                  <Text fontSize="xs" color="coolGray.600" fontSize="15">
+                    {item.currency}
+                  </Text>
+                </VStack>
+                <Text fontSize="xs" left="5" pr={5}>
                   {item.description}
                 </Text>
-                <Text
-                  color="coolGray.600"
-                  _dark={{
-                    color: "warmGray.200",
-                  }}
+                <Button
+                  bg="socialQuests.400"
+                  mt={5}
+                  rounded="full"
+                  width={"40%"}
+                  alignSelf={"flex-end"}
+                  onPress={() => goToCreatePostScreen(item)}
                 >
-                  {item.currency}
-                </Text>
-                <Pressable onPress={() => goToCreatePostScreen(item)}>
-                  <Text
-                    color="coolGray.600"
-                    _dark={{
-                      color: "warmGray.200",
-                    }}
-                  >
-                    Perform Quest!
+                  Perform Quest!
+                </Button>
+              </Box>
+
+              {/* Perform Quest Button */}
+            </VStack>
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
+
+        <Heading fontSize="3xl" pt="10" color="black">
+          Monthly Quests
+        </Heading>
+        <FlatList
+          data={userMonthlyQuest}
+          renderItem={({ item }) => (
+            <VStack alignItems="flex-start">
+              {/* Quest Title and Currency */}
+
+              <Box
+                bg="taskQuests.300"
+                rounded="full"
+                minHeight={60}
+                p={5}
+                width={380}
+                mb={5}
+              >
+                <VStack alignItems="flex-start" left="5">
+                  <Text fontSize="sm" bold fontSize="15">
+                    {item.title}
                   </Text>
-                </Pressable>
-              </VStack>
-              <Spacer />
-              <Text
-                fontSize="xs"
-                _dark={{
-                  color: "warmGray.50",
-                }}
-                color="coolGray.800"
-                alignSelf="flex-start"
-              ></Text>
-            </HStack>
-          </Box>
-        )}
-        keyExtractor={(item, index) => index}
-      />
-    </Box>
+                  <Text fontSize="xs" color="coolGray.600" fontSize="15">
+                    {item.currency}
+                  </Text>
+                </VStack>
+                <Text fontSize="xs" left="5" pr={5}>
+                  {item.description}
+                </Text>
+                <Button
+                  bg="taskQuests.400"
+                  mt={5}
+                  rounded="full"
+                  width={"40%"}
+                  alignSelf={"flex-end"}
+                  onPress={() => goToCreatePostScreen(item)}
+                >
+                  Perform Quest!
+                </Button>
+              </Box>
+
+              {/* Perform Quest Button */}
+            </VStack>
+          )}
+          keyExtractor={(item, index) => index.toString()}
+        />
+      </Box>
     </ScrollView>
   );
 };
 
 export default ViewQuests;
 
-// export default () => {
+/* export default () => {
 //   return (
 //     <NativeBaseProvider>
 //       <Center flex={1} px="3">
@@ -384,4 +315,4 @@ export default ViewQuests;
 //       </Center>
 //     </NativeBaseProvider>
 //   );
-// };
+};*/
