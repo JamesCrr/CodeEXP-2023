@@ -52,6 +52,7 @@ const CreateQuest = ({ navigation }) => {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [questId, setQuestId] = useState(0);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const Auth = auth;
@@ -121,6 +122,7 @@ const CreateQuest = ({ navigation }) => {
   };
   const uploadQuest = async () => {
     if (selected.length >= 1) {
+      setError(false);
       const docRef = doc(collection(firestore, "quests"));
       setQuestId(docRef.id);
       console.log(docRef.id);
@@ -153,6 +155,7 @@ const CreateQuest = ({ navigation }) => {
       navigation.navigate("ManagerDashboard");
     } else {
       console.log("no member selected");
+      setError(true);
     }
   };
 
@@ -256,6 +259,7 @@ const CreateQuest = ({ navigation }) => {
           >
             Create Quest
           </Button>
+          {error && <Text bold>No members selected</Text>}
         </VStack>
       </Box>
     );
