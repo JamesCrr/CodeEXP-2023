@@ -86,7 +86,12 @@ export default function ManagerDashboard({ navigation }) {
               Dashboard
             </Heading>
             <Spacer />
-            <Pressable onPress={() => navigation.goBack()}>
+            <Pressable
+              onPress={() => {
+                console.log("Log out");
+                navigation.replace("ManagerLogin");
+              }}
+            >
               <Ionicons name="log-out" size={24} color="white" />
             </Pressable>
           </HStack>

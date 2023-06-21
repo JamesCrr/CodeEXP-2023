@@ -267,11 +267,11 @@ const ViewQuests = () => {
         data={userMonthlyQuest}
         renderItem={({ item }) => (
           <Box
-            borderBottomWidth="1"
+            rounded={"full"}
+            bg="cyan.500"
             _dark={{
               borderColor: "muted.50",
             }}
-            borderColor="muted.800"
             pl={["0", "4"]}
             pr={["0", "5"]}
             py="2"
