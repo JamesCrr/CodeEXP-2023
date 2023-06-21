@@ -214,7 +214,6 @@ const UserAccountScreen = ({ navigation }) => {
             onPress={() => {
               console.log("Edit Profile");
             }}
-            bg={"warmGray.100"}
             borderRadius={5}
             bg={"primary.400"}
             p={"1"}
