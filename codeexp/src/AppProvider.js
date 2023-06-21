@@ -20,7 +20,7 @@ const myReducer = (state, action) => {
       return { ...state, userInfo: action.val };
     }
     case "setUserAchievements": {
-      return { ...state, userInfo: { ...userInfo, achievements: action.val } };
+      return { ...state, userInfo: { ...state.userInfo, achievements: action.val } };
     }
     case "setQuestModal": {
       const { questModalVisible, questModalTitle, questModalContent } = action.val;

@@ -243,9 +243,10 @@ const UserAccountScreen = ({ navigation }) => {
         <Box marginTop={7} bg={"warmGray.500"}>
           <Text bg={"warmGray.300"}>Recent Achievements</Text>
           <HStack space={3} minHeight={20} paddingX={2} paddingY={1}>
-            {achievementUris.map((ele) => {
+            {achievementUris.map((ele, index) => {
               return (
                 <Image
+                  key={index}
                   source={{
                     uri: ele,
                   }}
