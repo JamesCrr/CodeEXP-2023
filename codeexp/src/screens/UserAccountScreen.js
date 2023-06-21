@@ -12,10 +12,15 @@ import {
   VStack,
   View,
   Divider,
+  Button,
+  Icon,
 } from "native-base";
 import { useState, useEffect } from "react";
 import { useAppContext, useAppDispatchContext } from "../AppProvider";
 import { Ionicons } from "@expo/vector-icons";
+import { AntDesign } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { SimpleLineIcons } from "@expo/vector-icons";
 
 const HistoryTab = ({ data, currDate }) => {
   /**
@@ -218,13 +223,17 @@ const UserAccountScreen = ({ navigation }) => {
       <Box marginX={2} flex={1}>
         {/* Header Section */}
         <HStack justifyContent={"space-between"}>
-          <Pressable
+          <Button
+            leftIcon={<Icon as={MaterialIcons} name="edit" color={"black"} />}
             onPress={() => {
               console.log("Edit Profile");
             }}
+            borderRadius={5}
+            bg={"primary.400"}
+            p={"1"}
           >
             <Text>Edit Profile</Text>
-          </Pressable>
+          </Button>
           <Pressable
             onPress={() => {
               console.log("Log out");
@@ -245,7 +254,10 @@ const UserAccountScreen = ({ navigation }) => {
             borderRadius={100}
             alignSelf={"center"}
           />
-          <Pressable
+          <Button
+            leftIcon={
+              <Icon as={SimpleLineIcons} name="present" color={"black"} />
+            }
             marginLeft={"auto"}
             marginRight={3}
             onPress={() => {
@@ -253,8 +265,8 @@ const UserAccountScreen = ({ navigation }) => {
               navigation.navigate("RewardsScreen");
             }}
           >
-            <Text>Redeem Currency</Text>
-          </Pressable>
+            <Text>Redeem</Text>
+          </Button>
           <Text underline textAlign={"center"}>
             {userInfo.name}
           </Text>
@@ -264,8 +276,8 @@ const UserAccountScreen = ({ navigation }) => {
         </Box>
 
         {/* Middle Section */}
-        <Box marginTop={7} borderRadius={10}>
-          <Text italic underline pl={"2"} color={"black"}>
+        <Box marginTop={7} borderRadius={10} shadow={1} bg="blueGray.50">
+          <Text italic underline pl={"2"} pt={"2"} color={"black"}>
             Recent Achievements
           </Text>
           <HStack space={3} minHeight={20} paddingX={2} paddingY={1}>
@@ -286,26 +298,40 @@ const UserAccountScreen = ({ navigation }) => {
 
         {/* Bottom Section */}
         <Box marginTop={5} marginBottom={3} flexGrow={1}>
-          <HStack space={2} justifyContent={"center"}>
-            <Pressable
+          <HStack space={"lg"} justifyContent={"center"}>
+            <Button
               onPress={() => setProfileTabSelected(true)}
               borderRadius={5}
               bg={"primary.400"}
               p={"1"}
+              width={"40%"}
+              color="black"
+              leftIcon={<Icon as={AntDesign} name="user" color={"black"} />}
             >
-              <Text>Profile</Text>
-            </Pressable>
+              <Text color="black">Profile</Text>
+            </Button>
             <Divider orientation="vertical" bg={"black"} />
-            <Pressable
+            <Button
+              leftIcon={
+                <Icon as={MaterialIcons} name="history" color={"black"} />
+              }
               onPress={() => setProfileTabSelected(false)}
               borderRadius={5}
               bg={"primary.400"}
               p={"1"}
+              width={"40%"}
             >
-              <Text>History</Text>
-            </Pressable>
+              <Text alignSelf={"center"}>History</Text>
+            </Button>
           </HStack>
-          <Box flexGrow={1} borderTopWidth={1} mt={8}>
+          <Box
+            flexGrow={1}
+            pl={2}
+            mt={8}
+            bg="blueGray.50"
+            shadow={1}
+            borderRadius={10}
+          >
             {profileTabSelected ? (
               <Text pt={2}>
                 {userInfo.about == ""

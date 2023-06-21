@@ -67,7 +67,6 @@ const ViewQuests = () => {
     // }
     // setRefreshing(!refreshing);
     alert("Review sent to manager!");
-
   };
 
   const displayQuests = async () => {
@@ -158,11 +157,12 @@ const ViewQuests = () => {
 
   return (
     <ScrollView>
-      <Box alignItems="center">
+      <Box alignItems="center" w={"100%"}>
         <Heading fontSize="3xl" pt="10" color="black">
           Work Quests
         </Heading>
         <FlatList
+          width={"100%"}
           data={userWorkQuest}
           renderItem={({ item }) => (
             <VStack alignItems="flex-start">
@@ -170,17 +170,18 @@ const ViewQuests = () => {
 
               <Box
                 bg="primary.300"
-                rounded="full"
+                rounded="10"
                 minHeight={60}
                 p={5}
-                width={380}
+                width={"92%"}
                 mb={5}
+                alignSelf={"center"}
               >
                 <VStack alignItems="flex-start" left="5">
-                  <Text fontSize="sm" bold fontSize="15">
+                  <Text bold fontSize="15">
                     {item.title}
                   </Text>
-                  <Text fontSize="xs" color="coolGray.600" fontSize="15">
+                  <Text color="coolGray.600" fontSize="15">
                     {item.currency}
                   </Text>
                 </VStack>
@@ -191,7 +192,7 @@ const ViewQuests = () => {
                   bg="primary.400"
                   mt={5}
                   rounded="full"
-                  width={"40%"}
+                  width={"auto"}
                   alignSelf={"flex-end"}
                   onPress={() => goToCompleteScreen(item)}
                 >
@@ -209,6 +210,7 @@ const ViewQuests = () => {
           Weekly Quests
         </Heading>
         <FlatList
+          width={"100%"}
           data={userWeeklyQuest}
           renderItem={({ item }) => (
             <VStack alignItems="flex-start">
@@ -216,17 +218,18 @@ const ViewQuests = () => {
 
               <Box
                 bg="socialQuests.300"
-                rounded="full"
+                rounded="10"
                 minHeight={60}
                 p={5}
-                width={380}
+                width={"92%"}
                 mb={5}
+                alignSelf={"center"}
               >
                 <VStack alignItems="flex-start" left="5">
-                  <Text fontSize="sm" bold fontSize="15">
+                  <Text bold fontSize="15">
                     {item.title}
                   </Text>
-                  <Text fontSize="xs" color="coolGray.600" fontSize="15">
+                  <Text color="coolGray.600" fontSize="15">
                     {item.currency}
                   </Text>
                 </VStack>
@@ -237,7 +240,7 @@ const ViewQuests = () => {
                   bg="socialQuests.400"
                   mt={5}
                   rounded="full"
-                  width={"40%"}
+                  width={"auto"}
                   alignSelf={"flex-end"}
                   onPress={() => goToCreatePostScreen(item)}
                 >
@@ -255,6 +258,7 @@ const ViewQuests = () => {
           Monthly Quests
         </Heading>
         <FlatList
+          width={"100%"}
           data={userMonthlyQuest}
           renderItem={({ item }) => (
             <VStack alignItems="flex-start">
@@ -262,17 +266,18 @@ const ViewQuests = () => {
 
               <Box
                 bg="taskQuests.300"
-                rounded="full"
+                rounded="10"
                 minHeight={60}
                 p={5}
-                width={380}
+                width={"92%"}
                 mb={5}
+                alignSelf={"center"}
               >
                 <VStack alignItems="flex-start" left="5">
-                  <Text fontSize="sm" bold fontSize="15">
+                  <Text bold fontSize="15">
                     {item.title}
                   </Text>
-                  <Text fontSize="xs" color="coolGray.600" fontSize="15">
+                  <Text color="coolGray.600" fontSize="15">
                     {item.currency}
                   </Text>
                 </VStack>
@@ -283,7 +288,7 @@ const ViewQuests = () => {
                   bg="taskQuests.400"
                   mt={5}
                   rounded="full"
-                  width={"40%"}
+                  width={"auto"}
                   alignSelf={"flex-end"}
                   onPress={() => goToCreatePostScreen(item)}
                 >
