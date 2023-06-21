@@ -1,7 +1,8 @@
 import { firestore } from "../Firebase";
-import { useState, useEffect } from "react";
-import { doc, getDoc, addDoc, collection } from "firebase/firestore";
+import { useState, useEffect, useCallback } from "react";
+import { doc, getDoc, addDoc, collection, updateDoc } from "firebase/firestore";
 import {
+  RefreshControl,
   Box,
   Avatar,
   HStack,
@@ -11,6 +12,9 @@ import {
   Spacer,
   Center,
   NativeBaseProvider,
+  ScrollView,
+  SafeAreaView,
+  StyleSheet
   ScrollView,
   Button,
   Heading,
@@ -33,11 +37,42 @@ const ViewQuests = () => {
   let monthlyQuests = [];
   let workQuests = [];
 
+  const [refreshing, setRefreshing] = useState(false);
+  // const onRefresh = (() => {
+  //   setRefreshing(true);
+  //   setTimeout(() => {
+  //     setRefreshing(false);
+  //   }, 2000);
+  // }, []);
+
   const goToCreatePostScreen = (item) => {
     console.log("item: " + Object.values(item), Object.keys(item));
     console.log("item: " + item.questId);
     navigation.navigate("CreatePostScreen");
     dispatch({ type: "completedQuestId", val: item.questId });
+  };
+
+  const goToCompleteScreen = async (item) => {
+    console.log("item: " + Object.values(item), Object.keys(item));
+    dispatch({ type: "completedQuestId", val: item.questId });
+    alert("Quest Completed! Review sent to manager!");
+    console.log("item: " + item.questId, "USER:", uid);
+    //fetch data from firestore
+    const userQuestRef = doc(firestore, "users", uid);
+    const userQuestSnap = await getDoc(userQuestRef);
+
+    if (userQuestSnap.exists()) {
+      const quests = userQuestSnap.data().assignedQuest;
+      quests.map((key) => {
+        if (key.questId === item.questId) {
+          key.completed = true;
+        }
+      });
+      updateDoc(userQuestRef, {
+        assignedQuest: quests,
+      });
+    }
+    setRefreshing(!refreshing);
   };
 
   const displayQuests = async () => {
@@ -119,7 +154,7 @@ const ViewQuests = () => {
       setUserMonthlyQuest(fetchedData[1]);
       setUserWorkQuest(fetchedData[2]);
     });
-  }, []);
+  }, [refreshing]);
 
   console.log("HELLO");
   console.log("userWeeklyQuest HERE:", userWeeklyQuest);
