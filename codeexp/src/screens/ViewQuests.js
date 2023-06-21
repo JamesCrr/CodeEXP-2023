@@ -15,7 +15,6 @@ import {
   ScrollView,
   SafeAreaView,
   StyleSheet,
-  ScrollView,
   Button,
   Heading,
 } from "native-base";
