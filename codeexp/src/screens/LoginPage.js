@@ -10,6 +10,9 @@ import {
   IconButton,
   Spacer,
   Text,
+  Alert,
+  HStack,
+  VStack,
 } from "native-base";
 import { useAppContext, useAppDispatchContext } from "../AppProvider";
 import { Ionicons } from "@expo/vector-icons";
@@ -39,7 +42,9 @@ const LoginPage = ({ navigation }) => {
         console.log("No such document!");
       }
     } catch (error) {
-      alert(error.message);
+      console.log(error.message);
+
+      alert("Invalid account credentials! Please try again");
     }
   };
 

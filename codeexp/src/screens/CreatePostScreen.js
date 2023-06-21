@@ -93,15 +93,20 @@ const CreatePostScreen = ({ route, navigation }) => {
       // Quests
       let currencyAwarded = 0;
       let updatedAllQuests = [];
-      if (userData.socialQuest) {
-        updatedAllQuests = [...userData.socialQuest];
+      console.log("uid: ", uid);
+      console.log("userData: ", userData);
+      console.log("userData.socialQuest", userData.assignedQuest);
+      if (userData.assignedQuest) {
+        updatedAllQuests = [...userData.assignedQuest];
         // console.log("Updated All Quests: ", updatedAllQuests);
 
         // Find the Quest to complete
         for (let i = 0; i < updatedAllQuests.length; i++) {
-          const { completed, questsId } = updatedAllQuests[i];
-          // console.log("completedquestId: ", completedQuestId);
-          if (questsId == completedQuestId) {
+          const { completed, questId } = updatedAllQuests[i];
+          console.log("questsId",questId);
+          console.log("updatedAllQuests",updatedAllQuests[i]);
+          if (questId == completedQuestId) {
+            console.log("Quest Found!");
             updatedAllQuests[i].completed = true;
 
             /**
@@ -178,7 +183,7 @@ const CreatePostScreen = ({ route, navigation }) => {
       try {
         // console.log("TRYING TO UPDATE", updatedAllQuests);
         await updateDoc(userRef, {
-          socialQuest: updatedAllQuests,
+          assignedQuest: updatedAllQuests,
           postHistory: newPostHistory,
           achievements: updatedAchievements,
           currency: parseInt(userData.currency) + parseInt(currencyAwarded),
