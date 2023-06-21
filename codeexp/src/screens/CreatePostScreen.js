@@ -103,8 +103,8 @@ const CreatePostScreen = ({ route, navigation }) => {
         // Find the Quest to complete
         for (let i = 0; i < updatedAllQuests.length; i++) {
           const { completed, questId } = updatedAllQuests[i];
-          console.log("questsId",questId);
-          console.log("updatedAllQuests",updatedAllQuests[i]);
+          console.log("questsId", questId);
+          console.log("updatedAllQuests", updatedAllQuests[i]);
           if (questId == completedQuestId) {
             console.log("Quest Found!");
             updatedAllQuests[i].completed = true;
@@ -146,16 +146,17 @@ const CreatePostScreen = ({ route, navigation }) => {
                     },
                   },
                 });
-                // Set context to prompt quest modal appear
-                dispatch({
-                  type: "setQuestModal",
-                  val: {
-                    questModalVisible: true,
-                    questModalTitle: "",
-                    questModalContent: "",
-                  },
-                });
               }
+
+              // Set context to prompt quest modal appear
+              dispatch({
+                type: "setQuestModal",
+                val: {
+                  questModalVisible: true,
+                  questModalTitle: "",
+                  questModalContent: "",
+                },
+              });
             };
             // Fetch the achievement
             fetchAchievementData();
@@ -247,7 +248,7 @@ const CreatePostScreen = ({ route, navigation }) => {
 
   return (
     <ScrollView h={"200"}>
-      <Box alignItems="center" w="100%" h="100%" marginTop={5} safeArea>
+      <Box alignItems="center" w="100%" h="100%" marginTop={5} paddingBottom={10} safeArea>
         {/* Title & Content & Selected Image (if have) */}
         <Stack w={appWidth} space={"sm"}>
           <Input
