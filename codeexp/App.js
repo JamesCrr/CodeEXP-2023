@@ -19,6 +19,8 @@ import RewardsScreen from "./src/screens/RewardsScreen";
 import ManagerLogin from "./src/screens/ManagerLogin";
 import CreateQuest from "./src/screens/CreateQuest";
 import FactionLeaderboard from "./src/screens/FactionLeaderboard";
+import UserLeaderboard from "./src/screens/UserLeaderboard";
+
 import ManagerDashboard from "./src/screens/ManagerDashboard";
 import CreateUser from "./src/screens/CreateUser";
 import ManagerViewQuest from "./src/screens/ManagerViewQuest";
@@ -66,6 +68,7 @@ export default function App() {
             <Stack.Screen name="ViewQuests" component={ViewQuests} />
             <Stack.Screen name="RewardsScreen" component={RewardsScreen} />
             <Stack.Screen name="ViewPostsScreen" component={ViewPostsScreen} />
+            <Stack.Screen name="UserLeaderboard" component={UserLeaderboard} />
             <Stack.Screen
               name="CreatePostScreen"
               component={CreatePostScreen}
