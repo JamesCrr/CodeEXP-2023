@@ -44,16 +44,13 @@ const HistoryTab = ({ data, currDate }) => {
   };
 
   return (
-    <Box>
+    <Box flex={1}>
       <ScrollView>
         <VStack space={2}>
           {data.length > 0 ? (
             data.map((ele, index) => {
               // console.log(ele);
-              const dateDiff = getDateDiff(
-                ele.isPost ? ele.postDate : ele.postDate,
-                currDate
-              );
+              const dateDiff = getDateDiff(ele.isPost ? ele.postDate : ele.postDate, currDate);
               let dateDiffStr = "";
               if (dateDiff.d > 0) {
                 dateDiffStr = `${dateDiff.d}d ago`;
@@ -68,7 +65,7 @@ const HistoryTab = ({ data, currDate }) => {
               return (
                 <Box key={ele.isPost ? ele.postId : index} flex={1}>
                   {ele.isPost ? (
-                    <HStack borderWidth={1} flex={1}>
+                    <HStack borderBottomWidth={2} borderColor={"primary.400"} flex={1}>
                       <Image
                         source={{
                           uri: ele["imageURL"],
@@ -152,22 +149,11 @@ const UserAccountScreen = ({ navigation }) => {
             }
 
             // Destructure the data
-            const {
-              imageStoragePath,
-              postContent,
-              postTitle,
-              postDate,
-              userId,
-              comments,
-            } = childData;
+            const { imageStoragePath, postContent, postTitle, postDate, userId, comments } = childData;
             // Is there an Image?
-            let storageRef = imageStoragePath
-              ? createStorageRef(storage, imageStoragePath)
-              : undefined;
+            let storageRef = imageStoragePath ? createStorageRef(storage, imageStoragePath) : undefined;
             try {
-              const url = storageRef
-                ? await getDownloadURL(storageRef)
-                : undefined;
+              const url = storageRef ? await getDownloadURL(storageRef) : undefined;
               // Add to list
               postList.push({
                 postId: childKey,
@@ -228,6 +214,7 @@ const UserAccountScreen = ({ navigation }) => {
             onPress={() => {
               console.log("Edit Profile");
             }}
+            bg={"warmGray.100"}
             borderRadius={5}
             bg={"primary.400"}
             p={"1"}
@@ -255,9 +242,7 @@ const UserAccountScreen = ({ navigation }) => {
             alignSelf={"center"}
           />
           <Button
-            leftIcon={
-              <Icon as={SimpleLineIcons} name="present" color={"black"} />
-            }
+            leftIcon={<Icon as={SimpleLineIcons} name="present" color={"black"} />}
             marginLeft={"auto"}
             marginRight={3}
             onPress={() => {
@@ -267,7 +252,7 @@ const UserAccountScreen = ({ navigation }) => {
           >
             <Text>Redeem</Text>
           </Button>
-          <Text underline textAlign={"center"}>
+          <Text underline textAlign={"center"} fontSize={"xl"} fontWeight={"bold"}>
             {userInfo.name}
           </Text>
           <Text textAlign={"center"}>
@@ -312,9 +297,7 @@ const UserAccountScreen = ({ navigation }) => {
             </Button>
             <Divider orientation="vertical" bg={"black"} />
             <Button
-              leftIcon={
-                <Icon as={MaterialIcons} name="history" color={"black"} />
-              }
+              leftIcon={<Icon as={MaterialIcons} name="history" color={"black"} />}
               onPress={() => setProfileTabSelected(false)}
               borderRadius={5}
               bg={"primary.400"}
@@ -324,19 +307,10 @@ const UserAccountScreen = ({ navigation }) => {
               <Text alignSelf={"center"}>History</Text>
             </Button>
           </HStack>
-          <Box
-            flexGrow={1}
-            pl={2}
-            mt={8}
-            bg="blueGray.50"
-            shadow={1}
-            borderRadius={10}
-          >
+          <Box flexGrow={1} mt={3} bg="blueGray.50" shadow={1} borderRadius={10}>
             {profileTabSelected ? (
-              <Text pt={2}>
-                {userInfo.about == ""
-                  ? "Nothing to see here.."
-                  : userInfo.about}
+              <Text pt={2} pl={2}>
+                {userInfo.about == "" ? "Nothing to see here.." : userInfo.about}
               </Text>
             ) : (
               <HistoryTab data={historyData} currDate={new Date()} />

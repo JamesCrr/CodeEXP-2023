@@ -55,20 +55,22 @@ const ManagerLogin = ({ navigation }) => {
       <Spacer my={2} />
       <Stack space={4} w="75%" maxW="300px" mx="auto">
         <Input
-          color="black"
-          size="md"
+          fontSize={"sm"}
           w="100%"
           h="50px"
+          color="black"
+          size="md"
           placeholder="Email"
           value={email}
           onChangeText={(newText) => setEmail(newText)}
         />
         <Input
-          type={show ? "text" : "password"}
-          w="100%"
+          fontSize={"sm"}
           py="0"
-          color="black"
+          w="100%"
           h="50px"
+          color="black"
+          type={show ? "text" : "password"}
           InputRightElement={
             <Button size="xs" rounded="none" w="1/5" h="full" onPress={handleClick}>
               {show ? "Hide" : "Show"}

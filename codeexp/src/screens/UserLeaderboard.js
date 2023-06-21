@@ -38,8 +38,8 @@ const UserLeaderboard = ({ navigation }) => {
     return (
       <Box safeArea>
         <Box>
-          <ReturnButton />
-          <Heading alignSelf="center" fontSize={"3xl"} color="primary.500">
+          {/* <ReturnButton /> */}
+          <Heading alignSelf="center" fontSize={"3xl"} marginTop={10} color="primary.500">
             User Leaderboard
           </Heading>
         </Box>
