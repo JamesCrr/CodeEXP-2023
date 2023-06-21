@@ -31,7 +31,8 @@
     "react-native-sectioned-multi-select": "^0.10.0",
     "react-native-svg": "13.4.0",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-web": "~0.18.10"
+    "react-native-web": "~0.18.10",
+    "expo-camera": "~13.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
