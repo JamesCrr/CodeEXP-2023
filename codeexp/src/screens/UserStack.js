@@ -15,13 +15,13 @@ const UserStack = () => {
     colors
   } = useTheme();
   return (
-    <BottomTab.Navigator screenOptions={{ headerShown: false, tabBarShowLabel: false, tabBarActiveTintColor: colors["primary"][300]}}>
+    <BottomTab.Navigator screenOptions={{ headerShown: false, tabBarShowLabel: false, tabBarActiveTintColor: colors["primary"][200]}}>
       <BottomTab.Screen
         name="ViewPostsStack"
         component={ViewPostsStack}
         options={{
           tabBarLabel: "Home",
-          tabBarIcon: ({ color, size }) => <MaterialIcons name="home" color={color} size={size} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="home-outline" color={color} size= {size} />,
         }}
       />
       <BottomTab.Screen
@@ -29,24 +29,28 @@ const UserStack = () => {
         component={ViewPostsStack}
         options={{
           tabBarLabel: "Leaderboard",
-          tabBarIcon: ({ color, size }) => <Ionicons name="ios-podium" color={color} size={size} />,
+          tabBarIcon: ({ color, size }) => <Ionicons name="podium-outline" color={color} size={size} />,
         }}
       />
       <BottomTab.Screen
         name="CreatePostScreen"
         component={CreatePostScreen}
         options={{
-          tabBarIcon: ({ color, size }) => <MaterialIcons name="add" color={color} size={size} />,
+          tabBarIcon: ({ color, size }) => 
+          // <MaterialIcons name="add" color={color} size={size} 
+          <Ionicons name="add-circle-outline" color={color} size={30}/>,
           tabBarShowLabel: false,
           tabBarLabel: "",
-        }}
+        }} 
       />
       <BottomTab.Screen
         name="QuestsScreen"
         component={ViewQuests}
         options={{
           tabBarLabel: "Quests",
-          tabBarIcon: ({ color, size }) => <FontAwesome5 name="tasks" color={color} size={size} />,
+          tabBarIcon: ({ color, size }) => 
+          //<FontAwesome5 name="tasks" color={color} size={size}
+          <Ionicons name="list-circle-outline" color={color} size={30}/>
         }}
       />
       <BottomTab.Screen
@@ -54,7 +58,9 @@ const UserStack = () => {
         component={UserAccountScreen}
         options={{
           tabBarLabel: "Account",
-          tabBarIcon: ({ color, size }) => <MaterialIcons name="account-circle" color={color} size={size} />,
+          tabBarIcon: ({ color, size }) => 
+          // <MaterialIcons name="person-circle-outline" color={color} size={30} />,
+          <Ionicons name="person-circle-outline" color={color} size={30} />
         }}
       />
     </BottomTab.Navigator>
