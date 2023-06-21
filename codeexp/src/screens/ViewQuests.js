@@ -19,11 +19,12 @@ import { useAppContext, useAppDispatchContext } from "../AppProvider";
 import { set } from 'firebase/database';
 
 const ViewQuests = () => {
+
     const navigation = useNavigation();
     const dispatch = useAppDispatchContext();
     const [userWeeklyQuest,setUserWeeklyQuest] = useState([]);
     const [userMonthlyQuest,setUserMonthlyQuest] = useState([]);
-    const [loaded, setLoaded] = useState(false);
+    // const [loaded, setLoaded] = useState(false);
     const { userInfo } = useAppContext();
     const uid = userInfo.uid;
     let uncompletedQuests = [];
@@ -103,7 +104,6 @@ console.log("userMonthlyQuest HERE:", userMonthlyQuest);
 
 return (
 <Box alignItems="center">
-  {loaded}
 <Heading fontSize="xl" p="1">
   Weekly Quests
 </Heading>

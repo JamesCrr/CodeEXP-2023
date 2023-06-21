@@ -46,8 +46,6 @@ const WelcomeScreen = () => {
         onPress={() => navigation.navigate("ManagerLogin")}
       >
         <Text style={styles.continue}>Login as Admin</Text>
-       style={}
-onPress={() => navigation.navigate("ManagerLogin")}
       <Text>Login as admin</Text>
       </Pressable>
     </View>

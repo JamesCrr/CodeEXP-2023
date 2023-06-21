@@ -7,11 +7,15 @@ import ViewPostsStack from "./ViewPostsStack";
 import UserAccountScreen from "./UserAccountScreen";
 import CreatePostScreen from "./CreatePostScreen";
 import ViewQuests from "./ViewQuests";
+import { useTheme } from "native-base";
 
 const BottomTab = createBottomTabNavigator();
 const UserStack = () => {
+  const {
+    colors
+  } = useTheme();
   return (
-    <BottomTab.Navigator screenOptions={{ headerShown: false, tabBarShowLabel: false }}>
+    <BottomTab.Navigator screenOptions={{ headerShown: false, tabBarShowLabel: false, tabBarActiveTintColor: colors["primary"][300]}}>
       <BottomTab.Screen
         name="ViewPostsStack"
         component={ViewPostsStack}
