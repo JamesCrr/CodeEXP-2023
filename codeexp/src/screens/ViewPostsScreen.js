@@ -1,15 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Box,
-  Text,
-  Image,
-  HStack,
-  VStack,
-  FlatList,
-  View,
-  Pressable,
-  Spinner,
-} from "native-base";
+import { Box, Text, Image, HStack, VStack, FlatList, View, Pressable, Spinner } from "native-base";
 import { database, storage, firestore } from "../Firebase";
 import { ref as createDatabaseRef, onValue } from "firebase/database";
 import { ref as createStorageRef, getDownloadURL } from "firebase/storage";
@@ -63,13 +53,7 @@ const PostComponent = ({
   }
 
   return (
-    <Box
-      bg="#ffffff"
-      margin={2}
-      borderBottomWidth={1}
-      borderRadius={2}
-      borderBottomColor="#ebebeb"
-    >
+    <Box bg="#ffffff" margin={2} borderBottomWidth={1} borderRadius={2} borderBottomColor="#ebebeb">
       <HStack justifyContent={"flex-start"} space={3} margin={2}>
         <Image
           source={{
@@ -79,12 +63,7 @@ const PostComponent = ({
           size={8}
           borderRadius={100}
         />
-        <Text
-          fontSize={"md"}
-          fontWeight={"bold"}
-          alignSelf={"center"}
-          textAlign={"center"}
-        >
+        <Text fontSize={"md"} fontWeight={"bold"} alignSelf={"center"} textAlign={"center"}>
           @{username}
         </Text>
       </HStack>
@@ -159,25 +138,14 @@ const ViewPostsScreen = ({ route, navigation }) => {
             // console.log("Key:", childKey);
             // console.log("Data:", childData);
             // Destructure the data
-            const {
-              imageStoragePath,
-              postContent,
-              postTitle,
-              postDate,
-              userId,
-              username,
-              comments,
-            } = childData;
+            const { imageStoragePath, postContent, postTitle, postDate, userId, username, comments } =
+              childData;
 
             // Is there an Post Image?
-            let storageRef = imageStoragePath
-              ? createStorageRef(storage, imageStoragePath)
-              : undefined;
+            let storageRef = imageStoragePath ? createStorageRef(storage, imageStoragePath) : undefined;
             let postImageURl = undefined;
             try {
-              postImageURl = storageRef
-                ? await getDownloadURL(storageRef)
-                : undefined;
+              postImageURl = storageRef ? await getDownloadURL(storageRef) : undefined;
             } catch (error) {
               // Handle any errors
               console.log(error);
@@ -199,9 +167,7 @@ const ViewPostsScreen = ({ route, navigation }) => {
                   comments,
                 },
               ];
-              newList.sort(
-                (a, b) => b.postDate.getTime() - a.postDate.getTime()
-              );
+              newList.sort((a, b) => b.postDate.getTime() - a.postDate.getTime());
               return newList;
             });
           });
@@ -222,21 +188,11 @@ const ViewPostsScreen = ({ route, navigation }) => {
   // console.log(postsList);
   const tempDate = new Date();
   return (
-    <View flex={1} bg="#ffffff">
+    <Box flex={1} bg="#ffffff" safeArea>
       {postsLoading ? (
-        <HStack
-          space={2}
-          justifyContent="center"
-          height={"100%"}
-          alignItems={"center"}
-        >
+        <HStack space={2} justifyContent="center" height={"100%"} alignItems={"center"}>
           <Spinner accessibilityLabel="Loading posts" size={"lg"} />
-          <Text
-            color="primary.500"
-            fontSize="md"
-            textAlign={"center"}
-            fontWeight={"bold"}
-          >
+          <Text color="primary.500" fontSize="md" textAlign={"center"} fontWeight={"bold"}>
             Loading
           </Text>
         </HStack>
@@ -261,7 +217,7 @@ const ViewPostsScreen = ({ route, navigation }) => {
           initialNumToRender={3}
         />
       )}
-    </View>
+    </Box>
   );
 };
 export default ViewPostsScreen;

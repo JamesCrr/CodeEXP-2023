@@ -5,7 +5,7 @@ import PostCommentsScreen from "./PostCommentsScreen";
 const VPStack = createStackNavigator();
 const ViewPostsStack = () => {
   return (
-    <VPStack.Navigator screenOptions={{ headerShown: true }}>
+    <VPStack.Navigator screenOptions={{ headerShown: false }}>
       <VPStack.Screen name="ViewPostsScreen" component={ViewPostsScreen} />
       {/* <VPStack.Screen name="PostCommentsScreen" component={PostCommentsScreen} /> */}
     </VPStack.Navigator>

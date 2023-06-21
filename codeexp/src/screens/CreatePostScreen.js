@@ -38,7 +38,6 @@ const CreatePostScreen = ({ route, navigation }) => {
   const dispatch = useAppDispatchContext();
   // console.log("Completed Quest Id: ", completedQuestId.id, "UID: ", userInfo.uid);
   // console.log("All Quests: ", allQuests);
-  const [cameraVisible, setCameraVisible] = useState(false);
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -235,8 +234,7 @@ const CreatePostScreen = ({ route, navigation }) => {
    * Start the Camera
    */
   const startCamera = async () => {
-    setCameraVisible(true);
-    navigation.navigate("CameraScreen", { onSetImage: (uri) => setImage(uri) });
+    navigation.navigate("CameraScreen", { onSetImage: setImageFromCamera });
   };
   const setImageFromCamera = (uri) => {
     setImage(uri);

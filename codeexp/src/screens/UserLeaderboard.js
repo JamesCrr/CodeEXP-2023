@@ -36,7 +36,7 @@ const UserLeaderboard = ({ navigation }) => {
   console.log(sorted);
   if (loaded) {
     return (
-      <>
+      <Box safeArea>
         <Box>
           <ReturnButton />
           <Heading alignSelf="center" fontSize={"3xl"} color="primary.500">
@@ -54,23 +54,13 @@ const UserLeaderboard = ({ navigation }) => {
             ></FactionBoardComponent>
           );
         })}
-      </>
+      </Box>
     );
   } else {
     return (
-      <HStack
-        space={2}
-        justifyContent="center"
-        height={"100%"}
-        alignItems={"center"}
-      >
+      <HStack space={2} justifyContent="center" height={"100%"} alignItems={"center"}>
         <Spinner accessibilityLabel="Loading posts" size={"lg"} />
-        <Text
-          color="primary.500"
-          fontSize="md"
-          textAlign={"center"}
-          fontWeight={"bold"}
-        >
+        <Text color="primary.500" fontSize="md" textAlign={"center"} fontWeight={"bold"}>
           Loading
         </Text>
       </HStack>
