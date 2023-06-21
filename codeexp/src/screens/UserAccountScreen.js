@@ -2,9 +2,19 @@ import { firestore, database, storage } from "../Firebase";
 import { ref as createDatabaseRef, onValue } from "firebase/database";
 import { ref as createStorageRef, getDownloadURL } from "firebase/storage";
 import { doc, getDoc, addDoc, collection } from "firebase/firestore";
-import { Box, HStack, Image, Pressable, ScrollView, Text, VStack, View } from "native-base";
+import {
+  Box,
+  HStack,
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  VStack,
+  View,
+} from "native-base";
 import { useState, useEffect } from "react";
 import { useAppContext, useAppDispatchContext } from "../AppProvider";
+import { Ionicons } from "@expo/vector-icons";
 
 const HistoryTab = ({ data, currDate }) => {
   /**
@@ -34,7 +44,10 @@ const HistoryTab = ({ data, currDate }) => {
           {data.length > 0 ? (
             data.map((ele, index) => {
               // console.log(ele);
-              const dateDiff = getDateDiff(ele.isPost ? ele.postDate : ele.postDate, currDate);
+              const dateDiff = getDateDiff(
+                ele.isPost ? ele.postDate : ele.postDate,
+                currDate
+              );
               let dateDiffStr = "";
               if (dateDiff.d > 0) {
                 dateDiffStr = `${dateDiff.d}d ago`;
@@ -133,11 +146,22 @@ const UserAccountScreen = ({ navigation }) => {
             }
 
             // Destructure the data
-            const { imageStoragePath, postContent, postTitle, postDate, userId, comments } = childData;
+            const {
+              imageStoragePath,
+              postContent,
+              postTitle,
+              postDate,
+              userId,
+              comments,
+            } = childData;
             // Is there an Image?
-            let storageRef = imageStoragePath ? createStorageRef(storage, imageStoragePath) : undefined;
+            let storageRef = imageStoragePath
+              ? createStorageRef(storage, imageStoragePath)
+              : undefined;
             try {
-              const url = storageRef ? await getDownloadURL(storageRef) : undefined;
+              const url = storageRef
+                ? await getDownloadURL(storageRef)
+                : undefined;
               // Add to list
               postList.push({
                 postId: childKey,
@@ -202,13 +226,12 @@ const UserAccountScreen = ({ navigation }) => {
             <Text>Edit Profile</Text>
           </Pressable>
           <Pressable
-            borderWidth={1}
             onPress={() => {
               console.log("Log out");
               navigation.replace("LoginPage");
             }}
           >
-            <Text>Log out</Text>
+            <Ionicons name="log-out" size={30} color="orange" />
           </Pressable>
         </HStack>
         {/* Top Section */}
@@ -243,9 +266,10 @@ const UserAccountScreen = ({ navigation }) => {
         <Box marginTop={7} bg={"warmGray.500"}>
           <Text bg={"warmGray.300"}>Recent Achievements</Text>
           <HStack space={3} minHeight={20} paddingX={2} paddingY={1}>
-            {achievementUris.map((ele) => {
+            {achievementUris.map((ele, index) => {
               return (
                 <Image
+                  key={index}
                   source={{
                     uri: ele,
                   }}
@@ -260,16 +284,26 @@ const UserAccountScreen = ({ navigation }) => {
         {/* Bottom Section */}
         <Box marginTop={8} marginBottom={3} flexGrow={1}>
           <HStack space={2} justifyContent={"center"}>
-            <Pressable onPress={() => setProfileTabSelected(true)} borderWidth={1}>
+            <Pressable
+              onPress={() => setProfileTabSelected(true)}
+              borderWidth={1}
+            >
               <Text>Profile</Text>
             </Pressable>
-            <Pressable onPress={() => setProfileTabSelected(false)} borderWidth={1}>
+            <Pressable
+              onPress={() => setProfileTabSelected(false)}
+              borderWidth={1}
+            >
               <Text>History</Text>
             </Pressable>
           </HStack>
           <Box flexGrow={1} borderWidth={2} borderColor={"red.800"}>
             {profileTabSelected ? (
-              <Text>{userInfo.about == "" ? "Nothing to see here.." : userInfo.about}</Text>
+              <Text>
+                {userInfo.about == ""
+                  ? "Nothing to see here.."
+                  : userInfo.about}
+              </Text>
             ) : (
               <HistoryTab data={historyData} currDate={new Date()} />
             )}
