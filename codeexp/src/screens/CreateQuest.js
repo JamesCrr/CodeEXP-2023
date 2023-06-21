@@ -15,6 +15,7 @@ import {
   Button,
   Spinner,
   Spacer,
+  Container,
 } from "native-base";
 import { useState, useEffect } from "react";
 import { firestore } from "../Firebase";
@@ -156,9 +157,8 @@ const CreateQuest = ({ navigation }) => {
 
   if (loaded) {
     return (
-      <VStack space={4}>
-        <ReturnButton />
-        <Box bg="primary.400" width="75%" alignSelf="center">
+      <Box width="75%" alignSelf="center">
+        <VStack space={4}>
           <SectionedMultiSelect
             items={members}
             IconRenderer={MaterialIcons}
@@ -175,69 +175,73 @@ const CreateQuest = ({ navigation }) => {
               },
             }}
           />
-        </Box>
-        <Input
-          width={"75%"}
-          alignSelf={"center"}
-          bg={"primary.400"}
-          variant="rounded"
-          placeholder="Quest Title"
-          placeholderTextColor={"white"}
-          onChangeText={(newText) => setTitle(newText)}
-        />
-        <Box>
+
+          <Input
+            width={"75%"}
+            alignSelf={"center"}
+            bg={"primary.400"}
+            variant="rounded"
+            placeholder="Quest Title"
+            placeholderTextColor={"white"}
+            onChangeText={(newText) => setTitle(newText)}
+          />
+
           <Text color="black" textAlign="center" fontSize={15}>
             Currency Earned
           </Text>
           <Text color="black" textAlign="center" fontSize={20}>
             {currency}
           </Text>
-        </Box>
-        <Slider
-          defaultValue={70}
-          colorScheme="cyan"
-          onChange={(v) => {
-            setCurrency(Math.floor(v));
-          }}
-        >
-          <Slider.Track>
-            <Slider.FilledTrack />
-          </Slider.Track>
-          <Slider.Thumb />
-        </Slider>
-        <TextArea
-          h={20}
-          bg={"primary.400"}
-          placeholder="Quest Details"
-          placeholderTextColor={"white"}
-          w="90%"
-          alignSelf={"center"}
-          onChangeText={(newText) => setDetails(newText)}
-        />
-        <HStack alignSelf={"center"} space={5}>
-          <Button onPress={showDatepicker}>Due Date</Button>
-          <Button onPress={showTimepicker}>Due Time</Button>
-        </HStack>
 
-        <Text paddingLeft={3}>Selected Dateline: {date.toLocaleString()}</Text>
-        {show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode={mode}
-            is24Hour={true}
-            onChange={onChange}
+          <Slider
+            maxW="300"
+            defaultValue={70}
+            colorScheme="cyan"
+            onChange={(v) => {
+              setCurrency(Math.floor(v));
+            }}
+          >
+            <Slider.Track>
+              <Slider.FilledTrack />
+            </Slider.Track>
+            <Slider.Thumb />
+          </Slider>
+          <TextArea
+            h={20}
+            bg={"primary.400"}
+            placeholder="Quest Details"
+            placeholderTextColor={"white"}
+            w="90%"
+            alignSelf={"center"}
+            onChangeText={(newText) => setDetails(newText)}
           />
-        )}
-        <Button
-          width="70%"
-          alignSelf={"center"}
-          rounded={"full"}
-          onPress={uploadData}
-        >
-          Create
-        </Button>
-      </VStack>
+          <HStack alignSelf={"center"} space={5}>
+            <Button onPress={showDatepicker}>Due Date</Button>
+            <Button onPress={showTimepicker}>Due Time</Button>
+          </HStack>
+
+          <Text paddingLeft={3}>
+            Selected Dateline: {date.toLocaleString()}
+          </Text>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode={mode}
+              is24Hour={true}
+              onChange={onChange}
+            />
+          )}
+          <Button
+            width="70%"
+            alignSelf={"center"}
+            rounded={"full"}
+            onPress={uploadData}
+          >
+            Create
+          </Button>
+        </VStack>
+      </Box>
     );
   } else {
     return (
