@@ -11,6 +11,7 @@ import {
   Text,
   VStack,
   View,
+  Divider,
 } from "native-base";
 import { useState, useEffect } from "react";
 import { useAppContext, useAppDispatchContext } from "../AppProvider";
@@ -212,13 +213,12 @@ const UserAccountScreen = ({ navigation }) => {
 
   // console.log(userInfo);
   return (
-    <Box marginTop={4} flex={1} safeArea>
+    <Box marginTop={4} flex={1} safeArea width={"100%"} alignSelf={"center"}>
       {/* Content Box */}
       <Box marginX={2} flex={1}>
         {/* Header Section */}
         <HStack justifyContent={"space-between"}>
           <Pressable
-            borderWidth={1}
             onPress={() => {
               console.log("Edit Profile");
             }}
@@ -248,7 +248,6 @@ const UserAccountScreen = ({ navigation }) => {
           <Pressable
             marginLeft={"auto"}
             marginRight={3}
-            borderWidth={1}
             onPress={() => {
               console.log("Redeem Currency");
               navigation.navigate("RewardsScreen");
@@ -256,15 +255,19 @@ const UserAccountScreen = ({ navigation }) => {
           >
             <Text>Redeem Currency</Text>
           </Pressable>
-          <Text textAlign={"center"}>{userInfo.name}</Text>
+          <Text underline textAlign={"center"}>
+            {userInfo.name}
+          </Text>
           <Text textAlign={"center"}>
             {userInfo.faction} | @{userInfo.username}
           </Text>
         </Box>
 
         {/* Middle Section */}
-        <Box marginTop={7} bg={"warmGray.500"}>
-          <Text bg={"warmGray.300"}>Recent Achievements</Text>
+        <Box marginTop={7} borderRadius={10}>
+          <Text italic underline pl={"2"} color={"black"}>
+            Recent Achievements
+          </Text>
           <HStack space={3} minHeight={20} paddingX={2} paddingY={1}>
             {achievementUris.map((ele, index) => {
               return (
@@ -282,24 +285,29 @@ const UserAccountScreen = ({ navigation }) => {
         </Box>
 
         {/* Bottom Section */}
-        <Box marginTop={8} marginBottom={3} flexGrow={1}>
+        <Box marginTop={5} marginBottom={3} flexGrow={1}>
           <HStack space={2} justifyContent={"center"}>
             <Pressable
               onPress={() => setProfileTabSelected(true)}
-              borderWidth={1}
+              borderRadius={5}
+              bg={"primary.400"}
+              p={"1"}
             >
               <Text>Profile</Text>
             </Pressable>
+            <Divider orientation="vertical" bg={"black"} />
             <Pressable
               onPress={() => setProfileTabSelected(false)}
-              borderWidth={1}
+              borderRadius={5}
+              bg={"primary.400"}
+              p={"1"}
             >
               <Text>History</Text>
             </Pressable>
           </HStack>
-          <Box flexGrow={1} borderWidth={2} borderColor={"red.800"}>
+          <Box flexGrow={1} borderTopWidth={1} mt={8}>
             {profileTabSelected ? (
-              <Text>
+              <Text pt={2}>
                 {userInfo.about == ""
                   ? "Nothing to see here.."
                   : userInfo.about}

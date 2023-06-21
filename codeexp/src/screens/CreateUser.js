@@ -187,6 +187,7 @@ const CreateUser = ({ navigation }) => {
         />
 
         <Button
+          bg={"success.500"}
           onPress={createAcc}
           rounded="full"
           width={250}

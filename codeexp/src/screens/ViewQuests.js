@@ -37,12 +37,6 @@ const ViewQuests = () => {
   let workQuests = [];
 
   const [refreshing, setRefreshing] = useState(false);
-  // const onRefresh = (() => {
-  //   setRefreshing(true);
-  //   setTimeout(() => {
-  //     setRefreshing(false);
-  //   }, 2000);
-  // }, []);
 
   const goToCreatePostScreen = (item) => {
     console.log("item: " + Object.values(item), Object.keys(item));
@@ -53,25 +47,27 @@ const ViewQuests = () => {
 
   const goToCompleteScreen = async (item) => {
     console.log("item: " + Object.values(item), Object.keys(item));
-    dispatch({ type: "completedQuestId", val: item.questId });
-    alert("Quest Completed! Review sent to manager!");
-    console.log("item: " + item.questId, "USER:", uid);
-    //fetch data from firestore
-    const userQuestRef = doc(firestore, "users", uid);
-    const userQuestSnap = await getDoc(userQuestRef);
+    // dispatch({ type: "completedQuestId", val: item.questId });
+    // alert("Quest Completed! Review sent to manager!");
+    // console.log("item: " + item.questId, "USER:", uid);
+    // //fetch data from firestore
+    // const userQuestRef = doc(firestore, "users", uid);
+    // const userQuestSnap = await getDoc(userQuestRef);
 
-    if (userQuestSnap.exists()) {
-      const quests = userQuestSnap.data().assignedQuest;
-      quests.map((key) => {
-        if (key.questId === item.questId) {
-          key.completed = true;
-        }
-      });
-      updateDoc(userQuestRef, {
-        assignedQuest: quests,
-      });
-    }
-    setRefreshing(!refreshing);
+    // if (userQuestSnap.exists()) {
+    //   const quests = userQuestSnap.data().assignedQuest;
+    //   quests.map((key) => {
+    //     if (key.questId === item.questId) {
+    //       key.completed = true;
+    //     }
+    //   });
+    //   updateDoc(userQuestRef, {
+    //     assignedQuest: quests,
+    //   });
+    // }
+    // setRefreshing(!refreshing);
+    alert("Review sent to manager!");
+
   };
 
   const displayQuests = async () => {
@@ -197,9 +193,9 @@ const ViewQuests = () => {
                   rounded="full"
                   width={"40%"}
                   alignSelf={"flex-end"}
-                  onPress={() => goToCreatePostScreen(item)}
+                  onPress={() => goToCompleteScreen(item)}
                 >
-                  Perform Quest!
+                  Verify Quest!
                 </Button>
               </Box>
 

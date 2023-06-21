@@ -16,6 +16,7 @@ import {
   Spinner,
   Spacer,
   Container,
+  Flex,
 } from "native-base";
 import { useState, useEffect } from "react";
 import { firestore } from "../Firebase";
@@ -157,7 +158,12 @@ const CreateQuest = ({ navigation }) => {
 
   if (loaded) {
     return (
-      <Box width="75%" alignSelf="center">
+      <Box width="90%" alignSelf="center" safeArea>
+        <Flex direction="row" mb="2.5" mt="1.5">
+          <ReturnButton />
+          <Heading mt="1.5">Create Quest</Heading>
+        </Flex>
+
         <VStack space={4}>
           <SectionedMultiSelect
             items={members}
@@ -170,14 +176,15 @@ const CreateQuest = ({ navigation }) => {
             selectedItems={selected}
             styles={{
               selectToggleText: {
-                color: "white",
-                fontSize: 14,
+                fontWeight: 600,
+                color: "black",
+                fontSize: 16,
               },
             }}
           />
 
           <Input
-            width={"75%"}
+            width={"100%"}
             alignSelf={"center"}
             bg={"primary.400"}
             variant="rounded"
@@ -211,17 +218,21 @@ const CreateQuest = ({ navigation }) => {
             bg={"primary.400"}
             placeholder="Quest Details"
             placeholderTextColor={"white"}
-            w="90%"
+            w="100%"
             alignSelf={"center"}
             onChangeText={(newText) => setDetails(newText)}
           />
           <HStack alignSelf={"center"} space={5}>
-            <Button onPress={showDatepicker}>Due Date</Button>
-            <Button onPress={showTimepicker}>Due Time</Button>
+            <Button w="45%" onPress={showDatepicker}>
+              Due Date
+            </Button>
+            <Button w="45%" onPress={showTimepicker}>
+              Due Time
+            </Button>
           </HStack>
 
           <Text paddingLeft={3}>
-            Selected Dateline: {date.toLocaleString()}
+            Selected Deadline: {date.toLocaleString()}
           </Text>
           {show && (
             <DateTimePicker
@@ -233,12 +244,13 @@ const CreateQuest = ({ navigation }) => {
             />
           )}
           <Button
-            width="70%"
+            width="100%"
             alignSelf={"center"}
             rounded={"full"}
             onPress={uploadData}
+            bg={"success.500"}
           >
-            Create
+            Create Quest
           </Button>
         </VStack>
       </Box>

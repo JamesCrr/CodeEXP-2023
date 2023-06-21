@@ -115,8 +115,7 @@ const ManageQuest = ({ route, navigation }) => {
         <Center>
           <Container>
             <Heading fontSize={"2xl"}>
-              Manage
-              <Text color="primary.400"> {quest.title}</Text>
+              Manage :<Text color="primary.400"> {quest.title}</Text>
             </Heading>
             <Text mt={3} fontWeight="medium">
               Deadline:
@@ -140,7 +139,9 @@ const ManageQuest = ({ route, navigation }) => {
             <Text></Text>
             <Input placeholder="Feedback" w="100%" height={200} />
             <Text></Text>
-            <Button onPress={completeQuest}>Complete Quest</Button>
+            <Button bg={"success.500"} onPress={completeQuest}>
+              Complete Quest
+            </Button>
           </Container>
         </Center>
       </Box>
