@@ -22,16 +22,15 @@ const ManagerLogin = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
   const [errormsg, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = () => setShow(!show);
 
   const signin = async () => {
+    setIsLoading(true);
+
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
       // Signed in
       const user = userCredential.user;
       console.log(user, "userdetails");
@@ -42,18 +41,15 @@ const ManagerLogin = ({ navigation }) => {
       alert("Invalid account credentials! Please try again");
       // setError(errorMessage);
     }
+
+    setIsLoading(false);
   };
 
   return (
     <Box safeArea>
       <ReturnButton />
       <Spacer my={10} />
-      <Text
-        fontSize="3xl"
-        textAlign="center"
-        color={"primary.500"}
-        fontFamily={"Montserrat-SemiBold"}
-      >
+      <Text fontSize="3xl" textAlign="center" color={"primary.500"} fontFamily={"Montserrat-SemiBold"}>
         Admin Log In
       </Text>
       <Spacer my={2} />
@@ -74,13 +70,7 @@ const ManagerLogin = ({ navigation }) => {
           color="black"
           h="50px"
           InputRightElement={
-            <Button
-              size="xs"
-              rounded="none"
-              w="1/5"
-              h="full"
-              onPress={handleClick}
-            >
+            <Button size="xs" rounded="none" w="1/5" h="full" onPress={handleClick}>
               {show ? "Hide" : "Show"}
             </Button>
           }
@@ -88,7 +78,7 @@ const ManagerLogin = ({ navigation }) => {
           onChangeText={(newText) => setPassword(newText)}
         />
         <Spacer my={8} />
-        <Button rounded={"full"} onPress={signin}>
+        <Button rounded={"full"} onPress={signin} isLoading={isLoading} isLoadingText="Logging In">
           Log In
         </Button>
         <Text color="red">{errormsg}</Text>

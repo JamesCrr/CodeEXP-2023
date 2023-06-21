@@ -29,8 +29,8 @@ const WelcomeScreen = () => {
           <VStack marginTop={10} space={10}>
             <Button borderRadius={30} onPress={() => navigation.navigate("LoginPage")}>
               <Text
-                fontSize={"lg"}
-                paddingX={10}
+                fontSize={"md"}
+                paddingX={65}
                 textAlign={"center"}
                 fontFamily={"Inter-SemiBold"}
                 color={"white"}
@@ -39,7 +39,7 @@ const WelcomeScreen = () => {
               </Text>
             </Button>
             <Button borderRadius={30} onPress={() => navigation.navigate("ManagerLogin")}>
-              <Text fontSize={"lg"} paddingX={10} fontFamily={"Inter-SemiBold"} color={"white"}>
+              <Text fontSize={"md"} paddingX={65} fontFamily={"Inter-SemiBold"} color={"white"}>
                 Admin Login
               </Text>
             </Button>
