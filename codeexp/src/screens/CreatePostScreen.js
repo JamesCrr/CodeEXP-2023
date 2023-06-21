@@ -119,6 +119,7 @@ const CreatePostScreen = ({ route, navigation }) => {
                 console.log("No such document!");
               }
               const achData = achSnap.data();
+              console.log("achData: ", achData);
 
               // Fetch the image
               let storageRef = createStorageRef(storage, achData.imageStoragePath);
@@ -131,23 +132,35 @@ const CreatePostScreen = ({ route, navigation }) => {
               }
 
               // Set context to prompt achievement modal in account screen
-              dispatch({
-                type: "setNewAchievementModal",
-                val: {
-                  newAchievementNotify: true,
-                  achievementModalVisible: false,
-                  achievementModalDetails: {
-                    title: "Starting Your Journey!",
-                    about: achData.about,
-                    imageUri: actualUri,
+              if (userInfo.achievements.length <= 0) {
+                dispatch({
+                  type: "setNewAchievementModal",
+                  val: {
+                    newAchievementNotify: true,
+                    achievementModalVisible: false,
+                    achievementModalDetails: {
+                      title: "Starting Your Journey!",
+                      about: achData.about,
+                      imageUri: actualUri,
+                    },
                   },
-                },
-              });
+                });
+                // Set context to prompt quest modal appear
+                dispatch({
+                  type: "setQuestModal",
+                  val: {
+                    questModalVisible: true,
+                    questModalTitle: "",
+                    questModalContent: "",
+                  },
+                });
+              }
             };
             // Fetch the achievement
             fetchAchievementData();
 
             // Set context to add achievements to userInfo, if not added before
+            // console.log("userInfo:", userInfo);
             if (userInfo.achievements.length <= 0) {
               dispatch({
                 type: "setUserAchievements",
@@ -156,6 +169,8 @@ const CreatePostScreen = ({ route, navigation }) => {
               // Also update firestore
               updatedAchievements = ["Starting Your Journey!"];
             }
+
+            // Break out of the loop
             break;
           }
         }
@@ -194,14 +209,16 @@ const CreatePostScreen = ({ route, navigation }) => {
         }
       }
 
+      // Upload post into database
       const currentDate = new Date();
-      set(newPostRef, {
-        userId: uid,
-        postTitle,
-        postContent,
-        postDate: currentDate.toString(),
-        imageStoragePath: image ? imageStoragePath : null,
-      });
+      // set(newPostRef, {
+      //   userId: uid,
+      //   username: userInfo.username,
+      //   postTitle,
+      //   postContent,
+      //   postDate: currentDate.toString(),
+      //   imageStoragePath: image ? imageStoragePath : null,
+      // });
       console.log("Post Uploaded to Realtime Database");
     } catch (error) {
       console.log(error.message);
