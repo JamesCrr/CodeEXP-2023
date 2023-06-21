@@ -213,14 +213,14 @@ const CreatePostScreen = ({ route, navigation }) => {
 
       // Upload post into database
       const currentDate = new Date();
-      // set(newPostRef, {
-      //   userId: uid,
-      //   username: userInfo.username,
-      //   postTitle,
-      //   postContent,
-      //   postDate: currentDate.toString(),
-      //   imageStoragePath: image ? imageStoragePath : null,
-      // });
+      set(newPostRef, {
+        userId: uid,
+        username: userInfo.username,
+        postTitle,
+        postContent,
+        postDate: currentDate.toString(),
+        imageStoragePath: image ? imageStoragePath : null,
+      });
       console.log("Post Uploaded to Realtime Database");
     } catch (error) {
       console.log(error.message);
