@@ -120,36 +120,40 @@ const CreateQuest = ({ navigation }) => {
     showMode("time");
   };
   const uploadQuest = async () => {
-    const docRef = doc(collection(firestore, "quests"));
-    setQuestId(docRef.id);
-    console.log(docRef.id);
-    await setDoc(docRef, {
-      type: "assigned",
-      currency: currency,
-      title: title,
-      details: details,
-      questMembers: selected,
-      deadline: date,
-      completed: false,
-    });
-    const Auth = auth;
-    const ManagerRef = doc(firestore, "managers", Auth.currentUser.uid);
-    await updateDoc(ManagerRef, {
-      assignedQuest: arrayUnion({
+    if (selected.length >= 1) {
+      const docRef = doc(collection(firestore, "quests"));
+      setQuestId(docRef.id);
+      console.log(docRef.id);
+      await setDoc(docRef, {
+        type: "assigned",
+        currency: currency,
+        title: title,
+        details: details,
+        questMembers: selected,
+        deadline: date,
         completed: false,
-        questId: docRef.id,
-      }),
-    });
-    selected.forEach(async (user) => {
-      const userRef = doc(firestore, "users", user);
-      await updateDoc(userRef, {
+      });
+      const Auth = auth;
+      const ManagerRef = doc(firestore, "managers", Auth.currentUser.uid);
+      await updateDoc(ManagerRef, {
         assignedQuest: arrayUnion({
           completed: false,
           questId: docRef.id,
         }),
       });
-    });
-    navigation.navigate("ManagerDashboard");
+      selected.forEach(async (user) => {
+        const userRef = doc(firestore, "users", user);
+        await updateDoc(userRef, {
+          assignedQuest: arrayUnion({
+            completed: false,
+            questId: docRef.id,
+          }),
+        });
+      });
+      navigation.navigate("ManagerDashboard");
+    } else {
+      console.log("no member selected");
+    }
   };
 
   const uploadData = () => {

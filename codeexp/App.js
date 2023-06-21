@@ -26,6 +26,9 @@ import CreateUser from "./src/screens/CreateUser";
 import ManagerViewQuest from "./src/screens/ManagerViewQuest";
 import ManageQuest from "./src/screens/ManageQuest";
 import CameraScreen from "./src/screens/CameraScreen";
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+LogBox.ignoreAllLogs(); //Ignore all log notifications
 
 const Stack = createStackNavigator();
 export default function App() {
