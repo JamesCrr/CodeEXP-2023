@@ -12,146 +12,87 @@ const ViewQuests = () => {
     const dispatch = useAppDispatchContext();
     const [userWeeklyQuest,setUserWeeklyQuest] = useState([]);
     const [userMonthlyQuest,setUserMonthlyQuest] = useState([]);
+    const [loaded, setLoaded] = useState(false);
     const { userInfo } = useAppContext();
     const uid = userInfo.uid;
     let uncompletedQuests = [];
+    let weeklyQuests = [];
+    let monthlyQuests = [];
 
+    const goToCreatePostScreen = (item) => {
+      console.log("item: " + Object.values(item) ,Object.keys(item));
+        console.log("item: " + item.questsId);
+    navigation.navigate("CreatePostScreen");
+    dispatch({ type: "completedQuestId", val: item.questsId });
+    };  
+
+    const displayQuests = async () => {
+      const userQuestRef = doc(firestore, "users", uid);
+      const userQuestSnap = await getDoc(userQuestRef);
+      if (userQuestSnap.exists()) {
+        console.log("userQuestSnap:", userQuestSnap.data().socialQuest);
+        const quests = userQuestSnap.data().socialQuest;
+        console.log("quests:", quests);
+        quests.map((key) => {
+          console.log("key:", key.completed);
+          if(key.completed === false){
+            uncompletedQuests.push(key.questsId);
+          }
+        });
+        console.log("uncompletedQuests:", uncompletedQuests);
+        const uncompletedQuestsList = Object.entries(uncompletedQuests);
+        console.log("questsList:", uncompletedQuestsList);
+        await Promise.all(uncompletedQuestsList.map(async (val,index) => {
+          console.log("uncompletedQuestLists KEY",val[0]);
+          console.log("uncompletedQuestLists QUEST",val[1]);
+          const questDescriptionRef = doc(firestore, "quests", val[1]);
+          await getDoc(questDescriptionRef).then((questDescriptionSnap) => {
+            console.log("HELLLLOOOOOO", questDescriptionSnap.data())
+            if (questDescriptionSnap.exists()) {
+              const questDescription = questDescriptionSnap.data();
+              if(questDescriptionSnap.data().duration === "weekly"){
+                questDescription.questsId = val[1];
+                weeklyQuests.push(questDescription);
+                console.log("questDescriptionWEEKLY:", questDescriptionSnap.data());
+                console.log("WEEKLY",weeklyQuests);
+                // setUserWeeklyQuest(weeklyQuests);
+              }
+            else if (questDescriptionSnap.data().duration === "monthly") {
+              questDescription.questsId = val[1];
+              monthlyQuests.push(questDescription);
+              console.log("questDescriptionMONTHLY:", questDescriptionSnap.data());
+              console.log("MONTHLY:",monthlyQuests);
+              // setUserMonthlyQuest(monthlyQuests);
+            };
+          }
+          });
+        }));
+    }
+    else {
+      console.log("No such document!");
+    }
+    return [weeklyQuests, monthlyQuests];
+  
+  }
 
 useEffect(() => {
   console.log("ViewQuests.js useEffect called");
-  const displayQuests = async () => {
-    let weeklyQuests = [];
-    let monthlyQuests = [];
-    userQuestRef = doc(firestore, "users", uid);
-    const userQuestSnap = await getDoc(userQuestRef);
-    if (userQuestSnap.exists()) {
-      console.log("userQuestSnap:", userQuestSnap.data().socialQuest);
-      const quests = userQuestSnap.data().socialQuest;
-      console.log("quests:", quests);
-      quests.map((key) => {
-        console.log("key:", key.completed);
-        if(key.completed === false){
-          uncompletedQuests.push(key.questsId);
-        }
-      });
-      console.log("uncompletedQuests:", uncompletedQuests);
-      const uncompletedQuestsList = Object.entries(uncompletedQuests);
-      console.log("questsList:", uncompletedQuestsList);
-      await Promise.all(uncompletedQuestsList.map(async (val,index) => {
-        console.log("uncompletedQuestLists KEY",val[0]);
-        console.log("uncompletedQuestLists QUEST",val[1]);
-        questDescriptionRef = doc(firestore, "quests", val[1]);
-        const questDescriptionSnap = await getDoc(questDescriptionRef);
-        if (questDescriptionSnap.exists()) {
-          console.log("questDescriptionSnap:", questDescriptionSnap.data());
-          const questDescription = questDescriptionSnap.data();
-          if (questDescription.duration === "weekly") {
-            console.log("questDescriptionWEEKLY:", questDescription);
-            questDescription.questsId = val[1];
-            weeklyQuests.push(questDescription);
-          }
-          else if (questDescription.duration === "monthly") {
-            console.log("questDescriptionMONTHLY:", questDescription);
-            questDescription.questsId = val[1];
-            monthlyQuests.push(questDescription);
-          };
-        };
-        
-      }));
-      setUserWeeklyQuest(weeklyQuests);
-      setUserMonthlyQuest(monthlyQuests);
-      console.log("weeklyQuests:", weeklyQuests);
-      console.log("monthlyQuests:", monthlyQuests);
-  }
-  else {
-    console.log("No such document!");
-  }
-  // const allQuestsRef = collection(firestore, "quests");
-  // const allQuestsSnap = await getDocs(allQuestsRef);
-  // if (allQuestsSnap.exists()) {
-  //   console.log("allQuestsSnap:", allQuestsSnap.data());
-  //   const allQuests = allQuestsSnap.data();
-  //   console.log("allQuests:", allQuests);
-  // }
-  // else {
-  //   console.log("No such document!");
-  // }
+  displayQuests().then((fetchedData) => {
+  console.log("fetchedData:", fetchedData);
+  console.log("fetchedData[0]:", fetchedData[0]);
+  console.log("fetchedData[1]:", fetchedData[1]);
+  setUserWeeklyQuest(fetchedData[0]);
+  setUserMonthlyQuest(fetchedData[1]);
+  });
+},[]); 
 
-}
-  displayQuests();
-},[]);
-//Retrieve user's quests that are uncompleted, defined by the completed tag in the firestore
-// const retrieveData = async () => {
-//     const docRef = doc(firestore, "users", uid);
-//     const docSnap = await getDoc(docRef);
-//     const uncompleted = [];
-//     if (docSnap.exists()) {
-//     const quests = docSnap.data().socialQuest;
-//         console.log("Document data:", docSnap.data().socialQuest);
-//         console.log(docSnap.data().socialQuest);
-//         setGrabDataState(true);
-//         quests.map((key) => {
-//             if(key.completed === false){
-//                 uncompleted.push(key);
-//             }});
-//         setQuests(uncompleted);
-//     } else {
-//       console.log("No such document!");
-//     }
-    
-// };retrieveData()
-// //manageActiveQuests() call after retrieveData() to ensure that the activeQuestsDesc is updated with the latest data
-// // 
-
-//     }, []);
-
-// useEffect(() => {
-// quests.map((key) => {
-//     console.log(key.questsId);
-//     const retrieveQuests = async () => {
-//     const docRef = doc(firestore, "quests", key.questsId);
-//     const docSnap = await getDoc(docRef);
-//     if (docSnap.exists()) {
-//     const activeQuests = docSnap.data();
-//     console.log("key.questsId: " + key.questsId);
-//     const activeUserQuests = {...activeQuests, id:key.questsId};
-//     console.log("Document data here:", docSnap.data());
-//     setActiveQuestsDesc(prevQuestsDesc=>[...prevQuestsDesc,activeUserQuests]);
-//       console.log("Quests data:", docSnap.data());
-
-//     } else {
-//       console.log("No such document!");
-//     }
-// }
-// retrieveQuests();
-// });
-// },[grabDataState]);
-
-const goToCreatePostScreen = (item) => {
-  console.log("item: " + Object.values(item) ,Object.keys(item));
-    console.log("item: " + item.questsId);
-navigation.navigate("CreatePostScreen");
-dispatch({ type: "completedQuestId", val: item.questsId });
-};  
-
-// const manageActiveQuests = () => {
-//   console.log("NEW FUNCTION:", activeQuestsDesc);
-//   activeQuestsDesc.map((key) => {
-//   if(key.duration === "weekly"){
-
-//     weeklyQuests.push(key);
-//   }
-//   if(key.duration === "monthly"){
-//     console.log("KEY",key);
-//     monthlyQuests.push(key);
-//   }
-// });
-// console.log("WEEKLY QUESTS:", weeklyQuests);
-// console.log("MONTHLY QUESTS:", monthlyQuests);
-// };
-// manageActiveQuests();
 console.log("HELLO");
-return <Box alignItems="center">
+console.log("userWeeklyQuest HERE:", userWeeklyQuest);
+console.log("userMonthlyQuest HERE:", userMonthlyQuest);
+
+return (
+<Box alignItems="center">
+  {loaded}
 <Heading fontSize="xl" p="1">
   Weekly Quests
 </Heading>
@@ -233,15 +174,17 @@ borderColor: "muted.50"
         </Text>
       </HStack>
     </Box>} keyExtractor={(item,index )=> index} />
-</Box>;
+</Box>);
 };
 
-export default () => {
-  return (
-    <NativeBaseProvider>
-      <Center flex={1} px="3">
-          <ViewQuests />
-      </Center>
-    </NativeBaseProvider>
-  );
-};
+export default ViewQuests;
+
+// export default () => {
+//   return (
+//     <NativeBaseProvider>
+//       <Center flex={1} px="3">
+//           <ViewQuests />
+//       </Center>
+//     </NativeBaseProvider>
+//   );
+// };
