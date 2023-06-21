@@ -185,7 +185,7 @@ const ViewQuests = () => {
                     {item.currency}
                   </Text>
                 </VStack>
-                <Text fontSize="xs" left="5" pr={5}>
+                <Text left="5" pr={5}>
                   {item.details}
                 </Text>
                 <Button
