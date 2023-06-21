@@ -67,147 +67,157 @@ export default function ManagerDashboard({ navigation }) {
   }, []);
   if (loaded) {
     return (
-      <Box
-        _text={{
-          fontSize: "md",
-          fontWeight: "medium",
-          color: "warmGray.50",
-          letterSpacing: "lg",
-        }}
-        shadow={2}
-        marginTop={2}
-        flex={1}
-        safeArea
+      <ScrollView
+        contentContainerStyle={styles.scrollView}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
-        <VStack space={4} alignItems="center">
-          <HStack paddingTop={6} width={"100%"}>
-            <Heading color="black" fontSize={24} flexGrow={1} paddingLeft={5} alignSelf={"center"}>
-              Your Dashboard
-            </Heading>
-            <Pressable
-              onPress={() => {
-                console.log("Log out");
-                navigation.replace("ManagerLogin");
-              }}
-              marginRight={2}
-            >
-              <Ionicons name="log-out" size={40} color={theme.colors.primary["400"]} />
-            </Pressable>
-          </HStack>
-          <Box width={"90%"} bg={"primary.800"} borderRadius={20} padding={6} marginTop={"9%"} shadow={9}>
-            <HStack justifyContent={"space-between"}>
-              <Heading color="warmGray.200" fontSize="4xl" textAlign={"center"}>
-                {faction}
+        <Box
+          _text={{
+            fontSize: "md",
+            fontWeight: "medium",
+            color: "warmGray.50",
+            letterSpacing: "lg",
+          }}
+          shadow={2}
+          marginTop={2}
+          flex={1}
+          safeArea
+        >
+          <VStack space={4} alignItems="center">
+            <HStack paddingTop={6} width={"100%"}>
+              <Heading color="black" fontSize={24} flexGrow={1} paddingLeft={5} alignSelf={"center"}>
+                Your Dashboard
               </Heading>
-              <Badge borderRadius={"xl"} bg={"warmGray.50"} alignSelf={"center"}>
-                <Text color={"black"} fontSize={"lg"} fontWeight={"bold"}>
-                  {numOfMember} <Icon as={AntDesign} name="user" size="lg" />
-                </Text>
-              </Badge>
+              <Pressable
+                onPress={() => {
+                  console.log("Log out");
+                  navigation.replace("ManagerLogin");
+                }}
+                marginRight={2}
+              >
+                <Ionicons name="log-out" size={40} color={theme.colors.primary["400"]} />
+              </Pressable>
             </HStack>
-            {/* <Divider marginY={5} thickness={3} bg={"amber.400"} /> */}
-            <Text
-              color={"white"}
-              fontSize={"4xl"}
-              fontWeight={"bold"}
-              textAlign={"center"}
-              // borderWidth={3}
-              borderTopWidth={2}
-              borderBottomWidth={2}
-              borderColor={"amber.200"}
-              borderRadius={20}
-              marginTop={10}
-            >
-              {currency} <Text fontSize={"md"}>points</Text>
-            </Text>
-          </Box>
-        </VStack>
+            <Box width={"90%"} bg={"primary.800"} borderRadius={20} padding={6} marginTop={"9%"} shadow={9}>
+              <HStack justifyContent={"space-between"}>
+                <Heading color="warmGray.200" fontSize="4xl" textAlign={"center"}>
+                  {faction}
+                </Heading>
+                <Badge borderRadius={"xl"} bg={"warmGray.50"} alignSelf={"center"}>
+                  <Text color={"black"} fontSize={"lg"} fontWeight={"bold"}>
+                    {numOfMember} <Icon as={AntDesign} name="user" size="lg" />
+                  </Text>
+                </Badge>
+              </HStack>
+              {/* <Divider marginY={5} thickness={3} bg={"amber.400"} /> */}
+              <Text
+                color={"white"}
+                fontSize={"4xl"}
+                fontWeight={"bold"}
+                textAlign={"center"}
+                // borderWidth={3}
+                borderTopWidth={2}
+                borderBottomWidth={2}
+                borderColor={"amber.200"}
+                borderRadius={20}
+                marginTop={10}
+              >
+                {currency} <Text fontSize={"md"}>points</Text>
+              </Text>
+            </Box>
+          </VStack>
 
-        {/* Button Groups */}
-        <VStack space={7} alignItems="center" alignContent={"center"} flexGrow={1} justifyContent={"center"}>
-          {/* <ButtonComponent
+          {/* Button Groups */}
+          <VStack
+            space={7}
+            alignItems="center"
+            alignContent={"center"}
+            flexGrow={1}
+            justifyContent={"center"}
+          >
+            {/* <ButtonComponent
             navigation={navigation}
             name="Create User"
             screen="CreateUser"
           ></ButtonComponent> */}
 
-          <Heading fontSize={"lg"}>Actions</Heading>
+            <Heading fontSize={"lg"}>Actions</Heading>
 
-          <HStack space={7}>
-            <Pressable
-              borderRadius={10}
-              bg={"primary.400"}
-              padding={5}
-              justifyContent={"center"}
-              width={buttonWidth}
-              maxWidth={buttonWidth}
-              onPress={() => navigation.navigate("FactionLeaderboard")}
-              shadow={3}
-            >
-              <Icon
-                as={MaterialIcons}
-                name="leaderboard"
-                size="5xl"
-                alignSelf={"center"}
-                color={"warmGray.100"}
-              />
-              <Text color={"white"} marginTop={2} textAlign={"center"} fontSize={"md"} fontWeight={"bold"}>
-                Leaderboard
-              </Text>
-            </Pressable>
+            <HStack space={7}>
+              <Pressable
+                borderRadius={10}
+                bg={"primary.400"}
+                padding={5}
+                justifyContent={"center"}
+                width={buttonWidth}
+                maxWidth={buttonWidth}
+                onPress={() => navigation.navigate("FactionLeaderboard")}
+                shadow={3}
+              >
+                <Icon
+                  as={MaterialIcons}
+                  name="leaderboard"
+                  size="5xl"
+                  alignSelf={"center"}
+                  color={"warmGray.100"}
+                />
+                <Text color={"white"} marginTop={2} textAlign={"center"} fontSize={"md"} fontWeight={"bold"}>
+                  Leaderboard
+                </Text>
+              </Pressable>
 
-            <Pressable
-              borderRadius={10}
-              bg={"primary.400"}
-              padding={5}
-              justifyContent={"center"}
-              width={buttonWidth}
-              maxWidth={buttonWidth}
-              onPress={() => navigation.navigate("CreateQuest")}
-              shadow={3}
-            >
-              <Icon as={Ionicons} name="create" size="5xl" alignSelf={"center"} color={"warmGray.100"} />
-              <Text color={"white"} marginTop={2} textAlign={"center"} fontSize={"md"} fontWeight={"bold"}>
-                Create Quest
-              </Text>
-            </Pressable>
-          </HStack>
+              <Pressable
+                borderRadius={10}
+                bg={"primary.400"}
+                padding={5}
+                justifyContent={"center"}
+                width={buttonWidth}
+                maxWidth={buttonWidth}
+                onPress={() => navigation.navigate("CreateQuest")}
+                shadow={3}
+              >
+                <Icon as={Ionicons} name="create" size="5xl" alignSelf={"center"} color={"warmGray.100"} />
+                <Text color={"white"} marginTop={2} textAlign={"center"} fontSize={"md"} fontWeight={"bold"}>
+                  Create Quest
+                </Text>
+              </Pressable>
+            </HStack>
 
-          <HStack space={7}>
-            <Pressable
-              borderRadius={10}
-              bg={"primary.400"}
-              padding={6}
-              justifyContent={"center"}
-              width={buttonWidth}
-              maxWidth={buttonWidth}
-              onPress={() => navigation.navigate("ManagerViewQuest")}
-              shadow={3}
-            >
-              <Icon as={Entypo} name="list" size="5xl" alignSelf={"center"} color={"warmGray.100"} />
-              <Text color={"white"} marginTop={2} textAlign={"center"} fontSize={"md"} fontWeight={"bold"}>
-                View Quest
-              </Text>
-            </Pressable>
+            <HStack space={7}>
+              <Pressable
+                borderRadius={10}
+                bg={"primary.400"}
+                padding={6}
+                justifyContent={"center"}
+                width={buttonWidth}
+                maxWidth={buttonWidth}
+                onPress={() => navigation.navigate("ManagerViewQuest")}
+                shadow={3}
+              >
+                <Icon as={Entypo} name="list" size="5xl" alignSelf={"center"} color={"warmGray.100"} />
+                <Text color={"white"} marginTop={2} textAlign={"center"} fontSize={"md"} fontWeight={"bold"}>
+                  View Quest
+                </Text>
+              </Pressable>
 
-            <Pressable
-              borderRadius={10}
-              bg={"primary.400"}
-              padding={3}
-              justifyContent={"center"}
-              width={buttonWidth}
-              maxWidth={buttonWidth}
-              onPress={() => navigation.navigate("CreateUser")}
-              shadow={3}
-            >
-              <Icon as={AntDesign} name="user" size="5xl" alignSelf={"center"} color={"warmGray.100"} />
-              <Text color={"white"} marginTop={2} textAlign={"center"} fontSize={15} fontWeight={"bold"}>
-                Create Employee Account
-              </Text>
-            </Pressable>
-          </HStack>
+              <Pressable
+                borderRadius={10}
+                bg={"primary.400"}
+                padding={3}
+                justifyContent={"center"}
+                width={buttonWidth}
+                maxWidth={buttonWidth}
+                onPress={() => navigation.navigate("CreateUser")}
+                shadow={3}
+              >
+                <Icon as={AntDesign} name="user" size="5xl" alignSelf={"center"} color={"warmGray.100"} />
+                <Text color={"white"} marginTop={2} textAlign={"center"} fontSize={15} fontWeight={"bold"}>
+                  Create Employee Account
+                </Text>
+              </Pressable>
+            </HStack>
 
-          {/* <Button
+            {/* <Button
             width="80"
             rounded={"80"}
             rightIcon={<Icon as={MaterialIcons} name="leaderboard" size="sm" />}
@@ -239,8 +249,9 @@ export default function ManagerDashboard({ navigation }) {
           >
             Create Employee Account
           </Button> */}
-        </VStack>
-      </Box>
+          </VStack>
+        </Box>
+      </ScrollView>
     );
   } else {
     return (
