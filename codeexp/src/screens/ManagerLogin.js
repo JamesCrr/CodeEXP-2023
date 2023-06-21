@@ -39,7 +39,8 @@ const ManagerLogin = ({ navigation }) => {
     } catch (error) {
       const errorCode = error.code;
       const errorMessage = error.message;
-      setError(errorMessage);
+      alert("Invalid account credentials! Please try again");
+      // setError(errorMessage);
     }
   };
 
