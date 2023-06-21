@@ -14,25 +14,27 @@ const ProgressBarModal = () => {
       <PresenceTransition
         visible={questModalVisible}
         initial={{
-          translateY: 400,
+          translateY: 300,
         }}
         animate={{
           translateY: 0,
           transition: {
-            duration: 600,
+            duration: 900,
           },
         }}
       >
-        <Box bg={"red.200"} marginX={2} padding={2}>
+        <Box bg={"warmGray.300"} marginX={2} padding={2} borderRadius={10}>
           <HStack justifyContent={"space-between"} marginBottom={4}>
-            <Text>Quest Completed!</Text>
+            <Text fontWeight={"bold"} fontSize={"lg"}>
+              Quest Completed!
+            </Text>
             <IconButton
               // borderWidth={1}
               icon={<Icon as={Entypo} name="cross" />}
               size={7}
               _icon={{
                 color: "orange.500",
-                size: "lg",
+                size: "2xl",
               }}
               onPress={() => {
                 dispatch({
@@ -46,16 +48,16 @@ const ProgressBarModal = () => {
             <PresenceTransition
               visible={questModalVisible}
               initial={{
-                translateX: -300,
+                translateX: -400,
               }}
               animate={{
                 translateX: 0,
                 transition: {
-                  duration: 900,
+                  duration: 1500,
                 },
               }}
             >
-              <Box bg={"blue.700"} padding={2}></Box>
+              <Box bg={"primary.400"} padding={2}></Box>
             </PresenceTransition>
           </Box>
         </Box>
