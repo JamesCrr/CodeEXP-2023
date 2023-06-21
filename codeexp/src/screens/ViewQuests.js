@@ -14,7 +14,7 @@ import {
   NativeBaseProvider,
   ScrollView,
   SafeAreaView,
-  StyleSheet
+  StyleSheet,
   ScrollView,
   Button,
   Heading,
