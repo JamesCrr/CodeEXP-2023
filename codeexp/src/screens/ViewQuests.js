@@ -181,14 +181,14 @@ const ViewQuests = () => {
                 mb={5}
               >
                 <VStack alignItems="flex-start" left="5">
-                  <Text fontSize="sm" bold fontSize="15">
+                  <Text bold fontSize="15">
                     {item.title}
                   </Text>
-                  <Text fontSize="xs" color="coolGray.600" fontSize="15">
+                  <Text color="coolGray.600" fontSize="15">
                     {item.currency}
                   </Text>
                 </VStack>
-                <Text fontSize="xs" left="5" pr={5}>
+                <Text left="5" pr={5}>
                   {item.details}
                 </Text>
                 <Button
@@ -227,10 +227,10 @@ const ViewQuests = () => {
                 mb={5}
               >
                 <VStack alignItems="flex-start" left="5">
-                  <Text fontSize="sm" bold fontSize="15">
+                  <Text bold fontSize="15">
                     {item.title}
                   </Text>
-                  <Text fontSize="xs" color="coolGray.600" fontSize="15">
+                  <Text color="coolGray.600" fontSize="15">
                     {item.currency}
                   </Text>
                 </VStack>
@@ -273,10 +273,10 @@ const ViewQuests = () => {
                 mb={5}
               >
                 <VStack alignItems="flex-start" left="5">
-                  <Text fontSize="sm" bold fontSize="15">
+                  <Text bold fontSize="15">
                     {item.title}
                   </Text>
-                  <Text fontSize="xs" color="coolGray.600" fontSize="15">
+                  <Text color="coolGray.600" fontSize="15">
                     {item.currency}
                   </Text>
                 </VStack>
