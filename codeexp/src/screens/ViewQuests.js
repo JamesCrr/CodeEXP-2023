@@ -168,15 +168,17 @@ const ViewQuests = () => {
                 mb={5}
                 alignSelf={"center"}
               >
-                <VStack alignItems="flex-start" left="5">
-                  <Text bold fontSize="15">
-                    {item.title}
-                  </Text>
-                  <Text color="coolGray.600" fontSize="15">
-                    Earn {item.currency} Points
-                  </Text>
+                <VStack alignItems="flex-start">
+                  <HStack width={"100%"} justifyContent={"space-between"}>
+                    <Text bold fontSize="20">
+                      {item.title}
+                    </Text>
+                    <Text color="coolGray.600" fontSize="15" alignSelf={"center"}>
+                      {item.currency} Points
+                    </Text>
+                  </HStack>
                 </VStack>
-                <Text left="5" pr={5}>
+                <Text fontSize="sm" pr={5}>
                   {item.details}
                 </Text>
                 <Button
@@ -216,15 +218,17 @@ const ViewQuests = () => {
                 mb={5}
                 alignSelf={"center"}
               >
-                <VStack alignItems="flex-start" left="5">
-                  <Text bold fontSize="15">
-                    {item.title}
-                  </Text>
-                  <Text color="coolGray.600" fontSize="15">
-                    Earn {item.currency} Points
-                  </Text>
+                <VStack alignItems="flex-start">
+                  <HStack width={"100%"} justifyContent={"space-between"}>
+                    <Text bold fontSize="20">
+                      {item.title}
+                    </Text>
+                    <Text color="coolGray.600" fontSize="15" alignSelf={"center"}>
+                      {item.currency} Points
+                    </Text>
+                  </HStack>
                 </VStack>
-                <Text fontSize="xs" left="5" pr={5}>
+                <Text fontSize="sm" pr={5}>
                   {item.description}
                 </Text>
                 <Button
@@ -264,15 +268,17 @@ const ViewQuests = () => {
                 mb={5}
                 alignSelf={"center"}
               >
-                <VStack alignItems="flex-start" left="5">
-                  <Text bold fontSize="15">
-                    {item.title}
-                  </Text>
-                  <Text color="coolGray.600" fontSize="15">
-                    Earn {item.currency} Points
-                  </Text>
+                <VStack alignItems="flex-start">
+                  <HStack width={"100%"} justifyContent={"space-between"}>
+                    <Text bold fontSize="20">
+                      {item.title}
+                    </Text>
+                    <Text color="coolGray.600" fontSize="15" alignSelf={"center"}>
+                      {item.currency} Points
+                    </Text>
+                  </HStack>
                 </VStack>
-                <Text fontSize="xs" left="5" pr={5}>
+                <Text fontSize="sm" pr={5}>
                   {item.description}
                 </Text>
                 <Button
