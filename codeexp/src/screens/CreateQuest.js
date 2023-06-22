@@ -60,11 +60,7 @@ const CreateQuest = ({ navigation }) => {
       const docRef = doc(firestore, "managers", Auth.currentUser.uid);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        console.log(
-          "Document data:",
-          docSnap.data().assignedQuest,
-          "ASSIGNED QUEST"
-        );
+        console.log("Document data:", docSnap.data().assignedQuest, "ASSIGNED QUEST");
         setManagerQuest(docSnap.data().assignedQuest);
       } else {
         /* docSnap.data() will be undefined in this case */
@@ -201,7 +197,7 @@ const CreateQuest = ({ navigation }) => {
           />
 
           <Text color="black" textAlign="center" fontSize={15}>
-            Currency Earned
+            Points Earned
           </Text>
           <Text color="black" textAlign="center" fontSize={20}>
             {currency}
@@ -238,9 +234,7 @@ const CreateQuest = ({ navigation }) => {
             </Button>
           </HStack>
 
-          <Text paddingLeft={3}>
-            Selected Deadline: {date.toLocaleString()}
-          </Text>
+          <Text paddingLeft={3}>Selected Deadline: {date.toLocaleString()}</Text>
           {show && (
             <DateTimePicker
               testID="dateTimePicker"
@@ -250,13 +244,7 @@ const CreateQuest = ({ navigation }) => {
               onChange={onChange}
             />
           )}
-          <Button
-            width="100%"
-            alignSelf={"center"}
-            rounded={"full"}
-            onPress={uploadData}
-            bg={"success.500"}
-          >
+          <Button width="100%" alignSelf={"center"} rounded={"full"} onPress={uploadData} bg={"success.500"}>
             Create Quest
           </Button>
           {error && <Text bold>No members selected</Text>}
@@ -265,19 +253,9 @@ const CreateQuest = ({ navigation }) => {
     );
   } else {
     return (
-      <HStack
-        space={2}
-        justifyContent="center"
-        height={"100%"}
-        alignItems={"center"}
-      >
+      <HStack space={2} justifyContent="center" height={"100%"} alignItems={"center"}>
         <Spinner accessibilityLabel="Loading posts" size={"lg"} />
-        <Text
-          color="primary.500"
-          fontSize="md"
-          textAlign={"center"}
-          fontWeight={"bold"}
-        >
+        <Text color="primary.500" fontSize="md" textAlign={"center"} fontWeight={"bold"}>
           Loading
         </Text>
       </HStack>

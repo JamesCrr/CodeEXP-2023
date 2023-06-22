@@ -69,9 +69,7 @@ const ManageQuest = ({ route, navigation }) => {
     if (ManagerSnap.exists()) {
       console.log("Document data:", ManagerSnap.data());
       let ManagerQuest = ManagerSnap.data().assignedQuest;
-      const filterManager = ManagerQuest.filter(
-        (i) => i.questId != quest.questId
-      );
+      const filterManager = ManagerQuest.filter((i) => i.questId != quest.questId);
       filterManager.push({ completed: true, questId: quest.questId });
       await updateDoc(managerRef, {
         assignedQuest: filterManager,
@@ -85,9 +83,7 @@ const ManageQuest = ({ route, navigation }) => {
         const memberRef = doc(firestore, "users", member);
         getDoc(memberRef).then((memberSnap) => {
           let memberQuest = memberSnap.data().assignedQuest;
-          const filterMember = memberQuest.filter(
-            (i) => i.questId != quest.questId
-          );
+          const filterMember = memberQuest.filter((i) => i.questId != quest.questId);
           filterMember.push({ completed: true, questId: quest.questId });
           updateDoc(memberRef, {
             assignedQuest: filterMember,
@@ -122,7 +118,7 @@ const ManageQuest = ({ route, navigation }) => {
             </Text>
             <Text color="primary.800">{route.params.date}</Text>
             <Text mt={3} fontWeight="medium">
-              Currency:
+              Points:
             </Text>
             <Text color="primary.800">{quest.currency}</Text>
             <Text></Text>
@@ -148,19 +144,9 @@ const ManageQuest = ({ route, navigation }) => {
     );
   } else {
     return (
-      <HStack
-        space={2}
-        justifyContent="center"
-        height={"100%"}
-        alignItems={"center"}
-      >
+      <HStack space={2} justifyContent="center" height={"100%"} alignItems={"center"}>
         <Spinner accessibilityLabel="Loading posts" size={"lg"} />
-        <Text
-          color="primary.500"
-          fontSize="md"
-          textAlign={"center"}
-          fontWeight={"bold"}
-        >
+        <Text color="primary.500" fontSize="md" textAlign={"center"} fontWeight={"bold"}>
           Loading
         </Text>
       </HStack>

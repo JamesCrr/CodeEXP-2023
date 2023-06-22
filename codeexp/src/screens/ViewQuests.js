@@ -101,10 +101,7 @@ const ViewQuests = () => {
               ) {
                 questDescription.questId = val[1];
                 weeklyQuests.push(questDescription);
-                console.log(
-                  "questDescriptionWEEKLY:",
-                  questDescriptionSnap.data()
-                );
+                console.log("questDescriptionWEEKLY:", questDescriptionSnap.data());
                 console.log("WEEKLY", weeklyQuests);
                 /* setUserWeeklyQuest(weeklyQuests); */
               } else if (
@@ -113,19 +110,13 @@ const ViewQuests = () => {
               ) {
                 questDescription.questId = val[1];
                 monthlyQuests.push(questDescription);
-                console.log(
-                  "questDescriptionMONTHLY:",
-                  questDescriptionSnap.data()
-                );
+                console.log("questDescriptionMONTHLY:", questDescriptionSnap.data());
                 console.log("MONTHLY:", monthlyQuests);
                 /* setUserMonthlyQuest(monthlyQuests); */
               } else if (questDescriptionSnap.data().type === "assigned") {
                 questDescription.questId = val[1];
                 workQuests.push(questDescription);
-                console.log(
-                  "questDescriptionWORK:",
-                  questDescriptionSnap.data()
-                );
+                console.log("questDescriptionWORK:", questDescriptionSnap.data());
                 console.log("WORK:", workQuests);
               }
             }
@@ -182,7 +173,7 @@ const ViewQuests = () => {
                     {item.title}
                   </Text>
                   <Text color="coolGray.600" fontSize="15">
-                    {item.currency}
+                    Earn {item.currency} Points
                   </Text>
                 </VStack>
                 <Text left="5" pr={5}>
@@ -230,7 +221,7 @@ const ViewQuests = () => {
                     {item.title}
                   </Text>
                   <Text color="coolGray.600" fontSize="15">
-                    {item.currency}
+                    Earn {item.currency} Points
                   </Text>
                 </VStack>
                 <Text fontSize="xs" left="5" pr={5}>
@@ -278,7 +269,7 @@ const ViewQuests = () => {
                     {item.title}
                   </Text>
                   <Text color="coolGray.600" fontSize="15">
-                    {item.currency}
+                    Earn {item.currency} Points
                   </Text>
                 </VStack>
                 <Text fontSize="xs" left="5" pr={5}>

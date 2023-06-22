@@ -122,7 +122,7 @@ export default function ManagerDashboard({ navigation }) {
                 borderRadius={20}
                 marginTop={10}
               >
-                {currency} <Text fontSize={"md"}>points</Text>
+                {currency} <Text fontSize={"md"}>Points</Text>
               </Text>
             </Box>
           </VStack>

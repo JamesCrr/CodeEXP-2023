@@ -50,7 +50,7 @@ const RewardsScreen = () => {
       <Box bg={"primary.600"} paddingTop={6}>
         <Box padding={50}>
           <Text textAlign={"center"} fontSize={"xl"} color={"warmGray.100"}>
-            Individual points
+            Individual Points
           </Text>
           <Text textAlign={"center"} fontSize={"6xl"} color={"white"} fontWeight={"bold"} lineHeight={70}>
             {currency}
@@ -101,10 +101,10 @@ const RewardsScreen = () => {
               resizeMode={"center"}
             />
             <Text fontSize={"2xl"} fontWeight={"bold"}>
-              Starbucks $10 voucher
+              Starbucks $10 Voucher
             </Text>
             <Text color={"red.400"} fontWeight={"bold"}>
-              -20 points
+              -20 Points
             </Text>
             <Button marginTop={55} onPress={redeemAlert}>
               Redeem!
